@@ -1,0 +1,19 @@
+.customBtn {
+    background-color: #A2B71B;
+    width: 25%;
+    border: none;
+    height: 40px;
+}
+
+.customBtn:hover {
+    background-color: #8A9E17; 
+}
+
+span {
+    color: red;
+}
+
+.welcomeHeader {
+    color:#8A9E17;
+}
+

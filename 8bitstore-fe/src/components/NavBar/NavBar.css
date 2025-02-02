@@ -1,0 +1,33 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.navbar__first-row {
+    display: flex;
+    background: #000;
+    width: 100%;
+    color: #fff;
+    justify-content: space-around;
+    box-sizing: border-box;
+    height: 70px;
+    align-items: center;
+}
+
+.navbar__search {
+    width: 35%;
+    height: 50%;
+    border-radius: 20px;
+    text-indent: 2%;
+    font-size: 1em;
+}
+
+.navbar__second-row {
+    display: flex;
+    background: #000;
+    height: 40px;
+    width: 100%;
+    padding-left: 50px;
+}
+
