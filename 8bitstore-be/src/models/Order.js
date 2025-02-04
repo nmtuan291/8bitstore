@@ -22,4 +22,4 @@ const orderSchema = new mongoose.Schema(
 
 orderSchema.index({ userId: 1 }, { unique: true });
 const Order = mongoose.model('orders', orderSchema);
-module.exports = Order;
+export default Order;

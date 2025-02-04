@@ -71,6 +71,9 @@ db.createCollection("products", {
                 "type": {
                     "bsonType": "string"
                 },
+                "imgUrl": {
+                    "bsonType": "string"
+                },
                 "genre": {
                     "bsonType": "array",
                     "additionalItems": true,
