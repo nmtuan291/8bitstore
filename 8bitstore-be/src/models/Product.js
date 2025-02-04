@@ -1,7 +1,6 @@
-const mongoose = require('mongoose');
-const { applyTimestamps } = require('./User');
+import mongoose from 'mongoose';
 
-const productSchema = new mongoose.Schemma(
+const productSchema = new mongoose.Schema(
     {
         productName: { type: String, required: true },
         price: { type: Number, required: true },
@@ -10,7 +9,8 @@ const productSchema = new mongoose.Schemma(
         platform: { type: [String]},
         description: { type: String },
         type: { type: String, required: true },
-        genre: { type: [String]}
+        genre: { type: [String]},
+        imgUrl: { type: String, required: true }
     },
     {
         timestamps: true
@@ -19,4 +19,4 @@ const productSchema = new mongoose.Schemma(
 );
 
 const Product = mongoose.model('products', productSchema);
-module.exports = Product;
+export default Product;
