@@ -1,33 +1,35 @@
 import { useState } from 'react';
-import './NavBarList.css'
+import './NavBarList.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
+
 
 const NavBarList = ({ title, items }) => {
     const [mouseEnter, setMouseEnter] = useState(false);
     const [itemIndex, setItemIndex] = useState(null);
+
+    const handleMouseOut = (event) => {
+        if (!event.target.matches('.navlist__container')) {
+            setMouseEnter(false);
+        }
+    }
+    
     return (
          <div 
          className='navlist__container'
-         onMouseEnter={() => setMouseEnter(true)}
-         onMouseLeave={() => setMouseEnter(false)}
+         onMouseOver={() => setMouseEnter(true)}
+         onMouseOut={handleMouseOut}
         >
          <a 
              href="/"
-             
-         >{title}</a>
+             className='title'
+         >{title} <FontAwesomeIcon icon={faCaretDown}/></a>
          {
              <ul className={`navlist__items ${!mouseEnter && "hide"}`}>
                  {items.map((item, index) => 
-                     <li 
-                         key={`item_${index}`}
-                         onMouseEnter={() => setItemIndex(index)}
-                         onMouseLeave={() => setItemIndex(null)} >
+                     <li key={`item_${index}`} >
                          {item.category}
-                         {
-                              
-                             <ul className={`item-own-list ${!(itemIndex === index) && "hide"}`}>
-                                {item.contentList.map((content, index) => <li>{content}</li>)}
-                             </ul>
-                         }
+                         
                      </li>)}
                  {mouseEnter ? console.log("true") : console.log(false)}
              </ul>

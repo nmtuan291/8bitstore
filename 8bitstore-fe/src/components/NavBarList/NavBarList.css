@@ -7,27 +7,34 @@
 .navlist__items li {
     list-style: none;
     cursor: pointer;
+    height: 10%;
+    margin-bottom: 10px;
 }
 
-a {
+.navlist__items li:hover {
+    background-color: #EEEEEF;
+}
+
+.title {
     text-decoration: none;
     color: #fff;
     font-size: 1.1em;
+    border: solid black 1px;
 }
 
 .navlist__items {
     color: #000;
     position: absolute;
-    top: 22px;
-    background: blue;
+    top: 130%;
+    background: #fff;
     width: 250px;
     margin: 0;
+    padding: 10px;
+
 }
 
 .navlist__container {
     position: relative;
-    border: solid black 1px;
-    background: #000;
     margin: 10px;
     z-index: 9999; 
 }
