@@ -9,9 +9,10 @@ import ProductSection from './components/ProductSection/ProductSection';
 function App() {
 
   return (
-    <>
-    <HomePage></HomePage>
-      <ProductSection />
+    <> 
+      <LoginForm></LoginForm>
+      <HomePage></HomePage>
+
     </>
   )
 }

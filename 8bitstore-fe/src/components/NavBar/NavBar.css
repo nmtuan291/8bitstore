@@ -8,15 +8,21 @@
     /* border: solid black 1px; */
 }
 
+.navbar-info {
+    width: 100vw;
+    height: 4vh;
+    background: #85BDB6;
+}
+
 .navbar__first-row {
     display: flex;
     background: #946CBC;
     width: 100%;
     justify-content: space-around;
     box-sizing: border-box;
-    height: 190px;
+    height: 120px;
     align-items: center;
-    padding: 10px;
+    z-index: 0;
 
 }
 
@@ -31,15 +37,14 @@
 }
 
 .navbar__logo {
-    margin: 0 0px 0 0vw;
-    width: 12vw;
+    width: 11vw;
     height: auto;
     min-width: 150px;
 }
 
 .navbar__search {
-    width: 80%;
-    height: 25%;
+    width: 40%;
+    height: 35%;
     border-radius: 20px;
     text-indent: 2%;
     font-size: 1em;
@@ -57,7 +62,10 @@
 
 .navbar__icons {
     font-size: 1.5em;
-    margin: 10vw;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
 }
 
 .custom-toggler {
@@ -66,4 +74,46 @@
 
 .custom-toggler .navbar-toggler-icon {
     filter: invert(1);  /* Make the icon white */
+}
+
+.icon {
+    cursor: pointer;
+}
+
+.icon-container {
+    position: relative;
+}
+.icon-pop {
+    position: absolute;
+    background: #fff;
+    font-size: 0.5em;
+    width: 75px;
+    text-align: center;
+    top: 40px;
+    border-radius:3px;
+    left: -22px;
+}
+
+.hide {
+    display: none;
+}
+
+.triangle:before {
+  content: "";
+  width: 0px;
+  height: 0px;
+  position: absolute;
+  border-left: 10px solid #fff;
+  border-right: 10px solid transparent;
+  border-top: 10px solid #fff;
+  border-bottom: 2px solid transparent;
+  right: 28px;
+  top: -3px;
+  transform: rotate(45deg);
+  z-index: -1; /* Places the triangle behind the span */
+
+}
+
+.icon-pop span {
+    color: #000;
 }

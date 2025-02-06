@@ -6,6 +6,8 @@ import ConsoleStoreTest from '../../components/ConsoleStore/ConsoleStoreTest';
 import ProductItem from '../../components/ProductItem/ProductItem';
 import ProductSectionTest from '../../components/ProductSection/ProductSectionTest';
 import ImageCarousel from '../../components/ImageCarousel/ImageCarousel';
+import LoginForm from "../../components/LoginForm/LoginForm";
+
 
 const HomePage = () => {
     
