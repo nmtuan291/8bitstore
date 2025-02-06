@@ -1,7 +1,6 @@
 import User from '../models/User.js';
 import bcrypt from 'bcrypt';
-import JwtProvider from '../providers/jwtProvider.js';
-import dotenv from 'dotenv';
+import JwtProvider from '../providers/JwtProvider.js';
 import ms from 'ms';
 
 const userController = {};
@@ -91,15 +90,15 @@ userController.login = async (req, res) => {
         // Store the tokens in cookie
         res.cookie('access_token', accessToken, {
             httpOnly: true,
-            secure: true,
-            sameSite: 'none',
+            secure: false,
+            sameSite: 'lax',
             maxAge: ms('7 days')
         });
 
         res.cookie('refresh_token', refreshToken, {
             httpOnly: true,
-            secure: true,
-            sameSite: 'none',
+            secure: false,
+            sameSite: 'lax',
             maxAge: ms('7 days')
         });
 
