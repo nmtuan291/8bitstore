@@ -1,8 +1,9 @@
 .customBtn {
-    background-color: #A2B71B;
+    background-color: #946CBC;
     width: 25%;
     border: none;
     height: 40px;
+    color: #fff;
 }
 
 .customBtn:hover {

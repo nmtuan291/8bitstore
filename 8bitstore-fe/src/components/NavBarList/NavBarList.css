@@ -19,7 +19,6 @@
     text-decoration: none;
     color: #fff;
     font-size: 1.1em;
-    border: solid black 1px;
 }
 
 .navlist__items {
@@ -35,7 +34,7 @@
 
 .navlist__container {
     position: relative;
-    margin: 10px;
+    margin-right: 50px;
     z-index: 9999; 
 }
 
