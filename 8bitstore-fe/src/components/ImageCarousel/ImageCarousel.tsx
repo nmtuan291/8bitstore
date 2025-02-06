@@ -2,21 +2,23 @@ import { useState } from 'react';
 import banner1 from './banner1.jpg';
 import banner2 from './banner2.jpg';
 
+
 const images = [
     { src: banner1, alt: "Banner 1" },
     { src: banner2, alt: "Banner 2" }
 ];
 
 
-const ImageCarousel = () => {
+
+const ImageCarousel: React.FC = () => {
     return (
         <div id="carouselExampleControls" className="carousel slide" data-bs-ride="carousel">
             <div className="carousel-inner ">
                 {
                     images.map((image, index) => {
                         return (
-                            <div className={`carousel-item ${index === 0 ? "active" : ""}`}>
-                                <div class="d-flex justify-content-center">
+                            <div key={index} className={`carousel-item ${index === 0 ? "active" : ""}`}>
+                                <div className="d-flex justify-content-center">
                                     <img src={image.src} alt="img.png" />
                                 </div>
                             </div>

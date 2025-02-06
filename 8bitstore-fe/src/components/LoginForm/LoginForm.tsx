@@ -4,9 +4,9 @@ import styles from '../RegistrationForm/RegistrationForm.module.css'
 import './LoginForm.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const LoginForm = () => {
-    const [emailText, setEmailText] = useState("");
-    const [passwordText, setPasswordText] = useState("");
+const LoginForm: React.FC = () => {
+    const [emailText, setEmailText] = useState<string>("");
+    const [passwordText, setPasswordText] = useState<string>("");
 
     return (
         <div className='overlay'>
@@ -21,7 +21,7 @@ const LoginForm = () => {
                         placeholder="Email"
                         className="input-field"
                         type="text" 
-                        onChange={(e) => setEmailText(e.target.value)}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setEmailText(e.target.value)}
                         value={emailText} />
                 </div>
                 <div className="mb-3 w-50">
@@ -29,7 +29,7 @@ const LoginForm = () => {
                         className="input-field"
                         placeholder="Mật khẩu"
                         type="password" 
-                        onChange={(e) => setPasswordText(e.target.value)}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setPasswordText(e.target.value)}
                         value={passwordText} />
                 </div>
                 <span className="login-failed">sadadads</span>

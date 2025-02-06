@@ -7,12 +7,15 @@ import { faStar } from "@fortawesome/free-regular-svg-icons";
 import { faStar as solidStar } from "@fortawesome/free-solid-svg-icons";
 
 
+interface ProductItemProps {
+    productName: string,
+    price: number,
+    manufacturer: string
+}
 
-
-const ProductItem = ({ product }) => {
+const ProductItem: React.FC<ProductItemProps> = ({ productName, price, manufacturer }) => {
     // need to lift the state up
-    const { productName, price, manufacturer } = product;
-    const [ productAmount, setProductAmount ] = useState(0);
+    const [ productAmount, setProductAmount ] = useState<number>(0);
     const score = 3;
     return (
         <div className='product-container'>
