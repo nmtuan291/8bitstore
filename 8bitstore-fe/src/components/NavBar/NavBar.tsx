@@ -5,17 +5,31 @@ import { faHeart, faCartShopping, faUser} from "@fortawesome/free-solid-svg-icon
 import './NavBar.css'
 import NavBarListTest from "../NavBarList/NavBarListTest";
 
-const NavBar = () => {
-    const [ searchText, setSearchText ] = useState('');
-    const [ hoverStatus, setHoverStatus ] = useState({
-        wishtlist: false,
+interface HoverStatus {
+    wishlist: boolean,
+    cart: boolean,
+    user: boolean
+}
+
+const NavBar: React.FC = () => {
+    const [ searchText, setSearchText ] = useState<string>('');
+    const [ hoverStatus, setHoverStatus ] = useState<HoverStatus>({
+        wishlist: false,
         cart: false,
         user: false
     })
 
     console.log(hoverStatus.user);
-    const handleSearchBoxChange = (e) => {
+    const handleSearchBoxChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         setSearchText(e.target.value);
+    }
+
+    const handleMouseOver = (): void => {
+        setHoverStatus({...hoverStatus, wishlist: true})
+    } 
+
+    const handleMouseOut = (): void => {
+        setHoverStatus({...hoverStatus, wishlist: false})
     }
 
     return (
@@ -34,17 +48,17 @@ const NavBar = () => {
                 <div className="icon-container">
                         <FontAwesomeIcon icon={faHeart} 
                         className="icon"
-                        onMouseOver={() => setHoverStatus(prev => ({...prev, wishtlist: true}))}
-                        onMouseOut={() => setHoverStatus(prev => ({...prev, wishtlist: false}))}/>
-                        <div className={`icon-pop triangle ${!hoverStatus.wishtlist ? 'hide' : ''}`}>
+                        onMouseOver={handleMouseOver}
+                        onMouseOut={handleMouseOut}/>
+                        <div className={`icon-pop triangle ${!hoverStatus.wishlist ? 'hide' : ''}`}>
                             <span>Yêu thích</span>
                         </div>
                     </div>
                     <div className="icon-container">
                         <FontAwesomeIcon icon={faCartShopping} 
                         className="icon"
-                        onMouseOver={() => setHoverStatus(prev => ({...prev, cart: true}))}
-                        onMouseOut={() => setHoverStatus(prev => ({...prev, cart: false}))}/>
+                        onMouseOver={handleMouseOver}
+                        onMouseOut={handleMouseOut}/>
                         <div className={`icon-pop triangle ${!hoverStatus.cart ? 'hide' : ''}`}>
                             <span>Giỏ hàng</span>
                         </div>
@@ -53,8 +67,8 @@ const NavBar = () => {
                     <div className="icon-container">
                         <FontAwesomeIcon icon={faUser} 
                         className="icon"
-                        onMouseOver={() => setHoverStatus(prev => ({...prev, user: true}))}
-                        onMouseOut={() => setHoverStatus(prev => ({...prev, user: false}))}/>
+                        onMouseOver={handleMouseOver}
+                        onMouseOut={handleMouseOut}/>
                         <div className={`icon-pop triangle ${!hoverStatus.user ? 'hide' : ''}`}>
                             <span>Đăng nhập</span>
                         </div>
