@@ -1,17 +1,16 @@
-import { useState } from 'react';
+import { useState } from "react";
 import { faX } from "@fortawesome/free-solid-svg-icons";
-import styles from '../RegistrationForm/RegistrationForm.module.css'
-import './LoginForm.css'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import "./LoginForm.css"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const LoginForm: React.FC = () => {
     const [emailText, setEmailText] = useState<string>("");
     const [passwordText, setPasswordText] = useState<string>("");
 
     return (
-        <div className='overlay'>
+        <div className="overlay">
             <form className="login-form">
-                <div className='close-form'> 
+                <div className="close-form"> 
                     <FontAwesomeIcon icon={faX} />
                 </div>
                 <h1>Đăng nhập</h1>
@@ -38,7 +37,7 @@ const LoginForm: React.FC = () => {
                     <label className="form-check-label" style={{margin: "10px"}}>Nhớ mật khẩu</label>
                 </div>
 
-                <button className={`${styles.customBtn} rounded`}>Đăng nhập</button>
+                <button className={`customBtn rounded`}>Đăng nhập</button>
             </form>
         </div>
         

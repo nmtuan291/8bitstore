@@ -1,18 +1,18 @@
 import { useState } from 'react';
-import RegistrationForm from './components/RegistrationForm/RegistrationForm';
-import ProductPurchase from './components/ProductPurchase/ProductPurchase';
-import LoginForm from './components/LoginForm/LoginForm';
-import HomePage from './pages/HomePage/HomePage';
+import RegistrationForm from './components/RegistrationForm';
+import LoginForm from './components/LoginForm';
+import HomePage from './pages/Home/';
 import '@fortawesome/fontawesome-free/css/all.min.css';
-import ProductSection from './components/ProductSection/ProductSection';
+import ProductSection from './pages/Product/ProductSection/ProductSection';
+import LatestProduct from './pages/Home/LatestProduct/LatestProduct';
 
 function App() {
 
   return (
-    <> 
-      <LoginForm></LoginForm>
-      <HomePage></HomePage>
-
+    <>  
+      <HomePage />
+      <LatestProduct />
+      <LatestProduct />
     </>
   )
 }

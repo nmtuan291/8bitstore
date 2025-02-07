@@ -1,5 +1,14 @@
-const Validation = (formData) => {
-    const errors = {};
+import { IUserInfo } from "../interfaces/interfaces";
+
+const Validation = (formData: IUserInfo): { [key: string]: string } => {
+    const errors: { [key: string]: string } = {
+        email: "",
+        fullName: "",
+        address: "",
+        password: "",
+        confirmPassword: "",
+        phoneNumber: ""
+    };
 
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]{2,6}$/;
     const passwordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]{8,}$/;
@@ -24,11 +33,9 @@ const Validation = (formData) => {
         errors.password = "Password must contain character from a - z, A-Z, 0-9, at least 1 special character and the length is greater or equal to 8"
     }
 
-    if (formData.password !== formData.confirmPassworod) {
-        errors.confirmPassworod = "Password didn't match";
-    } else if (!formData.confirmPassworod) {
-        
-    }
+    if (formData.password !== formData.confirmPassword) {
+        errors.confirmPassword = "Password didn't match";
+    } 
 
     if (!formData.phoneNumber) {
         errors.phoneNumber = "Phone number is required";
@@ -36,8 +43,5 @@ const Validation = (formData) => {
 
     return errors;
 };
-
-// export default Validation;
-
 
 export default Validation;

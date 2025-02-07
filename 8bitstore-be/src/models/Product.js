@@ -10,7 +10,8 @@ const productSchema = new mongoose.Schema(
         description: { type: String },
         type: { type: String, required: true },
         genre: { type: [String]},
-        imgUrl: { type: String, required: true }
+        imgUrl: { type: String, required: true },
+        sales: { type: Number, default: 0 }
     },
     {
         timestamps: true

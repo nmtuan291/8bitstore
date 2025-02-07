@@ -3,7 +3,7 @@ import logo from "./8bitstore-logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart, faCartShopping, faUser} from "@fortawesome/free-solid-svg-icons";
 import './NavBar.css'
-import NavBarListTest from "../NavBarList/NavBarListTest";
+import NavBarListTest from "./NavBarListTest";
 
 interface HoverStatus {
     wishlist: boolean,
@@ -11,7 +11,11 @@ interface HoverStatus {
     user: boolean
 }
 
-const NavBar: React.FC = () => {
+interface NavBarProps {
+    onUserClick: () => void,
+}
+
+const NavBar: React.FC<NavBarProps> = ({ onUserClick }) => {
     const [ searchText, setSearchText ] = useState<string>('');
     const [ hoverStatus, setHoverStatus ] = useState<HoverStatus>({
         wishlist: false,
@@ -24,12 +28,12 @@ const NavBar: React.FC = () => {
         setSearchText(e.target.value);
     }
 
-    const handleMouseOver = (): void => {
-        setHoverStatus({...hoverStatus, wishlist: true})
+    const handleMouseOver = (iconName: string): void => {
+        setHoverStatus({...hoverStatus, [iconName]: true})
     } 
 
-    const handleMouseOut = (): void => {
-        setHoverStatus({...hoverStatus, wishlist: false})
+    const handleMouseOut = (iconName: string): void => {
+        setHoverStatus({...hoverStatus, [iconName]: false})
     }
 
     return (
@@ -48,8 +52,8 @@ const NavBar: React.FC = () => {
                 <div className="icon-container">
                         <FontAwesomeIcon icon={faHeart} 
                         className="icon"
-                        onMouseOver={handleMouseOver}
-                        onMouseOut={handleMouseOut}/>
+                        onMouseOver={() => handleMouseOver("wishlist")}
+                        onMouseOut={() => handleMouseOut("wishlist")}/>
                         <div className={`icon-pop triangle ${!hoverStatus.wishlist ? 'hide' : ''}`}>
                             <span>Yêu thích</span>
                         </div>
@@ -57,8 +61,8 @@ const NavBar: React.FC = () => {
                     <div className="icon-container">
                         <FontAwesomeIcon icon={faCartShopping} 
                         className="icon"
-                        onMouseOver={handleMouseOver}
-                        onMouseOut={handleMouseOut}/>
+                        onMouseOver={() => handleMouseOver("cart")}
+                        onMouseOut={() => handleMouseOut("cart")}/>
                         <div className={`icon-pop triangle ${!hoverStatus.cart ? 'hide' : ''}`}>
                             <span>Giỏ hàng</span>
                         </div>
@@ -67,8 +71,9 @@ const NavBar: React.FC = () => {
                     <div className="icon-container">
                         <FontAwesomeIcon icon={faUser} 
                         className="icon"
-                        onMouseOver={handleMouseOver}
-                        onMouseOut={handleMouseOut}/>
+                        onMouseOver={() => handleMouseOver("user")}
+                        onMouseOut={() => handleMouseOut("user")}
+                        onClick={ onUserClick }/>
                         <div className={`icon-pop triangle ${!hoverStatus.user ? 'hide' : ''}`}>
                             <span>Đăng nhập</span>
                         </div>
