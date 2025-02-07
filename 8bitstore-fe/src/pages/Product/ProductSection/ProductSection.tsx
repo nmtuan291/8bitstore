@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import ProductItem from "../ProductItem/ProductItem"
+import ProductItem from "../../../components/ProductItem"
 
 const ProductSection = () => {
     const [data, setData] = useState(null);

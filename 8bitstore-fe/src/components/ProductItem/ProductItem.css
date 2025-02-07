@@ -11,7 +11,8 @@
     align-items: center;
     box-sizing: border-box;
     padding: 20px;
-    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+    /* box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3); */
+    border: solid #91C3BD 1px;
 }
 
 .product-container > p {
@@ -19,6 +20,12 @@
     text-align: left;
     padding: 10px;
     text-align: center;
+}
+
+.product-container img {
+    width: 100%;
+    height: auto;
+    cursor: pointer;
 }
 
 .product-info {

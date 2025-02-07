@@ -3,13 +3,21 @@ import './NavBarList.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
 
+type Item = {
+    category: string
+}
 
-const NavBarList = ({ title, items }) => {
+interface NavBarListProps {
+    title: string,
+    items: Item[]
+}
+
+const NavBarList: React.FC<NavBarListProps> = ({ title, items }) => {
     const [mouseEnter, setMouseEnter] = useState(false);
-    const [itemIndex, setItemIndex] = useState(null);
 
-    const handleMouseOut = (event) => {
-        if (!event.target.matches('.navlist__container')) {
+    const handleMouseOut = (event: React.MouseEvent<HTMLElement>) => {
+        const target = event.target as Element;
+        if (!target.matches('.navlist__container')) {
             setMouseEnter(false);
         }
     }
@@ -31,7 +39,6 @@ const NavBarList = ({ title, items }) => {
                          {item.category}
                          
                      </li>)}
-                 {mouseEnter ? console.log("true") : console.log(false)}
              </ul>
          }
      </div>

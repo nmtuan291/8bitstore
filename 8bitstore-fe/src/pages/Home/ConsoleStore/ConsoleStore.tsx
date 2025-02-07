@@ -1,7 +1,12 @@
 import './ConsoleStore.css';
-import { faHeart } from "@fortawesome/free-regular-svg-icons";
 
-const ConsoleStore = ({consoleName, color, imgSrc}) => {
+interface ConsoleStoreProps {
+    consoleName: string, 
+    color: string,
+    imgSrc: string
+}
+
+const ConsoleStore: React.FC<ConsoleStoreProps> = ({consoleName, color, imgSrc}) => {
     
     return (
         <div 

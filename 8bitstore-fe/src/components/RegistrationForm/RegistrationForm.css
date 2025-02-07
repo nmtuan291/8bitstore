@@ -1,23 +1,41 @@
-.login-form {
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.customBtn {
+    background-color: #946CBC;
+    width: 25%;
+    border: none;
+    height: 40px;
+    color: #fff;
+}
+
+.customBtn:hover {
+    background-color: #8A9E17; 
+}
+
+span {
+    color: red;
+}
+
+.reg-form {
     display:flex;
     flex-direction: column;
     align-items: center;
     gap: 10px;
     border-radius: 10px;
-    width: 28%;
-    height: 500px;  
+    width: 50%;
+    height: 900px;  
     justify-content: center;
     min-width: 500px;
     position: relative;
     background-color: #fff;
 }
 
-.login-form h1 {
+.reg-form h1 {
     color: #946CBC;
-}
-
-.input-field-container {
-    width: 50%;
 }
 
 .input-field {
@@ -36,9 +54,6 @@ button {
     height: 40px;
 }
 
-span {
-    color: red;
-}
 
 .close-form {
     position: absolute;
@@ -72,12 +87,4 @@ span {
     align-items: center;
     position: fixed;
     z-index: 99999;
-}
-
-.customBtn {
-    background-color: #946CBC;
-    width: 25%;
-    border: none;
-    height: 40px;
-    color: #fff;
 }
