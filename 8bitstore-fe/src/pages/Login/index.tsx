@@ -1,26 +1,25 @@
 import { useState } from "react";
-import { faX } from "@fortawesome/free-solid-svg-icons";
-import "./LoginForm.css"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Link } from "react-router-dom";
+import "./Login.css"
 
 const LoginForm: React.FC = () => {
     const [emailText, setEmailText] = useState<string>("");
     const [passwordText, setPasswordText] = useState<string>("");
 
     return (
-        <div className="overlay">
+        <div className="form-container">
             <form className="login-form">
-                <div className="close-form"> 
+                {/* <div className="close-form"> 
                     <FontAwesomeIcon icon={faX} />
-                </div>
+                </div> */}
                 <h1>Đăng nhập</h1>
-                <p>Chưa có tài khoản? <a href='/'>Đăng ký ngay</a></p>
+                <p>Chưa có tài khoản? <Link to="/signup">Đăng ký ngay</Link></p>
                 <div className="mb-3 w-50">
                     <input
                         placeholder="Email"
                         className="input-field"
                         type="text" 
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setEmailText(e.target.value)}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmailText(e.target.value)}
                         value={emailText} />
                 </div>
                 <div className="mb-3 w-50">
@@ -28,7 +27,7 @@ const LoginForm: React.FC = () => {
                         className="input-field"
                         placeholder="Mật khẩu"
                         type="password" 
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setPasswordText(e.target.value)}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPasswordText(e.target.value)}
                         value={passwordText} />
                 </div>
                 <span className="login-failed">sadadads</span>

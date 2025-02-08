@@ -1,8 +1,8 @@
 import ConsoleStore from "./ConsoleStore";
-import playstationIcon from "./playstation-store-icon-4.png";
-import xboxIcon from "./playstation-store-icon-1.png";
-import nintendoIcon from "./switch-store-icon.png";
-import digitalIcon from "./pc-digital-store-icon-v2.png"
+import playstationIcon from "@/assets/images/playstation-store-icon-4.png";
+import xboxIcon from "@/assets/images/playstation-store-icon-1.png";
+import nintendoIcon from "@/assets/images/switch-store-icon.png";
+import digitalIcon from "@/assets/images/pc-digital-store-icon-v2.png"
 
 const ConsoleStoreTest = () => {
     const img = [

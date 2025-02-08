@@ -1,9 +1,11 @@
 import { useState } from "react";
-import logo from "./8bitstore-logo.png";
+import { useNavigate } from "react-router-dom";
+import logo from "@/assets/logo/8bitstore-logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart, faCartShopping, faUser} from "@fortawesome/free-solid-svg-icons";
 import './NavBar.css'
 import NavBarListTest from "./NavBarListTest";
+
 
 interface HoverStatus {
     wishlist: boolean,
@@ -16,6 +18,7 @@ interface NavBarProps {
 }
 
 const NavBar: React.FC<NavBarProps> = ({ onUserClick }) => {
+    const navigate = useNavigate();
     const [ searchText, setSearchText ] = useState<string>('');
     const [ hoverStatus, setHoverStatus ] = useState<HoverStatus>({
         wishlist: false,
@@ -73,7 +76,7 @@ const NavBar: React.FC<NavBarProps> = ({ onUserClick }) => {
                         className="icon"
                         onMouseOver={() => handleMouseOver("user")}
                         onMouseOut={() => handleMouseOut("user")}
-                        onClick={ onUserClick }/>
+                        onClick={ () => navigate("/login") }/>
                         <div className={`icon-pop triangle ${!hoverStatus.user ? 'hide' : ''}`}>
                             <span>Đăng nhập</span>
                         </div>
