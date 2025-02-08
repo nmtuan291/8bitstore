@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Validation from "../../utils/Validation.ts";
-import "./RegistrationForm.css";
+import "./SignUp.css";
 import { IUserInfo } from "../../interfaces/interfaces.ts";
 import { faX } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -39,14 +39,11 @@ const RegistrationForm: React.FC = () => {
     } 
     
     return (
-        <div className="overlay">
+        <div className="form-container">
                 <form 
                 className="reg-form"
                 onSubmit={handleValidation}
                 >
-                    <div className="close-form"> 
-                                        <FontAwesomeIcon icon={faX} />
-                                    </div>
                 <h1 className=''>Đăng ký</h1>
                 <div className="mb-3 w-50">
                     <label>Email</label>

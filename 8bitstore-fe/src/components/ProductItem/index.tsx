@@ -1,7 +1,7 @@
 import './ProductItem.css'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
-import productImage from './3e6784d7-b3c3-4496-a67f-ce98883be469.png'
+import productImage from "@/assets/images/product.png";
 import { useState } from 'react';
 import { faStar } from "@fortawesome/free-regular-svg-icons"; 
 import { faStar as solidStar } from "@fortawesome/free-solid-svg-icons";

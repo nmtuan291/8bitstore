@@ -1,4 +1,4 @@
-import NavBarList from "./NavBarList";
+import NavMenu from "./NavMenu";
 
 const NavBarListTest = () => {
     const items = [
@@ -137,7 +137,7 @@ const NavBarListTest = () => {
 
     return (
         <>
-            {items.map(item => <NavBarList title={item.title} items={item.content}/>)}
+            {items.map(item => <NavMenu title={item.title} items={item.content}/>)}
         </> 
     );
 }

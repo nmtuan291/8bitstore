@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import './NavBarList.css';
+import './NavMenu.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
 
@@ -12,7 +12,7 @@ interface NavBarListProps {
     items: Item[]
 }
 
-const NavBarList: React.FC<NavBarListProps> = ({ title, items }) => {
+const NavMenu: React.FC<NavBarListProps> = ({ title, items }) => {
     const [mouseEnter, setMouseEnter] = useState(false);
 
     const handleMouseOut = (event: React.MouseEvent<HTMLElement>) => {
@@ -45,4 +45,4 @@ const NavBarList: React.FC<NavBarListProps> = ({ title, items }) => {
     );
 }
 
-export default NavBarList;
+export default NavMenu;
