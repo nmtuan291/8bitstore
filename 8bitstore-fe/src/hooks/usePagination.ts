@@ -22,6 +22,9 @@ export const usePagination = ({
     const paginationRange = useMemo(() => {
         const totalPageCount = Math.ceil(totalCount / pageSize);
 
+        if (totalPageCount <= 5) {
+            return range(1, totalPageCount);
+        }  
         // [1...456...10]  [ 1...345...10 ] [1...3456...10]
         const leftMostSibling = Math.max(currentPage - siblingCount, 1);
         const rightMostSibling = Math.min(currentPage + siblingCount, totalPageCount);
