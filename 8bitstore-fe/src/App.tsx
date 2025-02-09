@@ -7,8 +7,11 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import ProductSection from "./pages/Product/ProductSection/ProductSection";
 import LatestProduct from "./pages/Home/LatestProduct/LatestProduct";
 import ProductList from "./pages/Product";
+import Pagination from "./components/Pagination";
 
 function App() {
+  const [currentPage, setCurrentPage] = useState(1);
+
 
   return (
     <BrowserRouter>
@@ -19,6 +22,7 @@ function App() {
           <Route path="/product" element={<ProductList />} />
       </Routes>
     </BrowserRouter>
+
   )
 }
 

@@ -7,7 +7,7 @@ const LoginForm: React.FC = () => {
     const [passwordText, setPasswordText] = useState<string>("");
 
     return (
-        <div className="form-container">
+        <div className="form-container">    
             <form className="login-form">
                 {/* <div className="close-form"> 
                     <FontAwesomeIcon icon={faX} />

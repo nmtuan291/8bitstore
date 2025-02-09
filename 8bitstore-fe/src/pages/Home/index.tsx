@@ -4,7 +4,7 @@ import NavBarList from '../../components/NavBar/NavMenu';
 import NavBarListTest from '../../components/NavBar/NavBarListTest';
 import ConsoleStore from './ConsoleStore/ConsoleStore';
 import ConsoleStoreTest from './ConsoleStore/ConsoleStoreTest';
-import ProductItem from '../../components/ProductItem';
+import ProductItem from '../../components/ProductCard';
 import ProductSectionTest from '../Product/ProductSection/ProductSectionTest';
 import ImageCarousel from './ImageCarousel';
 import LoginForm from "../Login";
