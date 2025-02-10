@@ -1,0 +1,40 @@
+@use "../../styles/responsive.scss" as *;
+
+.navlist__container {
+    position: relative;
+    margin-right: 50px;
+    z-index: 9999; 
+
+    .title {
+        text-decoration: none;
+        color: #fff;
+        font-size: 1.1em;
+
+    }
+
+    .navlist__items {
+        color: #000;
+        position: absolute;
+        top: 130%;
+        background: #fff;
+        width: 250px;
+        margin: 0;
+        padding: 10px;
+        
+        li {
+            list-style: none;
+            cursor: pointer;
+            height: 10%;
+            margin-bottom: 10px;
+        }
+
+        &:hover {
+            background-color: #EEEEEF;
+        }
+
+        &.hide {
+            display: none;
+        }
+        
+    }
+}

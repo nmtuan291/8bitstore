@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import './NavMenu.css';
+import './NavMenu.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
 

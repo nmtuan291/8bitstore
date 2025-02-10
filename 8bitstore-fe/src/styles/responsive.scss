@@ -1,0 +1,9 @@
+$extra-small: 480px;
+$small: 768px;
+$medium: 992px;
+$large: 1200px;
+
+@mixin mobile { @media (max-width: #{$small}) {
+        @content;
+    }
+}
