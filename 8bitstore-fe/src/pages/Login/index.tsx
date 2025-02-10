@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import "./Login.css"
+import "./Login.scss"
 
 const LoginForm: React.FC = () => {
     const [emailText, setEmailText] = useState<string>("");

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import logo from "@/assets/logo/8bitstore-logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart, faCartShopping, faUser} from "@fortawesome/free-solid-svg-icons";
-import './NavBar.css'
+import './NavBar.scss'
 import NavBarListTest from "./NavBarListTest";
 
 

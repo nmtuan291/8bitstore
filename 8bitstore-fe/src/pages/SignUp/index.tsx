@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Validation from "../../utils/Validation.ts";
-import "./SignUp.css";
+import "./SignUp.scss";
 import { IUserInfo } from "../../interfaces/interfaces.ts";
 import { faX } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

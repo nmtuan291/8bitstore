@@ -13,13 +13,14 @@
     justify-content: space-around;
     align-items: center;
     cursor: pointer;
+
+    img {
+        max-width: 90%;
+        max-height: 90%;
+    }
+    
+    h1 {
+        padding: 50px;
+    }
 }
 
-img {
-    max-width: 90%;
-    max-height: 90%;
-}
-
-h1 {
-    padding: 50px;
-}

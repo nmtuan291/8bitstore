@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { usePagination } from "../../hooks/usePagination";
 import { UNSAFE_getPatchRoutesOnNavigationFunction } from "react-router-dom";
-import "./pagination.css"
+import "./pagination.scss"
 
 interface PaginationProps {
     totalCount: number,

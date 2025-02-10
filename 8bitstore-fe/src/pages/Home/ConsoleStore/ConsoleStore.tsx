@@ -1,4 +1,4 @@
-import './ConsoleStore.css';
+import './ConsoleStore.scss';
 
 interface ConsoleStoreProps {
     consoleName: string, 
