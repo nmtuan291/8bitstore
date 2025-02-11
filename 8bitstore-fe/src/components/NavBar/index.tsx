@@ -52,7 +52,7 @@ const NavBar: React.FC<NavBarProps> = ({ onUserClick }) => {
                         onChange= {(e) => handleSearchBoxChange(e)} 
                         value={searchText}/>
                 <div className="navbar__icons">
-                <div className="icon-container">
+                    <div className="icon-container">
                         <FontAwesomeIcon icon={faHeart} 
                         className="icon"
                         onMouseOver={() => handleMouseOver("wishlist")}
@@ -90,33 +90,5 @@ const NavBar: React.FC<NavBarProps> = ({ onUserClick }) => {
         </nav>
     );
 };
-
-// const NavBar = () => {
-//     const [ searchText, setSearchText ] = useState('');
-
-//     const handleSearchBoxChange = (e) => {
-//         setSearchText(e.target.value);
-//     }
-//     return (
-//         <nav className="navbar navbar-expand-lg">
-//             <div className="navbar__first-row container-fluid">
-//             <img src={logo} className="navbar-brand navbar__logo"/>
-
-//                     <input 
-//                         className="navbar__search" 
-//                         type="text" 
-//                         onChange= {(e) => handleSearchBoxChange(e)} 
-//                         value={searchText}/>
-//                     <div className="navbar__icons border">
-//                         <FontAwesomeIcon icon={faHeart} />
-//                     </div>
-//             </div>
-//             {/* <div className="navbar__second-row">
-//                 <NavBarListTest></NavBarListTest>
-//             </div> */}
-            
-//         </nav>
-//     );
-// };
 
 export default NavBar;

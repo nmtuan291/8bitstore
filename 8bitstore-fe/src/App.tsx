@@ -8,6 +8,7 @@ import ProductSection from "./pages/Product/ProductSection/ProductSection";
 import LatestProduct from "./pages/Home/LatestProduct/LatestProduct";
 import ProductList from "./pages/Product";
 import Pagination from "./components/Pagination";
+import ProductDetail from "./pages/Home/ProductDetail";
 
 function App() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -20,9 +21,10 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/product" element={<ProductList />} />
+          <Route path="/detail" element={<ProductDetail />} />
       </Routes>
     </BrowserRouter>
-
+  
   )
 }
 
