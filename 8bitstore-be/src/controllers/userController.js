@@ -54,7 +54,7 @@ userController.signUp = async (req, res) => {
 
 userController.login = async (req, res) => {
     try {
-        const { email , password } = req.body;
+        const { email , password, sessionCookie } = req.body;
         if (!email || !password) {
             return res.status(400).json({ message: 'All fields must be filled'});
         }
@@ -66,7 +66,7 @@ userController.login = async (req, res) => {
 
         const isValid = await bcrypt.compare(password, user.password);
         if (!isValid) {
-            return res.status(409).json({ message: 'Password is incorrect'});
+            return res.status(401).json({ message: 'Password is incorrect'});
         }
         
         const userInfo = {
@@ -87,22 +87,27 @@ userController.login = async (req, res) => {
             '7 days'
         )
 
+        const cookieSetting = {
+            httpOnly: true,
+            secure: false,
+            sameSite: 'lax',
+        }
+
+        if (sessionCookie === false) {
+            cookieSetting.maxAge = ms('7 days');
+        }
+
         // Store the tokens in cookie
-        res.cookie('access_token', accessToken, {
+        res.cookie('access_token', accessToken, cookieSetting);
+
+        res.cookie('refresh_token', refreshToken, { 
             httpOnly: true,
             secure: false,
             sameSite: 'lax',
             maxAge: ms('7 days')
         });
 
-        res.cookie('refresh_token', refreshToken, {
-            httpOnly: true,
-            secure: false,
-            sameSite: 'lax',
-            maxAge: ms('7 days')
-        });
-
-        res.status(200).json({ message: 'LOGIN SUCCESSFULLY'})
+        res.status(200).json(user);
         
     } catch (error) {
         throw new Error(error);

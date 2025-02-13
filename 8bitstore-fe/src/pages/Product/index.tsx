@@ -1,12 +1,12 @@
 import { useEffect, useState, useRef } from "react";
-import { IProduct } from "../../interfaces/interfaces";
+import { Product } from "../../interfaces/interfaces";
 import ProductItem from "../../components/ProductCard";
 import Pagination from "../../components/Pagination";
 import ProductFilter from "./ProductFilter";
 import "./ProductList.scss"
 
 const ProductList: React.FC = () => {
-    const [products, setProducts] = useState<IProduct[]>([]);
+    const [products, setProducts] = useState<Product[]>([]);
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [filter, setFilter] = useState<string>("Giá thấp đến cao");
 
@@ -41,7 +41,7 @@ const ProductList: React.FC = () => {
         pageEnd = currentPage * pageSize;
     }
     const pageStart: number = pageEnd - pageSize + diff;
-    const productPage: IProduct[] = products.slice(pageStart, pageEnd);
+    const productPage: Product[] = products.slice(pageStart, pageEnd);
 
     const handleFilterClick = (filter: string) => {
         setFilter(filter);
@@ -55,7 +55,7 @@ const ProductList: React.FC = () => {
                 <ProductFilter filterString={filter} onFilterClick={(filterName:string) => handleFilterClick(filterName)} />
             </div>
             <div className="product-list">
-                {productPage.map((product: IProduct, index: number) => (
+                {productPage.map((product: Product, index: number) => (
                     <ProductItem key={index} product={product} />
                 ))}
             </div>
