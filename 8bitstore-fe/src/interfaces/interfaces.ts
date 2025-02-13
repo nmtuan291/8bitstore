@@ -1,5 +1,5 @@
 
-export interface IUserInfo {
+export interface User {
     email: string,
     password: string,
     confirmPassword: string,
@@ -9,7 +9,7 @@ export interface IUserInfo {
 }
 
 
-export interface IProduct {
+export interface Product {
     _id: string
     productName: string,
     price: number,

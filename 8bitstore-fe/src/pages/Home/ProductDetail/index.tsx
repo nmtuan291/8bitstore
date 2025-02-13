@@ -4,11 +4,11 @@ import "./ProductDetail.scss"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
-import { IProduct } from "../../../interfaces/interfaces";
+import { Product } from "../../../interfaces/interfaces";
 
 const ProductDetail: React.FC = () => {
     const [ counter, setCounter ] = useState<number>(0);
-    const [ productDetail, setProductDetail ] = useState<IProduct | null>(null);
+    const [ productDetail, setProductDetail ] = useState<Product | null>(null);
     const { productId } = useParams();
 
     useEffect(() => {
