@@ -114,4 +114,20 @@ userController.login = async (req, res) => {
     }
 }
 
+userController.getUser = async (req, res) => {
+    try {
+        const email = req.query.email;
+        
+        const user = await User.findById(email);
+
+        if (!user) {
+            return res.status(404).json({ message: "Cannot find user" });
+        }
+
+        res.status(200).json(user);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
 export default userController;

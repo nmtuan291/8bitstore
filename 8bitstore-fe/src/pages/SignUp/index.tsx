@@ -1,13 +1,14 @@
 import { useState } from "react";
 import Validation from "../../utils/Validation.ts";
 import "./SignUp.scss";
-import { IUserInfo } from "../../interfaces/interfaces.ts";
+import { User } from "../../interfaces/interfaces.ts";
 import { faX } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { UserConfigFn } from "vite";
 
 
 const RegistrationForm: React.FC = () => {
-    const [formData, setFormData] = useState<IUserInfo>({
+    const [formData, setFormData] = useState<User>({
         email: "",
         password: "",
         confirmPassword: "",
@@ -18,7 +19,6 @@ const RegistrationForm: React.FC = () => {
     const [tosCheck, setTosCheck] = useState<boolean>(false);
     const [errors, setErrors] = useState<{ [key: string]: string }>({})
     const [tosError, setTosError] = useState<boolean>(false);
-
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setFormData(prevData => ({
             ...prevData,

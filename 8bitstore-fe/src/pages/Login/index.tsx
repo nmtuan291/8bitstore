@@ -1,15 +1,16 @@
 import { useState} from "react";
-import { Link } from "react-router-dom";
-import { AuthContext, useAuth } from "../../context/AuthProvider";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthProvider";
 import axios from "../../../src/apis/axios";
 import "./Login.scss"
+import { AxiosError } from "axios";
 
 const LoginForm: React.FC = () => {
     const [emailText, setEmailText] = useState<string>("");
     const [passwordText, setPasswordText] = useState<string>("");
     const [loginFailed, setLoginFailed] = useState<boolean>(false);
-    const { user, setUser } = useAuth();
-
+    const { user, storeUser } = useAuth();
+    const navigate = useNavigate();
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         try {
@@ -23,21 +24,24 @@ const LoginForm: React.FC = () => {
                 headers: {
                     "Content-Type": "application/json"
                 }
-            }
-        );
+            },
+        );  
 
             if (response.status === 200) {
                 const userInfo = response.data;
-                setUser(userInfo)
+                storeUser(userInfo)
                 console.log("Login successfully");
-            } else {
+                navigate("/");
+            } 
+        } catch (error: any) {
+            if (error.response.status >= 400 && error.response.status < 500) {{
                 setLoginFailed(true);
+            }} else {
+                console.log(error.response.data)
             }
-
-        } catch (error) {
-            
-        }
+        }   
     }
+    console.log(loginFailed);
 
     return (
         <div className="form-container">    

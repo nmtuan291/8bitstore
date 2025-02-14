@@ -9,7 +9,6 @@ const ProductList: React.FC = () => {
     const [products, setProducts] = useState<Product[]>([]);
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [filter, setFilter] = useState<string>("Giá thấp đến cao");
-
     useEffect(() => {
         const fetchProducts = async () => {
             try {
