@@ -22,3 +22,8 @@ export interface Product {
     stockNum: number,
     genre: string[]
 }
+
+export interface Cart {
+    userId: string,
+    
+}
