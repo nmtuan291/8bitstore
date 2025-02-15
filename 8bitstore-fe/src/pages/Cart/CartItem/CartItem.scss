@@ -1,0 +1,26 @@
+
+.cart-item-container {
+    display: grid;
+    border: solid black 1px;
+    gap: 20px;
+    grid-template-columns: repeat(8, 1fr);
+    p {
+        border: solid black 1px;
+        text-align: center;
+    }
+
+    div {
+        border: solid black 1px;
+    }
+
+    .price {
+        grid-column: 5;
+    }
+    
+    .product-image-section {
+        display: flex;
+        grid-column: 1 / 4;
+        align-items: center;
+    }
+}
+

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthProvider";
 import logo from "@/assets/logo/8bitstore-logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart, faCartShopping, faUser} from "@fortawesome/free-solid-svg-icons";
@@ -19,6 +20,7 @@ interface NavBarProps {
 
 const NavBar: React.FC<NavBarProps> = ({ onUserClick }) => {
     const navigate = useNavigate();
+    const { user } = useAuth();
     const [ searchText, setSearchText ] = useState<string>('');
     const [ hoverStatus, setHoverStatus ] = useState<HoverStatus>({
         wishlist: false,
@@ -31,13 +33,28 @@ const NavBar: React.FC<NavBarProps> = ({ onUserClick }) => {
         setSearchText(e.target.value);
     }
 
-    const handleMouseOver = (iconName: string): void => {
+    const handleMouseOver = (iconName: string) => {
         setHoverStatus({...hoverStatus, [iconName]: true})
     } 
 
-    const handleMouseOut = (iconName: string): void => {
+    const handleMouseOut = (iconName: string) => {
         setHoverStatus({...hoverStatus, [iconName]: false})
     }
+
+    const handleIconClick = {
+        profileClick: () => {
+            if (!user) {
+                navigate("/login")
+            }
+        },
+
+        wishlistClick: () => {
+            if (!user) {
+                navigate("/login")
+            }
+        }
+    };
+    
 
     return (
         <nav className="navbar">
@@ -76,7 +93,7 @@ const NavBar: React.FC<NavBarProps> = ({ onUserClick }) => {
                         className="icon"
                         onMouseOver={() => handleMouseOver("user")}
                         onMouseOut={() => handleMouseOut("user")}
-                        onClick={ () => navigate("/login") }/>
+                        onClick={handleProfileClick}/>
                         <div className={`icon-pop triangle ${!hoverStatus.user ? 'hide' : ''}`}>
                             <span>Đăng nhập</span>
                         </div>
