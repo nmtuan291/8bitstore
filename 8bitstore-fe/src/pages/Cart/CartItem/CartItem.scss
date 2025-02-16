@@ -4,8 +4,9 @@
     border: solid black 1px;
     gap: 20px;
     grid-template-columns: repeat(8, 1fr);
+    margin-top: 10px;   
+    align-items: center;
     p {
-        border: solid black 1px;
         text-align: center;
     }
 
@@ -15,12 +16,40 @@
 
     .price {
         grid-column: 5;
+        box-sizing: border-box;
+        padding-top: 10px;
+    }
+
+    .product-count {
+        display: flex;
+        justify-content: space-between;
+        height: 50%;
+
+        button {
+            width: 30%;
+            border: none;
+        }
+
+        p {
+            flex: 2;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
     }
     
     .product-image-section {
         display: flex;
         grid-column: 1 / 4;
         align-items: center;
+        gap: 20px;
+        padding: 0.7rem;
+
+        .product-cart-img {
+            max-width: 20%;
+            min-width: 80px;
+        }
     }
 }
 

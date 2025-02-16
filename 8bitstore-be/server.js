@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import cookieParser from 'cookie-parser';
 import productRoute from './src/routes/productRoute.js';
 import userRoute from './src/routes/userRoute.js'
 
@@ -14,6 +15,7 @@ app.use(cors({
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 app.use(
     productRoute,

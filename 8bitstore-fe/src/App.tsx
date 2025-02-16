@@ -6,7 +6,7 @@ import Home from "./pages/Home/";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import ProductList from "./pages/Product";
 import ProductDetail from "./pages/Home/ProductDetail";
-import AuthProvider from "./context/AuthProvider";
+import AuthProvider from "./contexts/AuthProvider";
 import Cart from "./pages/Cart";
 
 function App() {

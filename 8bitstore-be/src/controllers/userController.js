@@ -77,7 +77,7 @@ userController.login = async (req, res) => {
         const accessToken = await JwtProvider.generateToken(
             userInfo,
             process.env.ACCESS_TOKEN_SECRET_KEY,
-            '30m'
+            '7 days'
         )
 
         // Generate refresh token for user
@@ -116,7 +116,7 @@ userController.login = async (req, res) => {
 
 userController.getUser = async (req, res) => {
     try {
-        const email = req.query.email;
+        const email = req.jwtDecoded.userId;
         
         const user = await User.findById(email);
 

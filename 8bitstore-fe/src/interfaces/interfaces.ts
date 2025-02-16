@@ -23,7 +23,10 @@ export interface Product {
     genre: string[]
 }
 
-export interface Cart {
-    userId: string,
-    
+export interface CartItem {
+    _id: string;
+    productName: string,
+    productPrice: number,
+    amoung: number,
+    imgUrl: string
 }
