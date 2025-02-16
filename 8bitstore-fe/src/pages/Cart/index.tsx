@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useAuth } from "../../context/AuthProvider";
+import { useAuth } from "../../contexts/AuthProvider";
 import CartItem from "./CartItem";
 import "./Cart.scss"
 
@@ -16,7 +16,8 @@ const Cart: React.FC = () => {
                 <label>Thao tác</label>
             </div>
             <div className="cart-list">
-                <CartItem imgSrc="" productCount={3} productName="asda" productPrice={1231}/>
+                <CartItem imgSrc="" productQuantity={33} productName="asda" productPrice={1231}/>
+                <CartItem imgSrc="" productQuantity={100} productName="asda" productPrice={1231}/>
             </div>
         </div>
     );

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../context/AuthProvider";
+import { useAuth } from "../../contexts/AuthProvider";
 import logo from "@/assets/logo/8bitstore-logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart, faCartShopping, faUser} from "@fortawesome/free-solid-svg-icons";
@@ -93,7 +93,7 @@ const NavBar: React.FC<NavBarProps> = ({ onUserClick }) => {
                         className="icon"
                         onMouseOver={() => handleMouseOver("user")}
                         onMouseOut={() => handleMouseOut("user")}
-                        onClick={handleProfileClick}/>
+                        onClick={handleIconClick.profileClick}/>
                         <div className={`icon-pop triangle ${!hoverStatus.user ? 'hide' : ''}`}>
                             <span>Đăng nhập</span>
                         </div>

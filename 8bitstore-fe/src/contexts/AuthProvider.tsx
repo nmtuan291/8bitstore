@@ -5,29 +5,20 @@ import axios from "../apis/axios";
 interface AuthContextProps {
     user: User | null,
     storeUser: (user: User) => void,
-    deleteUser: () => void
   }
 
-
-  
 export const AuthContext = createContext<AuthContextProps | null>(null);
 
 const AuthProvider: React.FC<{ children: ReactNode}>  = ({ children }) => {
     const [user, setUser] = useState<User | null>(null);  
     
     useEffect(() => {
-        user && localStorage.setItem("userEmail", user?._id)
-    }, [user]);
-
-    useEffect(() => {
         const initUserState = async () => {
-            if (localStorage.getItem("userEmail")) {
-                const response = await axios.get("/user", {
-                    params: { email: localStorage.getItem("userEmail") } 
-                });
-        
+            try {
+                const response = await axios.get("user")
                 setUser(response.data);
-            } else {
+            } catch (error) {
+                console.log(error);
                 setUser(null);
             }
         }
@@ -39,12 +30,8 @@ const AuthProvider: React.FC<{ children: ReactNode}>  = ({ children }) => {
         setUser(user);
     }
 
-    const deleteUser = () => {
-        setUser(null);
-    }
-
     return (
-        <AuthContext.Provider value={{ user, storeUser, deleteUser }}>
+        <AuthContext.Provider value={{ user, storeUser }}>
             {children}
         </AuthContext.Provider>
     )

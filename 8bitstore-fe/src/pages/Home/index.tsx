@@ -7,11 +7,14 @@ import ConsoleStoreTest from './ConsoleStore/ConsoleStoreTest';
 import ProductItem from '../../components/ProductCard';
 import ProductSectionTest from '../Product/ProductSection/ProductSectionTest';
 import ImageCarousel from './ImageCarousel';
+import { useAuth } from "../../contexts/AuthProvider";
 import LoginForm from "../Login";
 
 
 const HomePage: React.FC = () => {
     const [ userIconClicked, setUserIconClicked] = useState<boolean>(false);
+    const { user } = useAuth();
+    console.log(user);
     
     const handleUserClick = () => {
         setUserIconClicked(true);
