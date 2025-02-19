@@ -1,13 +1,14 @@
-import { IUserInfo } from "../interfaces/interfaces";
+import { User } from "../interfaces/interfaces";
 
-const Validation = (formData: IUserInfo): { [key: string]: string } => {
+const Validation = (formData: User): { [key: string]: string } => {
     const errors: { [key: string]: string } = {
+        username: "",
         email: "",
         fullName: "",
         address: "",
         password: "",
         confirmPassword: "",
-        phoneNumber: ""
+        // phoneNumber: ""
     };
 
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]{2,6}$/;
@@ -27,19 +28,19 @@ const Validation = (formData: IUserInfo): { [key: string]: string } => {
         errors.address = "Address is required";
     }
 
-    if (!formData.password) {
-        errors.password = "Password is required";
-    } else if (!passwordPattern.test(formData.password)) {
-        errors.password = "Password must contain character from a - z, A-Z, 0-9, at least 1 special character and the length is greater or equal to 8"
-    }
+    // if (!formData.password) {
+    //     errors.password = "Password is required";
+    // } else if (!passwordPattern.test(formData.password)) {
+    //     errors.password = "Password must contain character from a - z, A-Z, 0-9, at least 1 special character and the length is greater or equal to 8"
+    // }
 
     if (formData.password !== formData.confirmPassword) {
         errors.confirmPassword = "Password didn't match";
     } 
 
-    if (!formData.phoneNumber) {
-        errors.phoneNumber = "Phone number is required";
-    }
+    // if (!formData.phoneNumber) {
+    //     errors.phoneNumber = "Phone number is required";
+    // }
 
     return errors;
 };

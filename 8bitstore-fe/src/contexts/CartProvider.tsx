@@ -28,7 +28,7 @@ const CartProvider: React.FC<{children: ReactNode}> = ({ children }) => {
     useEffect(() => {
         setTimeout(() => {
             try {
-
+                const response = await axios.patch("")
             } catch (error) {
                 console.log(error);
             }
