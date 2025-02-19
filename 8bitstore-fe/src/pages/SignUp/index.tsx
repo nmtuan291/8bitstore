@@ -5,15 +5,17 @@ import { User } from "../../interfaces/interfaces.ts";
 import { faX } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { UserConfigFn } from "vite";
+import axios from "../../apis/axios.ts"
 
 
 const RegistrationForm: React.FC = () => {
     const [formData, setFormData] = useState<User>({
+        userName: "",
         email: "",
         password: "",
         confirmPassword: "",
         address: "",
-        phoneNumber: "",
+        // phoneNumber: "",
         fullName: "",
     });
     const [tosCheck, setTosCheck] = useState<boolean>(false);
@@ -33,6 +35,30 @@ const RegistrationForm: React.FC = () => {
             setTosError(true);
         }
     }
+    console.log(formData.email);
+
+    const handleSubmit =  async (event: React.FormEvent<HTMLFormElement>) => {
+        handleValidation(event);
+        try {
+                event.preventDefault();
+                const response = await axios.post("/api/User/signup", {
+                    userName: formData.userName,
+                    Email: "asdfad@gmail.com",
+                    fullName: formData.fullName,
+                    address: formData.address,
+                    password: formData.password,
+                    confirmPassword: formData.confirmPassword
+                },
+                {
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                },
+                ); 
+        } catch (error) {
+            
+        }
+    }
     
     const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setTosCheck(event.target.checked);
@@ -42,9 +68,20 @@ const RegistrationForm: React.FC = () => {
         <div className="form-container">
                 <form 
                 className="reg-form"
-                onSubmit={handleValidation}
+                onSubmit={handleSubmit}
                 >
                 <h1 className=''>Đăng ký</h1>
+                <div className="mb-3 w-50">
+                    <label>Username</label>
+                    <input
+                        className="input-field" 
+                        type="text"
+                        name="userName"
+                        onChange={handleChange}
+                        value={formData.userName}
+                    />
+                    <span>{errors.email}</span>
+                </div>
                 <div className="mb-3 w-50">
                     <label>Email</label>
                     <input
