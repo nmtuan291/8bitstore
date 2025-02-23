@@ -1,0 +1,41 @@
+$primary-color: #946CBC;
+
+.profile-container {
+    padding-left: 10rem;
+
+    .profile-header {
+        height: 10rem;
+        border: solid black 1px;
+    }
+
+    .profile-section {
+        ul {
+            border: solid #EAEAEA 1px;
+            width: 25%;
+            list-style: none;
+            padding: 0;
+    
+            li {
+                display: flex;
+                align-items: center;
+                height: 50px;
+                cursor: pointer;
+                box-sizing: border-box;
+                padding-left: 30px;
+                transition: background 0.2s;
+    
+                &:hover {
+                    background: $primary-color;
+
+                    * {
+                        color: #fff;
+                    }
+                }
+                .nav-link {
+                    text-decoration: none;
+                    transition: color 0.2s;
+                }
+            }
+        }
+    }
+}

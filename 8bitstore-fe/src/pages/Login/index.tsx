@@ -15,10 +15,9 @@ const LoginForm: React.FC = () => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         try {
             e.preventDefault();
-            const response = await axios.post("/login", {
-                email: emailText,
+            const response = await axios.post("/api/User/login", {
+                userName: emailText,
                 password: passwordText,
-                sessionCookie: false
             },
             {
                 headers: {

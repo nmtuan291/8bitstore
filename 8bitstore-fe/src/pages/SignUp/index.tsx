@@ -43,7 +43,7 @@ const RegistrationForm: React.FC = () => {
                 event.preventDefault();
                 const response = await axios.post("/api/User/signup", {
                     userName: formData.userName,
-                    Email: "asdfad@gmail.com",
+                    Email: formData.email,
                     fullName: formData.fullName,
                     address: formData.address,
                     password: formData.password,

@@ -8,6 +8,8 @@ import ProductList from "./pages/Product";
 import ProductDetail from "./pages/Home/ProductDetail";
 import AuthProvider from "./contexts/AuthProvider";
 import Cart from "./pages/Cart";
+import Profile from "./pages/Profile";
+import Order from "./pages/Profile/Order";
 
 function App() {
 
@@ -21,6 +23,9 @@ function App() {
               <Route path="/product" element={<ProductList />} />
               <Route path="/detail/:productId" element={<ProductDetail />} />
               <Route path="/cart" element={<Cart />} />
+              <Route path="/profile" element={<Profile />}>
+                <Route path="/profile/order" element={<Order></Order>}/> 
+              </Route>
           </Routes>
       </AuthProvider>
     </BrowserRouter>
