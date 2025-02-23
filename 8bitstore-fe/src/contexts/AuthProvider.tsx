@@ -15,7 +15,7 @@ const AuthProvider: React.FC<{ children: ReactNode}>  = ({ children }) => {
     useEffect(() => {
         const initUserState = async () => {
             try {
-                const response = await axios.get("user")
+                const response = await axios.get("")
                 setUser(response.data);
             } catch (error) {
                 console.log(error);

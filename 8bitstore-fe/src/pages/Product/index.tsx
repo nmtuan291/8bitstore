@@ -3,6 +3,7 @@ import { Product } from "../../interfaces/interfaces";
 import ProductItem from "../../components/ProductCard";
 import Pagination from "../../components/Pagination";
 import ProductFilter from "./ProductFilter";
+import axios from "../../apis/axios";
 import "./ProductList.scss"
 
 const ProductList: React.FC = () => {
@@ -12,16 +13,8 @@ const ProductList: React.FC = () => {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                let fetchUrl: string;
-                if (filter === "Giá thấp đến cao") {
-                    fetchUrl = 'http://localhost:8080/get-all-products';
-                } else {
-                    fetchUrl = 'http://localhost:8080/get-filtered-products?topNum=5';
-                }
-
-                const response = await fetch(fetchUrl);
-                const data = await response.json();
-                setProducts(data.data);
+                const response = await axios.get("/api/Product/get-products?")
+                setProducts(response.data);
             } catch (error: any) {
                 console.log(error.message);
             }
