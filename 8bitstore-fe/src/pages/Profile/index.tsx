@@ -9,14 +9,15 @@ const Profile: React.FC = () => {
     <div className="profile-container">
       <div className="profile-header">
       </div>
-      <div className="profile-section">
-        <div>
+      <div className="profile-detail-container">
+        <div className="profile-detail">
           <ul>
-            <li><NavLink to="/profile/order" className="nav-link">Tài khoản</NavLink></li>
-            <li><NavLink to="#" className="nav-link">Đơn hàng</NavLink></li>
-            <li><NavLink to="#" className="nav-link">Địa chỉ</NavLink></li>
+            <NavLink to="#" className="nav-link">Tài khoản</NavLink>
+            <NavLink to="/profile/order" className="nav-link">Đơn hàng</NavLink>
+            <NavLink to="#" className="nav-link">Địa chỉ</NavLink>
+            <NavLink to="#" className="nav-link">Đổi mật khẩu</NavLink>
           </ul>
-          <div className="">
+          <div className="profile-content">
               <Outlet />
           </div>
         </div>

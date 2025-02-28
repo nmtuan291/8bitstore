@@ -1,11 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useAuth } from "../../contexts/AuthProvider";
 import CartItem from "./CartItem";
+import { useCart } from "../../contexts/CartProvider";
 import "./Cart.scss"
 
 const Cart: React.FC = () => {
     const { user } = useAuth();
     const [data, setData] = useState(null);
+    const { cart } = useCart();
 
     return (
         <div className="cart-container">
@@ -16,8 +18,12 @@ const Cart: React.FC = () => {
                 <label>Thao tác</label>
             </div>
             <div className="cart-list">
-                <CartItem imgSrc="" productQuantity={33} productName="asda" productPrice={1231}/>
-                <CartItem imgSrc="" productQuantity={100} productName="asda" productPrice={1231}/>
+                {
+                    cart.map(item => 
+                        <CartItem imgSrc="" productQuantity={item.quantity} productName={item.productName} productPrice={item.price}/>
+                    )
+                }
+
             </div>
         </div>
     );

@@ -5,12 +5,12 @@ import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import productImage from "@/assets/images/product.png";
 import { faStar } from "@fortawesome/free-regular-svg-icons"; 
 import { faStar as solidStar } from "@fortawesome/free-solid-svg-icons";
-import { IProduct } from '../../interfaces/interfaces';
+import { Product } from '../../interfaces/interfaces';
 import './ProductCard.scss'
 
 
 interface ProductItemProps {
-    product: IProduct
+    product: Product
 }
 
 const ProductItem: React.FC<ProductItemProps> = ({ product }) => {
@@ -23,7 +23,7 @@ const ProductItem: React.FC<ProductItemProps> = ({ product }) => {
             <p>{product.price}</p>
             <button 
                 className='cart-btn'
-            ><Link to={`/detail/${product._id}`}>Mua hàng</Link></button>
+            ><Link to={`/detail/${product.productId}`}>Mua hàng</Link></button>
         </div>
     );
 }
