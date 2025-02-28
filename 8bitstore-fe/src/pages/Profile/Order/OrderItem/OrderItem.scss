@@ -1,0 +1,64 @@
+
+.order-item-container {
+  border: solid black 1px;
+  gap: 20px;
+  margin-top: 10px;   
+  align-items: center;
+
+
+  p {
+      text-align: center;
+  }
+
+
+  .order-item-header {
+	  width: 100%;
+    display: flex;
+    border-bottom: solid black 1px;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 0 10px 0 10px;
+  }
+
+  .price {
+    box-sizing: border-box;
+    padding-top: 10px;
+	  width: 100%;
+	  text-align: right;
+  }
+
+  .product-count {
+      display: flex;
+      justify-content: space-between;
+      height: 50%;
+
+      p {
+          flex: 2;
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: flex-start;
+		  padding-left: 30px;
+      }
+  }
+  
+  .product-image-section {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 0.7rem;
+      border-bottom: solid black 1px;
+
+
+      .product-order-img {
+          max-width: 20%;
+          min-width: 80px;
+      }
+  }
+
+  .total-price {
+	  text-align: right;
+  }
+}
+

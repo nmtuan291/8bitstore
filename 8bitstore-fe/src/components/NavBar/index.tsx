@@ -52,6 +52,12 @@ const NavBar: React.FC<NavBarProps> = ({ onUserClick }) => {
             if (!user) {
                 navigate("/login")
             }
+        },
+
+        cartClick: () => {
+            if(user) {
+                navigate("/cart")
+            }
         }
     };
     
@@ -82,7 +88,8 @@ const NavBar: React.FC<NavBarProps> = ({ onUserClick }) => {
                         <FontAwesomeIcon icon={faCartShopping} 
                         className="icon"
                         onMouseOver={() => handleMouseOver("cart")}
-                        onMouseOut={() => handleMouseOut("cart")}/>
+                        onMouseOut={() => handleMouseOut("cart")}
+                        onClick={handleIconClick.cartClick}/>
                         <div className={`icon-pop triangle ${!hoverStatus.cart ? 'hide' : ''}`}>
                             <span>Giỏ hàng</span>
                         </div>

@@ -13,7 +13,7 @@ const ProductList: React.FC = () => {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const response = await axios.get("/api/Product/get-products?")
+                const response = await axios.get("/api/Product/get-products")
                 setProducts(response.data);
             } catch (error: any) {
                 console.log(error.message);

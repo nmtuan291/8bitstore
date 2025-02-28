@@ -11,7 +11,7 @@ export interface User {
 
 
 export interface Product {
-    _id: string
+    productId: string
     productName: string,
     price: number,
     manufacturer: string
@@ -25,9 +25,9 @@ export interface Product {
 }
 
 export interface CartItem {
-    _id: string;
+    productId: string;
     productName: string,
-    productPrice: number,
-    amoung: number,
+    price: number,
+    quantity: number,
     imgUrl: string
 }
