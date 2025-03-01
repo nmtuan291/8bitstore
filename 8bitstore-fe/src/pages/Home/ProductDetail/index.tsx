@@ -1,29 +1,58 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import axios from "../../../apis/axios";
+import { useCart } from "../../../contexts/CartProvider";
 import "./ProductDetail.scss"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
-import { Product } from "../../../interfaces/interfaces";
+import { CartItem, Product } from "../../../interfaces/interfaces";
 
 const ProductDetail: React.FC = () => {
-    const [ counter, setCounter ] = useState<number>(0);
-    const [ productDetail, setProductDetail ] = useState<Product | null>(null);
+    const [cartItem, setCartItem] = useState<CartItem>({
+        productId: "",
+        quantity: 0,
+        productName: "",
+        price: 0,
+        imgUrl: ""
+    });
+    const [productDetail, setProductDetail] = useState<Product | null>(null);
     const { productId } = useParams();
+    const { cart, UpdateCart } = useCart();
+    
+    useEffect(() => {
+        (async () => {
+            try {
+                const response = await axios.get(`/api/Product/get-product?ProductId=${productId}`);
+                setProductDetail(response.data);
+            } catch (error) {
+                console.log(error);
+            }
+            
+        })();
+    }, []);
 
     useEffect(() => {
-        try {
-            fetch(`http://localhost:8080/get-product-detail/${productId}`)
-                .then(response => response.json())
-                .then(data => setProductDetail(data.data))
-                .catch(error => console.log(error.message))  
-        } catch (error: any) {
-            console.log(error.message);
+        const item = cart.find(cartItem => cartItem.productId === productId)
+        if (item) {
+            setCartItem({...item});
+        } else {
+            if (productDetail) {
+                const newItem: CartItem = {
+                    productId: productDetail.productId,
+                    productName: productDetail.productName,
+                    price: productDetail.price,
+                    imgUrl: productDetail.imgUrl,
+                    quantity: 0
+                }
+
+                setCartItem(newItem);
+            }
         }
-    });
+    }, [productDetail])
+
     const score: number = 3;
     let remainStars = 5 - score;
-    const testString = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
 
     return (
         <div className="">
@@ -58,14 +87,27 @@ const ProductDetail: React.FC = () => {
                             }   
                         </div>
                     </div>  
-                    <p className="product-description">{testString}</p>
+                    <p className="product-description">{productDetail?.description}</p>
                     <div className="product-btn-container">
                         <div className="cart-counter">
-                            <p className={`counter-btn ${counter === 0 ? "disabled" : ""}`} onClick={() => setCounter(prev => prev - 1)}>-</p>
-                            <p className="counter">{counter}</p>    
-                            <p className={`counter-btn`} onClick={() => setCounter(prev => prev + 1)}>+</p>
+                            <p 
+                                className={`counter-btn ${cartItem.quantity === 0 ? "disabled" : ""}`} 
+                                onClick={() => setCartItem(prev => ({...prev, quantity: prev.quantity - 1})
+                                )}
+                            >
+                                    -
+                            </p>
+                            <p className="counter">{cartItem.quantity}</p>    
+                            <p 
+                                className={`counter-btn`} 
+                                onClick={() => setCartItem(prev => ({...prev, quantity: prev.quantity + 1}))}
+                            >
+                                +
+                            </p>
                         </div>
-                        <button className="product-btn cart-btn">Thêm vào giỏ</button>
+                        <button 
+                            className="product-btn cart-btn"
+                            onClick={() => UpdateCart(cartItem)}>Thêm vào giỏ</button>
                         <button className="product-btn buy-now-btn">MUA HÀNG NGAY</button>
                     </div>
                 </div>

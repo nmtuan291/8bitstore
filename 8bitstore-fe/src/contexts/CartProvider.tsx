@@ -4,7 +4,7 @@ import { CartItem } from "../interfaces/interfaces";
 import axios from "../apis/axios";
 interface CartContextType {
     cart: CartItem[],
-    addCart: (cartItem: CartItem) => void
+    UpdateCart: (cartItem: CartItem) => void
 }
 
 interface CartChangesType {
@@ -25,7 +25,6 @@ const CartProvider: React.FC<{children: ReactNode}> = ({ children }) => {
                 if (user) {
                     const response = await axios.get("/api/Cart/get-cart")
                     setCart(response.data.cartItems);
-                    console.log(response.data.cartItems);
                 }
             } catch (error) {
                 console.log(error);               
@@ -36,13 +35,22 @@ const CartProvider: React.FC<{children: ReactNode}> = ({ children }) => {
     useEffect(() => {
         const timer = setTimeout(async () => {
             try {
-                for (const change of cartChange) {
-                    await axios.post("/api/Cart/add-item", {
-                        productId: change.productId,
-                        quantity: change.quantity
-                    })
-                }
-
+                const requests = cartChange.map(change =>
+                {
+                    if (change.quantity > 0 ) {
+                        axios.post("/api/Cart/add-item", {
+                            productId: change.productId,
+                            quantity: change.quantity
+                        })
+                    } else {
+                        axios.delete("/api/Cart/delete-item", {
+                            params: {
+                                productId: change.productId
+                            }
+                        })
+                    }
+                })
+                await Promise.all(requests);
                 setCartChange([]);
             } catch (error) {
                 console.log(error);
@@ -52,7 +60,7 @@ const CartProvider: React.FC<{children: ReactNode}> = ({ children }) => {
         return () => clearTimeout(timer);
     }, [cartChange]);
 
-    const addCart = async (cartItem: CartItem) => {
+    const UpdateCart = async (cartItem: CartItem) => {
         setCart (prev => {
             const existingItem = prev.find(item => item.productId === cartItem.productId)
             if (existingItem) {
@@ -63,7 +71,6 @@ const CartProvider: React.FC<{children: ReactNode}> = ({ children }) => {
             } else {
                 return [...prev, cartItem];
             }
-
         })
         
         setCartChange(prev => {
@@ -79,7 +86,7 @@ const CartProvider: React.FC<{children: ReactNode}> = ({ children }) => {
     }
 
     return (
-        <CartContext.Provider value={{ cart, addCart }}>
+        <CartContext.Provider value={{ cart, UpdateCart }}>
             { children }
         </CartContext.Provider>
     );
