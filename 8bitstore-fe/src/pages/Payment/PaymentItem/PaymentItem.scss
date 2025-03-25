@@ -1,5 +1,5 @@
 
-.order-item-container {
+.payment-item-container {
   border: solid black 1px;
   gap: 20px;
   margin-top: 10px;   
@@ -8,17 +8,6 @@
 
   p {
       text-align: center;
-  }
-
-
-  .order-item-header {
-	width: 100%;
-    display: flex;
-    border-bottom: solid black 1px;
-    justify-content: space-between;
-    align-items: center;
-    box-sizing: border-box;
-    padding: 0 10px 0 10px;
   }
 
   .price {

@@ -1,0 +1,17 @@
+.review-container {
+    border: solid #85BDB6 1px;
+    height: 80%;
+    width: 60%;
+    margin-bottom: 10px;
+    border-radius: 25px;
+
+    .user-info-container {
+        border-bottom: solid #85BDB6 1px;
+        height: 30%;
+        display: flex;
+
+        .avatar {
+            min-width: 7%;
+        }
+    }
+}

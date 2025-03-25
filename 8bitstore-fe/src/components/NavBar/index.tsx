@@ -14,11 +14,9 @@ interface HoverStatus {
     user: boolean
 }
 
-interface NavBarProps {
-    onUserClick: () => void,
-}
 
-const NavBar: React.FC<NavBarProps> = ({ onUserClick }) => {
+
+const NavBar: React.FC = () => {
     const navigate = useNavigate();
     const { user } = useAuth();
     const [ searchText, setSearchText ] = useState<string>('');

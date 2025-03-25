@@ -4,7 +4,7 @@ import { CartItem } from "../interfaces/interfaces";
 import axios from "../apis/axios";
 interface CartContextType {
     cart: CartItem[],
-    UpdateCart: (cartItem: CartItem) => void
+    updateCart: (cartItem: CartItem) => void
 }
 
 interface CartChangesType {
@@ -60,16 +60,20 @@ const CartProvider: React.FC<{children: ReactNode}> = ({ children }) => {
         return () => clearTimeout(timer);
     }, [cartChange]);
 
-    const UpdateCart = async (cartItem: CartItem) => {
+    const updateCart = async (cartItem: CartItem) => {
         setCart (prev => {
             const existingItem = prev.find(item => item.productId === cartItem.productId)
             if (existingItem) {
                 return prev.map(item => item.productId === cartItem.productId
                     ? {...item, quantity: cartItem.quantity}
                     : item
-                );
+                ).filter(item => item.quantity > 0);
             } else {
-                return [...prev, cartItem];
+                if (cartItem.quantity > 0) {
+                    return [...prev, cartItem];
+                }
+                
+                return prev;
             }
         })
         
@@ -86,7 +90,7 @@ const CartProvider: React.FC<{children: ReactNode}> = ({ children }) => {
     }
 
     return (
-        <CartContext.Provider value={{ cart, UpdateCart }}>
+        <CartContext.Provider value={{ cart, updateCart }}>
             { children }
         </CartContext.Provider>
     );

@@ -1,0 +1,26 @@
+.payment-container {
+	display: flex;
+	justify-content: space-around;
+
+	.header {
+		background-color: #444444;
+		color: #fff;
+		text-align: center;
+	}
+
+	.cart-section {
+		width: 30%;
+
+	}
+	
+	.method section {
+
+	}
+
+	.payment-info {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		border-bottom: solid #CBCBCB 1px;
+	}
+}

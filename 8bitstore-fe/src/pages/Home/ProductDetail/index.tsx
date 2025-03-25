@@ -2,10 +2,12 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "../../../apis/axios";
 import { useCart } from "../../../contexts/CartProvider";
+import { useWishlist } from "../../../contexts/WishlistProvider";
 import "./ProductDetail.scss"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
+import Review from "../../../components/Review";
 import { CartItem, Product } from "../../../interfaces/interfaces";
 
 const ProductDetail: React.FC = () => {
@@ -14,11 +16,12 @@ const ProductDetail: React.FC = () => {
         quantity: 0,
         productName: "",
         price: 0,
-        imgUrl: ""
+        imgUrl: []
     });
     const [productDetail, setProductDetail] = useState<Product | null>(null);
     const { productId } = useParams();
-    const { cart, UpdateCart } = useCart();
+    const { cart, updateCart } = useCart();
+    const { wishlistItems, addItem, removeItem} = useWishlist();
     
     useEffect(() => {
         (async () => {
@@ -54,6 +57,18 @@ const ProductDetail: React.FC = () => {
     const score: number = 3;
     let remainStars = 5 - score;
 
+    const handleWishlistClick = () => {
+        const item = wishlistItems.find(i => i.productId === productId);
+        if (!item && productId && productDetail) {
+            addItem(productId, productDetail.productName, productDetail.imgUrl, productDetail.price);
+            console.log("this");
+
+        } else if (item && productId) {
+            removeItem(productId);
+        }
+        console.log("asdasdad");
+    }
+
     return (
         <div className="">
             <div className="product-detail-container">
@@ -63,9 +78,14 @@ const ProductDetail: React.FC = () => {
                 <div className="product-detail">
                     <div className="product-detail-header">
                         <p className="product-name">{productDetail && productDetail.productName}</p>
-                        <div className="wishlist-icon">
+                        {
+                            <div 
+                            className={`wishlist-icon ${wishlistItems?.length && wishlistItems.find(item => item.productId === productId) && "added"}`}
+                            onClick={handleWishlistClick}
+                        >
                             <FontAwesomeIcon icon={faHeart}></FontAwesomeIcon>
                         </div>
+                        }
                     </div>
                     <div className="product-price-section">
                         <p className="product-price">{productDetail && productDetail.price}</p>
@@ -107,13 +127,17 @@ const ProductDetail: React.FC = () => {
                         </div>
                         <button 
                             className="product-btn cart-btn"
-                            onClick={() => UpdateCart(cartItem)}>Thêm vào giỏ</button>
-                        <button className="product-btn buy-now-btn">MUA HÀNG NGAY</button>
+                            onClick={() => updateCart(cartItem)}
+                        >
+                                Mua hàng
+                        </button>
                     </div>
                 </div>
             </div>
            <div className="review-section">
-                asdasdasda
+                <Review userId="asd" userName="afafaf" score={3} comment="asdassdadsfadgea"/>
+                <Review userId="asd" userName="afafaf" score={3} comment="asdassdadsfadgea"/>
+                <Review userId="asd" userName="afafaf" score={3} comment="asdassdadsfadgea"/>
             </div>
         </div>
          

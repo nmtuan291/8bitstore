@@ -5,6 +5,7 @@ import Pagination from "../../components/Pagination";
 import ProductFilter from "./ProductFilter";
 import axios from "../../apis/axios";
 import "./ProductList.scss"
+import NavBar from "../../components/NavBar";
 
 const ProductList: React.FC = () => {
     const [products, setProducts] = useState<Product[]>([]);
@@ -40,6 +41,8 @@ const ProductList: React.FC = () => {
     };
 
     return (
+        <>
+        <NavBar></NavBar>
         <div className="product-list-container">
             <h1>8BITSTORE</h1>
             <div className="product-list-header">
@@ -62,6 +65,7 @@ const ProductList: React.FC = () => {
                 />
             </div>
         </div>
+        </>
     );
 }
 
