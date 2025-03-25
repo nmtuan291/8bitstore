@@ -14,7 +14,6 @@ interface ProductItemProps {
 }
 
 const ProductItem: React.FC<ProductItemProps> = ({ product }) => {
-    // need to lift the state up
     const score = 3;
     return (
         <div className='product-container'>

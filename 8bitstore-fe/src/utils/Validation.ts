@@ -5,7 +5,6 @@ const Validation = (formData: User): { [key: string]: string } => {
         username: "",
         email: "",
         fullName: "",
-        address: "",
         password: "",
         confirmPassword: "",
         // phoneNumber: ""
@@ -22,10 +21,6 @@ const Validation = (formData: User): { [key: string]: string } => {
 
     if (!formData.fullName) {
         errors.fullName = "Full name is required";
-    }
-
-    if (!formData.address) {
-        errors.address = "Address is required";
     }
 
     // if (!formData.password) {

@@ -20,10 +20,12 @@ const Cart: React.FC = () => {
             <div className="cart-list">
                 {
                     cart.map(item => 
-                        <CartItem imgSrc="" productQuantity={item.quantity} productName={item.productName} productPrice={item.price}/>
+                        <CartItem productId={item.productId} imgSrc="" productQuantity={item.quantity} productName={item.productName} productPrice={item.price}/>
                     )
                 }
-
+            </div>
+            <div className="pay-btn">
+                <button>Thanh toán</button>
             </div>
         </div>
     );

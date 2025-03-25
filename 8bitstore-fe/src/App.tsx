@@ -11,6 +11,11 @@ import Cart from "./pages/Cart";
 import Profile from "./pages/Profile";
 import Order from "./pages/Profile/Order";
 import CartProvider from "./contexts/CartProvider";
+import Payment from "./pages/Payment";
+import PaymentResult from "./pages/Payment/PaymentResult";
+import Wishlist from "./pages/Wishlist";
+import WishlistProvider from "./contexts/WishlistProvider";
+import ProductManagement from "./pages/ProductManagement";
 
 function App() {
 
@@ -18,17 +23,23 @@ function App() {
     <BrowserRouter>
       <AuthProvider>
         <CartProvider>
-          <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/signup" element={<SignUp />} />
-                <Route path="/product" element={<ProductList />} />
-                <Route path="/detail/:productId" element={<ProductDetail />} />
-                <Route path="/cart" element={<Cart />} />
-                <Route path="/profile" element={<Profile />}>
-                  <Route path="/profile/order" element={<Order></Order>}/> 
-                </Route>
+          <WishlistProvider>
+            <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/signup" element={<SignUp />} />
+                    <Route path="/product" element={<ProductList />} />
+                    <Route path="/detail/:productId" element={<ProductDetail />} />
+                    <Route path="/cart" element={<Cart />} />
+                    <Route path="/profile" element={<Profile />}>
+                        <Route path="/profile/order" element={<Order></Order>}/> 
+                    </Route>
+                    <Route path="/payment" element={<Payment />}/>
+                    <Route path="/payment-result" element={<PaymentResult></PaymentResult>}></Route>
+                    <Route path="/wishlist" element={<Wishlist />}/>
+                    <Route path="/admin/manage" element={<ProductManagement />}/>
             </Routes>
+          </WishlistProvider>
         </CartProvider>
       </AuthProvider>
     </BrowserRouter>

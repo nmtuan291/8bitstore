@@ -1,0 +1,29 @@
+.form-overlay {
+	background: rgba(0, 0, 0, 0.3);;
+	width: 100vw;
+	height: 100vh;
+	position: absolute;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	
+	.product-form-container {
+		height: 500px;
+		background-color: #fff;
+		width: 50%;
+		box-sizing: border-box;
+		padding: 20px;
+		display: flex;
+
+		input {
+			display: block;
+			margin: 10px
+		}
+
+		.product-info {
+			border-left: solid black 1px;
+			box-sizing: border-box;
+			padding-left: 20px;
+		}
+	}
+}

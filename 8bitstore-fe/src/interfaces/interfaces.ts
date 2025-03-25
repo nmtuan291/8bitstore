@@ -5,7 +5,7 @@ export interface User {
     password: string,
     confirmPassword: string,
     address: string,
-    // phoneNumber: string,
+    phoneNumber: string,
     fullName: string,
 }
 
@@ -16,7 +16,7 @@ export interface Product {
     price: number,
     manufacturer: string
     sales: number,
-    imgUrl: string,
+    imgUrl: string[],
     type: string,
     description: string,
     platform: string[],
@@ -29,5 +29,5 @@ export interface CartItem {
     productName: string,
     price: number,
     quantity: number,
-    imgUrl: string
+    imgUrl: string[]
 }
