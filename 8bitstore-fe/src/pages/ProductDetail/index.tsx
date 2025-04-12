@@ -1,14 +1,14 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import axios from "../../../apis/axios";
-import { useCart } from "../../../contexts/CartProvider";
-import { useWishlist } from "../../../contexts/WishlistProvider";
+import axios from "../../apis/axios";
+import { useCart } from "../../contexts/CartProvider";
+import { useWishlist } from "../../contexts/WishlistProvider";
 import "./ProductDetail.scss"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
-import Review from "../../../components/Review";
-import { CartItem, Product } from "../../../interfaces/interfaces";
+import Review from "../../components/Review";
+import { CartItem, Product } from "../../interfaces/interfaces";
 
 const ProductDetail: React.FC = () => {
     const [cartItem, setCartItem] = useState<CartItem>({
@@ -19,6 +19,7 @@ const ProductDetail: React.FC = () => {
         imgUrl: []
     });
     const [productDetail, setProductDetail] = useState<Product | null>(null);
+    const [currentImage, setCurrentImage] = useState<number>(0);
     const { productId } = useParams();
     const { cart, updateCart } = useCart();
     const { wishlistItems, addItem, removeItem} = useWishlist();
@@ -73,7 +74,15 @@ const ProductDetail: React.FC = () => {
         <div className="">
             <div className="product-detail-container">
                 <div className="product-images">
-                
+                    <div className="sm-image">
+                        <img src={productDetail?.imgUrl[0]}></img>
+                        <img src={productDetail?.imgUrl[0]}></img>
+                        <img src={productDetail?.imgUrl[0]}></img>
+                        <img src={productDetail?.imgUrl[0]}></img>
+                    </div>
+                    <div className="main-image">
+                        <img src={productDetail?.imgUrl[0]}></img>
+                    </div>
                 </div>
                 <div className="product-detail">
                     <div className="product-detail-header">
@@ -129,7 +138,7 @@ const ProductDetail: React.FC = () => {
                             className="product-btn cart-btn"
                             onClick={() => updateCart(cartItem)}
                         >
-                                Mua hàng
+                                Thêm vào giỏ hàng
                         </button>
                     </div>
                 </div>

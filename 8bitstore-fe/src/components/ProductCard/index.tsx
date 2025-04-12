@@ -17,7 +17,7 @@ const ProductItem: React.FC<ProductItemProps> = ({ product }) => {
     const score = 3;
     return (
         <div className='product-container'>
-            <img src={productImage} alt=""/>
+            <img src="" alt=""/>
             <p className='product-name'>{product.productName}</p>
             <p>{product.price}</p>
             <button 

@@ -15,7 +15,6 @@ export interface Product {
     productName: string,
     price: number,
     manufacturer: string
-    sales: number,
     imgUrl: string[],
     type: string,
     description: string,

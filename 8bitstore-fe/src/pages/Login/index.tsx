@@ -1,9 +1,9 @@
-import { useState} from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthProvider";
 import axios from "../../../src/apis/axios";
 import "./Login.scss"
-import { AxiosError } from "axios";
+
 
 const LoginForm: React.FC = () => {
     const [emailText, setEmailText] = useState<string>("");
@@ -11,6 +11,12 @@ const LoginForm: React.FC = () => {
     const [loginFailed, setLoginFailed] = useState<boolean>(false);
     const { user, storeUser } = useAuth();
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (user) {
+            navigate("/");
+        }
+    }, [user, navigate]);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         try {
@@ -40,7 +46,6 @@ const LoginForm: React.FC = () => {
             }
         }   
     }
-    console.log(loginFailed);
 
     return (
         <div className="form-container">    

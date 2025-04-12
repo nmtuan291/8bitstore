@@ -8,22 +8,72 @@
 	align-items: center;
 	
 	.product-form-container {
-		height: 500px;
 		background-color: #fff;
-		width: 50%;
+		width: 60%;
 		box-sizing: border-box;
-		padding: 20px;
-		display: flex;
+		padding-right: 50px;
+		padding-bottom: 20px;
 
-		input {
-			display: block;
-			margin: 10px
+		.product-form {
+			height: 800px;
+			background-color: #fff;
+			width: 100%;
+			box-sizing: border-box;
+			padding: 20px;
+			display: flex;
+	
+			input {
+				display: block;
+				margin: 10px
+			}
+	
+			.product-info {
+				border-left: solid black 1px;
+				box-sizing: border-box;
+				padding-left: 20px;
+			}
+	
+			.checklist-container {
+				margin-top: 5px;
+	
+				button {
+					width: 100%;
+					border: none;
+					background-color: #cafcd6;
+				}
+	
+				.checklist {
+					margin-top: 5px;
+					background-color: #f4f0f2;
+					border-radius: 10px;
+					.genre-checkbox {
+						display: flex;
+						align-items: center;
+					}
+				}
+	
+				
+			}
+
+			.description-input {
+				width: 100%;
+			}
 		}
 
-		.product-info {
-			border-left: solid black 1px;
-			box-sizing: border-box;
-			padding-left: 20px;
+		.submit-btn-container {
+			display: flex;
+			width: 100%;
+			justify-content: flex-end;
+
+			button {
+				width: 100px;
+				border: none;
+				background-color: #CAFCD6;
+			}
 		}
 	}
+}
+
+.hide {
+	display: none;
 }

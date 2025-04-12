@@ -56,7 +56,7 @@ const CartItem: React.FC<CartItemProps> = ({
                 quantity: decreasedQuantity,
                 productName: "",
                 price: 0,
-                imgUrl: ""
+                imgUrl: []
             })
 
             return decreasedQuantity; 
@@ -68,7 +68,7 @@ const CartItem: React.FC<CartItemProps> = ({
         <div className="cart-item-container">
             <div className="product-image-section">
                 <input type="checkbox"/>
-                <img className="product-cart-img" src={productImg}></img>
+                <img className="product-cart-img" src={imgSrc[0]}></img>
                 <p>{productName}</p>
             </div>
             <p className="price">{productPrice}</p>

@@ -14,11 +14,9 @@ interface HoverStatus {
     user: boolean
 }
 
-
-
 const NavBar: React.FC = () => {
     const navigate = useNavigate();
-    const { user } = useAuth();
+    const { user, isLoading } = useAuth();
     const [ searchText, setSearchText ] = useState<string>('');
     const [ hoverStatus, setHoverStatus ] = useState<HoverStatus>({
         wishlist: false,
@@ -26,7 +24,6 @@ const NavBar: React.FC = () => {
         user: false
     })
 
-    console.log(hoverStatus.user);
     const handleSearchBoxChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         setSearchText(e.target.value);
     }
@@ -41,14 +38,16 @@ const NavBar: React.FC = () => {
 
     const handleIconClick = {
         profileClick: () => {
-            if (!user) {
+            if (!user && !isLoading) {
                 navigate("/login")
+            } else {
+                navigate("/profile")
             }
         },
 
         wishlistClick: () => {
-            if (!user) {
-                navigate("/login")
+            if (user) {
+                navigate("/wishlist")
             }
         },
 
@@ -59,14 +58,13 @@ const NavBar: React.FC = () => {
         }
     };
     
-
     return (
         <nav className="navbar">
             <div className="navbar-info">
                 
             </div>
             <div className="navbar__first-row">
-                <img src={logo} className="navbar__logo"/>
+                <img src={logo} className="navbar__logo" onClick={() => navigate("/")}/>
                 <input 
                         className="navbar__search" 
                         type="text" 
@@ -76,8 +74,9 @@ const NavBar: React.FC = () => {
                     <div className="icon-container">
                         <FontAwesomeIcon icon={faHeart} 
                         className="icon"
-                        onMouseOver={() => handleMouseOver("wishlist")}
-                        onMouseOut={() => handleMouseOut("wishlist")}/>
+                        onMouseEnter={() => handleMouseOver("wishlist")}
+                        onMouseLeave={() => handleMouseOut("wishlist")}
+                        onClick={handleIconClick.wishlistClick}/>
                         <div className={`icon-pop triangle ${!hoverStatus.wishlist ? 'hide' : ''}`}>
                             <span>Yêu thích</span>
                         </div>
@@ -85,8 +84,8 @@ const NavBar: React.FC = () => {
                     <div className="icon-container">
                         <FontAwesomeIcon icon={faCartShopping} 
                         className="icon"
-                        onMouseOver={() => handleMouseOver("cart")}
-                        onMouseOut={() => handleMouseOut("cart")}
+                        onMouseEnter={() => handleMouseOver("cart")}
+                        onMouseLeave={() => handleMouseOut("cart")}
                         onClick={handleIconClick.cartClick}/>
                         <div className={`icon-pop triangle ${!hoverStatus.cart ? 'hide' : ''}`}>
                             <span>Giỏ hàng</span>
@@ -96,11 +95,11 @@ const NavBar: React.FC = () => {
                     <div className="icon-container">
                         <FontAwesomeIcon icon={faUser} 
                         className="icon"
-                        onMouseOver={() => handleMouseOver("user")}
-                        onMouseOut={() => handleMouseOut("user")}
+                        onMouseEnter={() => handleMouseOver("user")}
+                        onMouseLeave={() => handleMouseOut("user")}
                         onClick={handleIconClick.profileClick}/>
                         <div className={`icon-pop triangle ${!hoverStatus.user ? 'hide' : ''}`}>
-                            <span>Đăng nhập</span>
+                            <span>{user ? "Tài khoản" : "Đăng nhập"}</span>
                         </div>
                     </div>
                 </div>

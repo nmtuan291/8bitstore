@@ -5,7 +5,7 @@ import Login from "./pages/Login";
 import Home from "./pages/Home/";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import ProductList from "./pages/Product";
-import ProductDetail from "./pages/Home/ProductDetail";
+import ProductDetail from "./pages/ProductDetail";
 import AuthProvider from "./contexts/AuthProvider";
 import Cart from "./pages/Cart";
 import Profile from "./pages/Profile";
@@ -16,6 +16,9 @@ import PaymentResult from "./pages/Payment/PaymentResult";
 import Wishlist from "./pages/Wishlist";
 import WishlistProvider from "./contexts/WishlistProvider";
 import ProductManagement from "./pages/ProductManagement";
+import Layout from "./layout";
+import Detail from "./pages/Profile/Detail";
+import ChangePassword from "./pages/Profile/ChangePassword";
 
 function App() {
 
@@ -25,19 +28,23 @@ function App() {
         <CartProvider>
           <WishlistProvider>
             <Routes>
-                    <Route path="/" element={<Home />} />
+                    <Route path="/" element={ <Layout /> }>
+                      <Route index element={<Home />} />
+                      <Route path="admin/manage" element={<ProductManagement />}/>
+                      <Route path="product" element={<ProductList />} />
+                      <Route path="/detail/:productId" element={<ProductDetail />} />
+                      <Route path="/cart" element={<Cart />} />
+                      <Route element={<Profile />}>
+                          <Route path="/profile/order" element={<Order />}/> 
+                          <Route path="/profile/detail" element={<Detail />} />
+                          <Route path="/profile/change-pwd" element={<ChangePassword />} />
+                      </Route>
+                      <Route path="/payment" element={<Payment />}/>
+                      <Route path="/payment-result" element={<PaymentResult></PaymentResult>}></Route>
+                      <Route path="/wishlist" element={<Wishlist />}/>
+                    </Route>
                     <Route path="/login" element={<Login />} />
                     <Route path="/signup" element={<SignUp />} />
-                    <Route path="/product" element={<ProductList />} />
-                    <Route path="/detail/:productId" element={<ProductDetail />} />
-                    <Route path="/cart" element={<Cart />} />
-                    <Route path="/profile" element={<Profile />}>
-                        <Route path="/profile/order" element={<Order></Order>}/> 
-                    </Route>
-                    <Route path="/payment" element={<Payment />}/>
-                    <Route path="/payment-result" element={<PaymentResult></PaymentResult>}></Route>
-                    <Route path="/wishlist" element={<Wishlist />}/>
-                    <Route path="/admin/manage" element={<ProductManagement />}/>
             </Routes>
           </WishlistProvider>
         </CartProvider>
