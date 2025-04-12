@@ -1,0 +1,54 @@
+@use "../../../styles//responsive.scss" as *;
+
+$shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+
+.user-detail-container {
+  border-radius: 25px;
+  box-shadow: $shadow;
+  height: 500px;
+  width: 80%;
+  background: #fff;
+  box-sizing: border-box;
+  padding: 25px 50px 25px 25px;
+
+  @include mobile {
+    width: 90%;
+  }
+
+  .user-detail {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    
+  }
+
+  .address-select-container {
+    .address-select {
+      display: flex;
+      flex-direction: column;
+      width: 30%;
+      gap: 15px;
+      min-width: 210px;
+      
+      button {
+        width: 30%;
+        border: none;
+        border-radius: 15px;
+        height: 35px;
+        background-color: #946CBC;
+        color: #fff;
+        border: solid #946CBC 1px;
+        min-width: 95px;
+
+        &:hover {
+          background-color: #fff;
+          color: #946CBC;
+        }
+      }
+
+      @include mobile {
+        width: 100%;
+      }
+    }
+  }
+}

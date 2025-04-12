@@ -1,17 +1,18 @@
 .review-container {
     border: solid #85BDB6 1px;
-    height: 80%;
+    max-height: 300px;
     width: 60%;
     margin-bottom: 10px;
     border-radius: 25px;
 
     .user-info-container {
         border-bottom: solid #85BDB6 1px;
-        height: 30%;
+        height: 20%;
         display: flex;
 
         .avatar {
             min-width: 7%;
         }
+
     }
 }

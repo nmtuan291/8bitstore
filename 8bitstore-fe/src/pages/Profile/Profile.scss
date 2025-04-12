@@ -1,45 +1,93 @@
+@use "../../styles/responsive.scss" as *;
 $primary-color: #946CBC;
+$shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+
 
 .profile-container {
-    padding-left: 10rem;
+    display: flex;
+    justify-content: flex-start;
+    padding-top: 40px;
+    height: 100vh;
+    background: #FCFBFC;
+    padding-left: 5rem;
 
-    .profile-header {
-        height: 10rem;
-        border: solid black 1px;
+    @include mobile {
+        display: block;
     }
 
-    .profile-detail-container {
+    .profile-menu {
+        width: 30%;
+        min-width: 260px;
 
-        .profile-detail {
+        @include mobile {
+            width: 100%;
+        }
+
+        .profile-header {
             display: flex;
-            gap: 4rem;
-            ul {
-                border: solid #EAEAEA 1px;
-                width: 25%;
-                list-style: none;
-                padding: 0;
-                max-height: 300px;
-        
-                .nav-link {
-                    display: flex;
-                    align-items: center;
-                    height: 50px;
-                    cursor: pointer;
-                    box-sizing: border-box;
-                    padding-left: 30px;
+            flex-direction: column;
+            align-items: center;
+            height: 12rem;
+            width: 90%;
+            border-radius: 25px;
+            box-shadow: $shadow;
+            margin-bottom: 20px;
+            background-color: #fff;
     
-                    &:hover {
-                        background: $primary-color;
-                        color: #fff;
+        }
+    
+        .profile-detail-container {
+
+            .profile-detail {
+                display: flex;
+                gap: 4rem;
+                ul {
+                    box-shadow: $shadow;
+                    width: 90%;
+                    list-style: none;
+                    padding: 0;
+                    max-height: 200px;
+                    border-radius: 25px;
+                    background: #fff;
+    
+                    .nav-link {
+                        display: flex;
+                        align-items: center;
+                        height: 50px;
+                        cursor: pointer;
+                        box-sizing: border-box;
+                        padding-left: 30px;
+    
+        
+                        &:hover {
+                            background: $primary-color;
+                            color: #fff;
+    
+                            
+                        }
+    
+                        &.top {
+                            border-top-right-radius: 25px;
+                            border-top-left-radius: 25px;
+                        }
+    
+                        &.bottom {
+                            border-bottom-right-radius: 25px;
+                            border-bottom-left-radius: 25px;
+                        }
                     }
                 }
+    
+               
+    
+    
             }
-
-            .profile-content {
-                flex: 1;
-            }
-
-
         }
+
     }
+
+    .profile-content {
+        width: 100%;
+    }
+
 }

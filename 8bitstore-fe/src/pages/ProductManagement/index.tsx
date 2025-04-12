@@ -8,6 +8,10 @@ const ProductManagement: React.FC = () => {
 	const [products, setProducts] = useState<Product[]>([]);
 
 	useEffect(() => {
+			
+	}, []);
+
+	useEffect(() => {
 		const fetchProducts = async () => {
 			try {
 				const response = await axios.get("/api/Product/get-products");
@@ -24,8 +28,10 @@ const ProductManagement: React.FC = () => {
 
 	return (
 		<div>
-			<AddProductForm></AddProductForm>
-			<Table className="mt-4 w-75" striped bordered hover size="sm">
+			<div style={{display: ""}}>
+				<AddProductForm></AddProductForm>
+			</div>
+			<Table className="" striped bordered hover size="sm">
 				<thead>
 					<tr>
 						<th>ProductId</th>

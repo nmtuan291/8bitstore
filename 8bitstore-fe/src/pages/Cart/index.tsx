@@ -3,6 +3,7 @@ import { useAuth } from "../../contexts/AuthProvider";
 import CartItem from "./CartItem";
 import { useCart } from "../../contexts/CartProvider";
 import "./Cart.scss"
+import ProductDetail from "../ProductDetail";
 
 const Cart: React.FC = () => {
     const { user } = useAuth();
@@ -20,7 +21,7 @@ const Cart: React.FC = () => {
             <div className="cart-list">
                 {
                     cart.map(item => 
-                        <CartItem productId={item.productId} imgSrc="" productQuantity={item.quantity} productName={item.productName} productPrice={item.price}/>
+                        <CartItem productId={item.productId} imgSrc={item.imgUrl} productQuantity={item.quantity} productName={item.productName} productPrice={item.price}/>
                     )
                 }
             </div>

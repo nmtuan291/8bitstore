@@ -5,7 +5,7 @@ interface ProducFilterProps {
     onFilterClick: (filter: string) => void
 }
 
-const ProductFilter: React.FC<ProducFilterProps> = ({ filterString, onFilterClick }) => {
+const ProductSort: React.FC<ProducFilterProps> = ({ filterString, onFilterClick }) => {
     const [ filterClick, setFilterClick ] = useState<boolean>(false);
     const filterRef = useRef<HTMLDivElement>(null);
 
@@ -50,4 +50,4 @@ const ProductFilter: React.FC<ProducFilterProps> = ({ filterString, onFilterClic
     )
 }
 
-export default ProductFilter;
+export default ProductSort;

@@ -2,6 +2,7 @@ import { usePagination } from "../../hooks/usePagination";
 import "./Review.scss"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
+import Avatar from "../Avatar";
 
 interface ReviewProps {
 	userId: string,
@@ -16,9 +17,10 @@ const Review: React.FC<ReviewProps> = ({ userId, userName, score, comment }) => 
 		<div className="review-container">
 			<div className="user-info-container">
 				<div className="avatar">
-					<img className="avatar-img"></img>
+					<Avatar imgUrl="" width={0} height={0}></Avatar>
 				</div>
 				<div className="user-info">
+					
 					<div className="username">
 						{userName}
 					</div>
