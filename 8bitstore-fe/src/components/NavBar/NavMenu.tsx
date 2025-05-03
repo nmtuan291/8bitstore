@@ -22,7 +22,7 @@ const NavMenu: React.FC<NavBarListProps> = ({ title, items }) => {
            onMouseLeave={() => setMouseEnter(false)}
          >
             <a href="/" className="title">
-                {title} <FontAwesomeIcon icon={faCaretDown} />
+                {title}
             </a>
             <ul className={`navlist__items ${mouseEnter ? "" : "hide"}`}>
                 {items.map((item, index) => 

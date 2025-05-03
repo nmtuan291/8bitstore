@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import Review from "../../components/Review";
+import Toast from "../../components/Toast";
 import { CartItem, Product } from "../../interfaces/interfaces";
 
 const ProductDetail: React.FC = () => {
@@ -71,84 +72,87 @@ const ProductDetail: React.FC = () => {
     }
 
     return (
-        <div className="">
-            <div className="product-detail-container">
-                <div className="product-images">
-                    <div className="sm-image">
-                        <img src={productDetail?.imgUrl[0]}></img>
-                        <img src={productDetail?.imgUrl[0]}></img>
-                        <img src={productDetail?.imgUrl[0]}></img>
-                        <img src={productDetail?.imgUrl[0]}></img>
-                    </div>
-                    <div className="main-image">
-                        <img src={productDetail?.imgUrl[0]}></img>
-                    </div>
-                </div>
-                <div className="product-detail">
-                    <div className="product-detail-header">
-                        <p className="product-name">{productDetail && productDetail.productName}</p>
-                        {
-                            <div 
-                            className={`wishlist-icon ${wishlistItems?.length && wishlistItems.find(item => item.productId === productId) && "added"}`}
-                            onClick={handleWishlistClick}
-                        >
-                            <FontAwesomeIcon icon={faHeart}></FontAwesomeIcon>
+        <>
+            <div className="">
+                <div className="product-detail-container">
+                    <div className="product-images">
+                        <div className="sm-image">
+                            <img src={productDetail?.imgUrl[0]}></img>
+                            <img src={productDetail?.imgUrl[0]}></img>
+                            <img src={productDetail?.imgUrl[0]}></img>
+                            <img src={productDetail?.imgUrl[0]}></img>
                         </div>
-                        }
+                        <div className="main-image">
+                            <img src={productDetail?.imgUrl[0]}></img>
+                        </div>
                     </div>
-                    <div className="product-price-section">
-                        <p className="product-price">{productDetail && productDetail.price}</p>
-                        <div className="review-stars">
+                    <div className="product-detail">
+                        <div className="product-detail-header">
+                            <p className="product-name">{productDetail && productDetail.productName}</p>
                             {
-                               Array.from({ length: score }, (_, __) => 
-                                    <FontAwesomeIcon 
-                                        icon={faStar}
-                                        style={{color: "yellow"}}
-                                    />
-                                )
+                                <div 
+                                className={`wishlist-icon ${wishlistItems?.length && wishlistItems.find(item => item.productId === productId) && "added"}`}
+                                onClick={handleWishlistClick}
+                            >
+                                <FontAwesomeIcon icon={faHeart}></FontAwesomeIcon>
+                            </div>
                             }
-                            {
-                                Array.from({ length: remainStars }, (_, __) => 
-                                    <FontAwesomeIcon 
-                                        icon={faStar}
-                                    />
-                                )
-                            }   
                         </div>
-                    </div>  
-                    <p className="product-description">{productDetail?.description}</p>
-                    <div className="product-btn-container">
-                        <div className="cart-counter">
-                            <p 
-                                className={`counter-btn ${cartItem.quantity === 0 ? "disabled" : ""}`} 
-                                onClick={() => setCartItem(prev => ({...prev, quantity: prev.quantity - 1})
-                                )}
+                        <div className="product-price-section">
+                            <p className="product-price">{productDetail && productDetail.price}</p>
+                            <div className="review-stars">
+                                {
+                                Array.from({ length: score }, (_, __) => 
+                                        <FontAwesomeIcon 
+                                            icon={faStar}
+                                            style={{color: "yellow"}}
+                                        />
+                                    )
+                                }
+                                {
+                                    Array.from({ length: remainStars }, (_, __) => 
+                                        <FontAwesomeIcon 
+                                            icon={faStar}
+                                        />
+                                    )
+                                }   
+                            </div>
+                        </div>  
+                        <p className="product-description">{productDetail?.description}</p>
+                        <div className="product-btn-container">
+                            <div className="cart-counter">
+                                <p 
+                                    className={`counter-btn ${cartItem.quantity === 0 ? "disabled" : ""}`} 
+                                    onClick={() => setCartItem(prev => ({...prev, quantity: prev.quantity - 1})
+                                    )}
+                                >
+                                        -
+                                </p>
+                                <p className="counter">{cartItem.quantity}</p>    
+                                <p 
+                                    className={`counter-btn`} 
+                                    onClick={() => setCartItem(prev => ({...prev, quantity: prev.quantity + 1}))}
+                                >
+                                    +
+                                </p>
+                            </div>
+                            <button 
+                                className="product-btn cart-btn"
+                                onClick={() => updateCart(cartItem)}
                             >
-                                    -
-                            </p>
-                            <p className="counter">{cartItem.quantity}</p>    
-                            <p 
-                                className={`counter-btn`} 
-                                onClick={() => setCartItem(prev => ({...prev, quantity: prev.quantity + 1}))}
-                            >
-                                +
-                            </p>
+                                    Thêm vào giỏ hàng
+                            </button>
                         </div>
-                        <button 
-                            className="product-btn cart-btn"
-                            onClick={() => updateCart(cartItem)}
-                        >
-                                Thêm vào giỏ hàng
-                        </button>
                     </div>
                 </div>
+            <div className="review-section">
+                    <Review userId="asd" userName="afafaf" score={3} comment="asdassdadsfadgea"/>
+                    <Review userId="asd" userName="afafaf" score={3} comment="asdassdadsfadgea"/>
+                    <Review userId="asd" userName="afafaf" score={3} comment="asdassdadsfadgea"/>
+                </div>
             </div>
-           <div className="review-section">
-                <Review userId="asd" userName="afafaf" score={3} comment="asdassdadsfadgea"/>
-                <Review userId="asd" userName="afafaf" score={3} comment="asdassdadsfadgea"/>
-                <Review userId="asd" userName="afafaf" score={3} comment="asdassdadsfadgea"/>
-            </div>
-        </div>
+        </>
+        
          
     );
 }

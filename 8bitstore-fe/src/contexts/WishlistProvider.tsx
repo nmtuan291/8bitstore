@@ -60,7 +60,6 @@ const WishlistProvider: React.FC<{children: ReactNode}> = ({ children }) => {
 								price: price
 							}
 						]
-						console.log(a)
 						return a;
 					})
 				}

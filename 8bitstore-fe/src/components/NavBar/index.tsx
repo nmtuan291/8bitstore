@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthProvider";
 import logo from "@/assets/logo/8bitstore-logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart, faCartShopping, faUser} from "@fortawesome/free-solid-svg-icons";
+import { faHeart, faCartShopping, faUser, faBars} from "@fortawesome/free-solid-svg-icons";
 import './NavBar.scss'
 import NavBarListTest from "./NavBarListTest";
 
@@ -14,7 +14,11 @@ interface HoverStatus {
     user: boolean
 }
 
-const NavBar: React.FC = () => {
+interface NavBarProps {
+    displayMobile: () => void
+}
+
+const NavBar: React.FC<NavBarProps> = ({ displayMobile }) => {
     const navigate = useNavigate();
     const { user, isLoading } = useAuth();
     const [ searchText, setSearchText ] = useState<string>('');
@@ -101,6 +105,12 @@ const NavBar: React.FC = () => {
                         <div className={`icon-pop triangle ${!hoverStatus.user ? 'hide' : ''}`}>
                             <span>{user ? "Tài khoản" : "Đăng nhập"}</span>
                         </div>
+                    </div>
+
+                    <div className="icon-container">
+                        <FontAwesomeIcon icon={faBars} 
+                        className="sm-icon"
+                        onClick={() => displayMobile()}/>
                     </div>
                 </div>
             </div>

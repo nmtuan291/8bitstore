@@ -1,5 +1,6 @@
-import { useState } from "react";
+import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import React from "react";
 import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
 import Home from "./pages/Home/";
@@ -19,6 +20,11 @@ import ProductManagement from "./pages/ProductManagement";
 import Layout from "./layout";
 import Detail from "./pages/Profile/Detail";
 import ChangePassword from "./pages/Profile/ChangePassword";
+import LoadingOverlay from "./components/LoadingOverlay";
+import Toast from "./components/Toast";
+import Modal from "./components/Modal";
+import MobileMenu from "./components/NavBar/MobileMenu";
+import NotFoundPage from "./pages/404";
 
 function App() {
 
@@ -45,6 +51,8 @@ function App() {
                     </Route>
                     <Route path="/login" element={<Login />} />
                     <Route path="/signup" element={<SignUp />} />
+                    <Route path="/test" element={<MobileMenu />} />
+                    <Route path="*" element={<NotFoundPage />}/>
             </Routes>
           </WishlistProvider>
         </CartProvider>

@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useCart } from "../../../contexts/CartProvider";
 import "./CartItem.scss"
 import productImg from "../../../assets/images/switch-store-icon.png"
+import Modal from "../../../components/Modal";
 
 interface CartItemProps {
     productId: string
@@ -9,6 +10,7 @@ interface CartItemProps {
     productName: string,
     productPrice: number,
     productQuantity: number,
+    deleteItem: (productId: string) => void
 };
 
 const CartItem: React.FC<CartItemProps> = ({
@@ -16,20 +18,15 @@ const CartItem: React.FC<CartItemProps> = ({
      imgSrc, 
      productName, 
      productPrice, 
-     productQuantity 
+     productQuantity,
+     deleteItem
     }) => {
     const [productCount, setProductCount] = useState<number>(productQuantity);
     const [totalPrice, setTotalPrice] = useState<number>(productCount * productPrice);
     const { updateCart } = useCart();
     
     const handleDeleteItem = (productId: string) => {
-        updateCart({
-            productId: productId,
-            quantity: 0,
-            productName: "",
-            price: 0,
-            imgUrl: []
-        });
+        deleteItem(productId);
     }
 
     const handleQuantityIncrease = () => {
@@ -50,7 +47,7 @@ const CartItem: React.FC<CartItemProps> = ({
 
     const handleQuantityDecrease = () => {
         setProductCount(prev => {
-            const decreasedQuantity = prev - 1;
+            const decreasedQuantity = prev - 1 >= 1 ? prev - 1 : 1;
             updateCart({
                 productId: productId,
                 quantity: decreasedQuantity,
@@ -65,7 +62,8 @@ const CartItem: React.FC<CartItemProps> = ({
     }
 
     return (
-        <div className="cart-item-container">
+        <>
+            <div className="cart-item-container">
             <div className="product-image-section">
                 <input type="checkbox"/>
                 <img className="product-cart-img" src={imgSrc[0]}></img>
@@ -85,6 +83,8 @@ const CartItem: React.FC<CartItemProps> = ({
                 Xóa
             </p>
         </div>
+        </>
+        
     ); 
 }
 
