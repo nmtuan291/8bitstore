@@ -66,6 +66,19 @@
 
             .icon {
                 cursor: pointer;
+
+                @include mobile {
+                    display: none;
+                }
+            }
+
+            .sm-icon {
+                cursor: pointer;
+                display: none;
+
+                @include mobile {
+                    display: block;
+                }
             }
 
             .icon-pop {

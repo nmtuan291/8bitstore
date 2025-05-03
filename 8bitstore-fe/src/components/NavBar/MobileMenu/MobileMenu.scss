@@ -1,0 +1,75 @@
+@use "../../../styles/responsive.scss" as *;
+
+
+@keyframes slideIn {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOut {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+
+.mobile-overlay {
+  display: none;
+
+  @include mobile {
+    display: block;
+    top: 0; left: 0;
+    background-color: rgb(0, 0, 0, 0.5);
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    z-index: 100000;
+
+    &.hidden {
+      display: none;
+    }
+  
+    .menu-container {
+      background: #fff;
+      width: 60%;
+      height: 100%;
+      padding-top: 50px 0 0 0;
+      box-sizing: border-box;
+  
+      &.slide-in {
+        animation: slideIn 0.3s ease-out;
+      }
+  
+      &.slide-out {
+        animation: slideOut 0.3s ease-out;
+      }
+  
+      ul {
+        width: 100%;
+        padding: 0;
+  
+        li {
+          list-style-type: none;
+          width: 100%;
+          text-align: center;
+          border-bottom: solid black 1px;
+          cursor: pointer;
+  
+          &:hover {
+            background-color: rgb(0, 0, 0, 0.05);
+          }
+        }
+      }
+    }
+  }
+  
+  
+
+}

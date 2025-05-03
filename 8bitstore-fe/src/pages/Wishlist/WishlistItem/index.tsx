@@ -6,15 +6,16 @@ interface WishlistItemProps {
     imgSrc: string,
     productName: string,
     productPrice: number,
+		deleteItem: (productId: string) => void
 };
 
 const WishlistItem: React.FC<WishlistItemProps> = ({
 	productId,
 	imgSrc,
 	productName,
-	productPrice
+	productPrice,
+	deleteItem
 }) => {
-	const { removeItem } = useWishlist();
 
 	return (
 		<div className="wishlist-item-container">
@@ -25,12 +26,12 @@ const WishlistItem: React.FC<WishlistItemProps> = ({
 			<p className="price">{productPrice}</p>
 			<p 
 				className="delete-product"
-				onClick={() => removeItem(productId)}
+				onClick={() => deleteItem(productId)}
 			>
 				Xóa
 			</p>
 		</div>
-	)
+	);
 }
 
 export default WishlistItem;

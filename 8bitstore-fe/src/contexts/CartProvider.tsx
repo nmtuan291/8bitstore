@@ -2,6 +2,7 @@ import { useState, useEffect, useContext, ReactNode, createContext } from "react
 import { useAuth } from "./AuthProvider";
 import { CartItem } from "../interfaces/interfaces";
 import axios from "../apis/axios";
+
 interface CartContextType {
     cart: CartItem[],
     updateCart: (cartItem: CartItem) => void

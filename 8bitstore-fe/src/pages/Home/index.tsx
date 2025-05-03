@@ -1,7 +1,7 @@
-import { useState } from "react";
 import ConsoleStoreTest from './ConsoleStore/ConsoleStoreTest';
 import ImageCarousel from './ImageCarousel';
 import ProductCarousel from "../../components/ProductCarousel";
+import "./Home.scss";
 
 
 const HomePage: React.FC = () => {
@@ -16,8 +16,9 @@ const HomePage: React.FC = () => {
                     margin: "10px"
                 }}>
                 <ConsoleStoreTest />
-                <ProductCarousel></ProductCarousel>
             </div>
+            <ProductCarousel></ProductCarousel>
+            <ProductCarousel></ProductCarousel>
 
         </div>
     )
