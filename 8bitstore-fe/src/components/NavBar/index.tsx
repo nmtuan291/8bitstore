@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthProvider";
+import { useCart } from "../../contexts/CartProvider";
 import logo from "@/assets/logo/8bitstore-logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart, faCartShopping, faUser, faBars} from "@fortawesome/free-solid-svg-icons";
@@ -27,6 +28,7 @@ const NavBar: React.FC<NavBarProps> = ({ displayMobile }) => {
         cart: false,
         user: false
     })
+    const { cart } = useCart();
 
     const handleSearchBoxChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         setSearchText(e.target.value);
@@ -94,6 +96,12 @@ const NavBar: React.FC<NavBarProps> = ({ displayMobile }) => {
                         <div className={`icon-pop triangle ${!hoverStatus.cart ? 'hide' : ''}`}>
                             <span>Giỏ hàng</span>
                         </div>
+                        {
+                            cart.length > 0 &&
+                            <div className="cart-count">
+                                <span>{cart.length}</span>
+                            </div>
+                        }
                     </div>
                     
                     <div className="icon-container">

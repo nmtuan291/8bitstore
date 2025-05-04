@@ -1,18 +1,22 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./MobileMenu.scss";
 import { BlobOptions } from "buffer";
 import { User } from "../../../interfaces/interfaces";
+import { DOM } from "@fortawesome/fontawesome-svg-core";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeart, faCartShopping, faUser, faBars} from "@fortawesome/free-solid-svg-icons";
 
 interface MobileMenuProps {
   user: User | null;
+  isVisible: boolean,
+  setIsVisible: (visible: boolean) => void
 }
 
-const MobileMenu: React.FC<MobileMenuProps> = (user) => {
-  const [isVisible, setIsVisible] = useState<boolean>(true);
+const MobileMenu: React.FC<MobileMenuProps> = ({ user, isVisible, setIsVisible}) => {
   const [isClosing, setIsClosing] = useState<boolean>(false);
   const navigate = useNavigate();
-
+  const ref = useRef<HTMLDivElement>(null);
   const openMenu = () => {
     setIsVisible(true);
   }
@@ -25,6 +29,22 @@ const MobileMenu: React.FC<MobileMenuProps> = (user) => {
     }, 300);
   }
 
+  useEffect(() => {
+    const overlay = document.querySelector(".mobile-overlay");
+
+    const handleClick = (event: Event) => {
+      if (ref.current && !ref.current.contains(event.target as Node)) {
+        closeMenu();
+      }
+    };
+
+    overlay?.addEventListener("click", handleClick);
+
+    return () => {
+      overlay?.removeEventListener("click", handleClick);
+    };
+  }, [])
+
   // useEffect(() => {
   //   openMenu();
   //   setTimeout(closeMenu, 5000);
@@ -36,11 +56,21 @@ const MobileMenu: React.FC<MobileMenuProps> = (user) => {
   return (
     <div className={`mobile-overlay ${isVisible ? "" : "hidden"}`}>
       <div className={`menu-container ${
-          isClosing ? "slide-out" : isVisible ? "slide-in" : "" }`}>
+          isClosing ? "slide-out" : isVisible ? "slide-in" : "" }`}
+          ref={ref}>
         <ul>
-          <li>Tài khoản</li>
-          <li>Giỏ hàng</li>
-          <li>Wishlist</li>
+          <li>
+            <FontAwesomeIcon icon={faUser} className="icon"/>
+            Tài khoản
+          </li>
+          <li>
+            <FontAwesomeIcon icon={faCartShopping} className="icon"/>
+            Giỏ hàng
+          </li>
+          <li>
+            <FontAwesomeIcon icon={faHeart} className="icon"/>
+            Wishlist
+          </li>
         </ul>
       </div>
     </div>

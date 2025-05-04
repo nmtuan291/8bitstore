@@ -66,9 +66,29 @@
 
             .icon {
                 cursor: pointer;
+                color: #fff;
 
                 @include mobile {
                     display: none;
+                }
+            }
+
+            .cart-count {
+                position: absolute;
+                font-size: 0.5em;
+                background-color: #fff;
+                border-radius: 100%;
+                height: 16px;
+                width: 16px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                top: -2px;
+                right: -10px;
+                color: #946CBC;
+
+                @include mobile {
+                    display: none
                 }
             }
 
