@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart, faCartShopping, faUser, faBars} from "@fortawesome/free-solid-svg-icons";
 import './NavBar.scss'
 import NavBarListTest from "./NavBarListTest";
+import axios from "../../apis/axios";
 
 
 interface HoverStatus {
@@ -29,9 +30,17 @@ const NavBar: React.FC<NavBarProps> = ({ displayMobile }) => {
         user: false
     })
     const { cart } = useCart();
+    const [suggestion, setSuggestion] = useState<string[]>([]);
 
     const handleSearchBoxChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-        setSearchText(e.target.value);
+        const newText = e.target.value;
+        setSearchText(newText);
+
+        if (newText.length <= 2 ) {
+            setSuggestion([]);
+        } else {
+            getSuggestion(newText);
+        }
     }
 
     const handleMouseOver = (iconName: string) => {
@@ -63,6 +72,21 @@ const NavBar: React.FC<NavBarProps> = ({ displayMobile }) => {
             }
         }
     };
+
+    const getSuggestion = async (text: string) => {
+        try {
+            const response = await axios.get("api/Product/get-suggestion", {
+                params: {
+                    query: text
+                }
+            })
+            if (response.status == 200) {
+                setSuggestion(response.data);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
     
     return (
         <nav className="navbar">
@@ -71,11 +95,22 @@ const NavBar: React.FC<NavBarProps> = ({ displayMobile }) => {
             </div>
             <div className="navbar__first-row">
                 <img src={logo} className="navbar__logo" onClick={() => navigate("/")}/>
-                <input 
-                        className="navbar__search" 
+                <div className="navbar__search">
+                    <input 
                         type="text" 
                         onChange= {(e) => handleSearchBoxChange(e)} 
                         value={searchText}/>
+                    {
+                        suggestion.length > 0 &&
+                        <div className="search-suggestion">
+                            <ul>
+                                {
+                                    suggestion.map(name => <li onClick={() => setSearchText(name)}>{name}</li>)
+                                }
+                            </ul>
+                        </div>
+                    }
+                </div>
                 <div className="navbar__icons">
                     <div className="icon-container">
                         <FontAwesomeIcon icon={faHeart} 

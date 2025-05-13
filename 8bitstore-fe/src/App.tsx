@@ -13,7 +13,7 @@ import Profile from "./pages/Profile";
 import Order from "./pages/Profile/Order";
 import CartProvider from "./contexts/CartProvider";
 import Payment from "./pages/Payment";
-import PaymentResult from "./pages/Payment/PaymentResult";
+import PaymentProcess from "./pages/Payment/PaymentProcess";
 import Wishlist from "./pages/Wishlist";
 import WishlistProvider from "./contexts/WishlistProvider";
 import ProductManagement from "./pages/ProductManagement";
@@ -25,7 +25,7 @@ import Toast from "./components/Toast";
 import Modal from "./components/Modal";
 import MobileMenu from "./components/NavBar/MobileMenu";
 import NotFoundPage from "./pages/404";
-
+import PaymentResult from "./pages/Payment/PaymentResult";
 function App() {
 
   return (
@@ -46,12 +46,12 @@ function App() {
                           <Route path="/profile/change-pwd" element={<ChangePassword />} />
                       </Route>
                       <Route path="/payment" element={<Payment />}/>
-                      <Route path="/payment-result" element={<PaymentResult></PaymentResult>}></Route>
+                      <Route path="/payment-process/:paymentMethod" element={<PaymentProcess />}></Route>
+                      <Route path="/payment-result" element={<PaymentResult />}></Route>
                       <Route path="/wishlist" element={<Wishlist />}/>
                     </Route>
                     <Route path="/login" element={<Login />} />
                     <Route path="/signup" element={<SignUp />} />
-                    <Route path="/test" element={<MobileMenu />} />
                     <Route path="*" element={<NotFoundPage />}/>
             </Routes>
           </WishlistProvider>

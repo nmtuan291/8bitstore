@@ -1,4 +1,5 @@
 import "./PaymentItem.scss";
+import { formatNumber } from "../../../utils/FormatNumber";
 
 interface PaymentItemProps {
 	productName: string,
@@ -13,11 +14,11 @@ const PaymentItem: React.FC<PaymentItemProps> = ({ productName, productImg, prod
 		<div className="payment-item-container">
             <div className="product-image-section">
                 <img className="product-order-img" src={productImg}></img>
-                <div>
+                <div className="product-info">
                     <p>{productName}</p>
-                    <p>x{productCount}</p>
+                    <p>Số lượng: {productCount}</p>
                 </div>
-                <p className="price">{price * productCount}</p>
+                <p className="price">{formatNumber(price * productCount)}</p>
             </div>
         </div>
 	)

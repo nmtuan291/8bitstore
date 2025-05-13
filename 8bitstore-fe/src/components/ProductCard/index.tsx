@@ -19,7 +19,7 @@ const ProductItem: React.FC<ProductItemProps> = ({ product }) => {
 
     return (
         <div className='product-container'>
-            <img src="" alt=""/>
+            <img src={product.imgUrl[0]} alt=""/>
             <p className='product-name'>{product.productName}</p>
             <p>{product.price}</p>
             <button 

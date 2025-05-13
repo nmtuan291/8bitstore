@@ -1,0 +1,12 @@
+.result-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+
+  .result {
+    width: 300px;
+    height: 300px;
+  }
+}
+

@@ -10,7 +10,7 @@ const Layout = () => {
   const [displayMobile, setDisplayMobile] = useState<boolean>(false);
   const location = useLocation();
 
-  const hiddenPaths = ["/home", "/"];
+  const hiddenPaths = ["/home", "/", "/payment", "/payment-result"];
 
   const showBreadcrumbs = !hiddenPaths.includes(location.pathname);
 

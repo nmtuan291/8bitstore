@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { useAuth } from "../../contexts/AuthProvider";
+import { useNavigate } from "react-router-dom";
 import CartItem from "./CartItem";
 import { useCart } from "../../contexts/CartProvider";
 import "./Cart.scss"
@@ -12,6 +13,7 @@ const Cart: React.FC = () => {
     const { cart, updateCart } = useCart();
     const [modal, setModal] = useState<boolean>(false);
     const [deleteProduct, setDeleteProduct] = useState<string>("");
+    const navigate = useNavigate();
 
     const handleDeleteModal = (productId: string) => {
         setModal(true);
@@ -54,8 +56,8 @@ const Cart: React.FC = () => {
                         )
                     }
                 </div>
-                <div className="pay-btn">
-                    <button>Thanh toán</button>
+                <div className="pay-btn" >
+                    <button onClick={() => navigate("/payment")}>Thanh toán</button>
                 </div>
             </div>
         </>
