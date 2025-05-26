@@ -1,9 +1,6 @@
 $primary-color: #946CBC;
 $input-border-color: #797979;
 
-
-
-
 .form-container {
     width: 100vw;
     height: 100vh;
@@ -14,6 +11,18 @@ $input-border-color: #797979;
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
+
+    .signup-success {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 500px;
+        height: 500px;
+        background-color: #fff;
+        color: $primary-color;
+        border-radius: 25px;
+    }
 
     .reg-form {
         display:flex;

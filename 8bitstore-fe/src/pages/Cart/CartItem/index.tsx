@@ -1,8 +1,11 @@
 import { useState, useEffect } from "react";
 import { useCart } from "../../../contexts/CartProvider";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import "./CartItem.scss"
 import productImg from "../../../assets/images/switch-store-icon.png"
 import Modal from "../../../components/Modal";
+import { formatNumber } from "../../../utils/FormatNumber";
 
 interface CartItemProps {
     productId: string
@@ -40,6 +43,8 @@ const CartItem: React.FC<CartItemProps> = ({
                 imgUrl: []
             });
 
+            setTotalPrice(increasedQuantity * productPrice)
+
             return increasedQuantity;
         });
         
@@ -56,6 +61,8 @@ const CartItem: React.FC<CartItemProps> = ({
                 imgUrl: []
             })
 
+            setTotalPrice(decreasedQuantity * productPrice)
+
             return decreasedQuantity; 
         });
         
@@ -65,22 +72,21 @@ const CartItem: React.FC<CartItemProps> = ({
         <>
             <div className="cart-item-container">
             <div className="product-image-section">
-                <input type="checkbox"/>
                 <img className="product-cart-img" src={imgSrc[0]}></img>
                 <p>{productName}</p>
             </div>
-            <p className="price">{productPrice}</p>
+            <p className="price">{formatNumber(productPrice)}</p>
             <div className="product-count">
                 <button onClick={handleQuantityDecrease}>-</button>
                 <p>{productCount}</p>
                 <button onClick={handleQuantityIncrease}>+</button>
             </div>
-            <p className="total-price">{totalPrice}</p>
+            <p className="total-price">{formatNumber(totalPrice)}</p>
             <p 
                 className="delete-product"
                 onClick={() => handleDeleteItem(productId)}
             >
-                Xóa
+                <FontAwesomeIcon icon={faTrash} style={{color: "#C10000", cursor:"pointer"}}></FontAwesomeIcon>
             </p>
         </div>
         </>

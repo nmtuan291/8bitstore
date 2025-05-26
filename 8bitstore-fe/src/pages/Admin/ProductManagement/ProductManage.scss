@@ -1,0 +1,59 @@
+@use "../../../styles/responsive.scss" as *;
+$primary-color: #946CBC;
+$shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+
+.product-management-container {
+  height: 100vh;
+  display: flex;
+  box-sizing: border-box;
+  padding: 50px;
+
+  .manage-menu-container {
+    width: 20%;
+    .manage-menu {
+        display: flex;
+        gap: 4rem;
+        ul {
+            box-shadow: $shadow;
+            width: 90%;
+            list-style: none;
+            padding: 0;
+            max-height: 200px;
+            border-radius: 25px;
+            background: #fff;
+
+            .nav-link {
+                display: flex;
+                align-items: center;
+                height: 50px;
+                cursor: pointer;
+                box-sizing: border-box;
+                padding-left: 30px;
+
+
+                &:hover {
+                    background: $primary-color;
+                    color: #fff;
+
+                    
+                }
+
+                &.top {
+                    border-top-right-radius: 25px;
+                    border-top-left-radius: 25px;
+                }
+
+                &.bottom {
+                    border-bottom-right-radius: 25px;
+                    border-bottom-left-radius: 25px;
+                }
+            }
+        }
+
+       
+
+
+    }
+}
+
+}

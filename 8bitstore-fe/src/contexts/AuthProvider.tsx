@@ -5,7 +5,7 @@ import axios from "../apis/axios";
 interface AuthContextProps {
     user: User | null,
     isLoading: boolean
-    storeUser: (user: User) => void,
+    storeUser: (user: User | null) => void,
   }
 
 export const AuthContext = createContext<AuthContextProps | null>(null);
@@ -32,7 +32,7 @@ const AuthProvider: React.FC<{ children: ReactNode}>  = ({ children }) => {
         initUserState();
     }, []);
 
-    const storeUser = (user: User) => {
+    const storeUser = (user: User | null) => {
         setUser(user);
     }
 

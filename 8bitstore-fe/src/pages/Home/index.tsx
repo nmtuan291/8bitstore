@@ -9,12 +9,7 @@ const HomePage: React.FC = () => {
     return (
         <div>
             <ImageCarousel />
-            <div style={{
-                    width: "100%",
-                    display: "flex",
-                    justifyContent: "center",
-                    margin: "10px"
-                }}>
+            <div className="console-store-container">
                 <ConsoleStoreTest />
             </div>
             <ProductCarousel></ProductCarousel>

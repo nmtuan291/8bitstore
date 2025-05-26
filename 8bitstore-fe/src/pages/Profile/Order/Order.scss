@@ -1,3 +1,5 @@
+@use "../../../styles/responsive.scss" as *;
+
 $background-color: #F5F5F5;
 $list-width: 70%;
 
@@ -8,12 +10,59 @@ $list-width: 70%;
     gap: 30px;
     box-sizing: border-box;
     justify-content: center;
-    border: solid black 1px;
+    padding-bottom: 80px;
+
+    @include mobile {
+        align-items: flex-start;
+    }
+
+    .order-filter {
+        width: 100%;
+        margin-left: 30%;
+
+        ul {
+            min-width: 422px;
+            display:flex;
+            background-color: #fff;
+            box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+            width: $list-width;
+            justify-content: space-around;
+            padding: 0;
+
+            li {
+                list-style-type: none;
+                width: 100%;
+                text-align: center;
+                cursor: pointer;
+                transition: background-color 0.3s, color 0.3s;
+
+                &:hover {
+                    background-color: #946CBC;
+                    color: #fff;
+                }
+
+                &.selected {
+                    background-color: #946CBC;
+                    color: #fff;
+                }
+            }
+        }
+
+        @include mobile {
+            display: none;
+        }
+    } 
     
     .order-list {
         width: $list-width;
-        border: solid black 1px;
+        min-width: 422px;
         background: #fff;
         box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+        border-radius: 10px;
+
+
+        @include mobile {
+            width: 90%;
+        }
     }
 }

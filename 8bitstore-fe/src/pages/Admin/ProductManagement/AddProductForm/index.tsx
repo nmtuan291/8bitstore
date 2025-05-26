@@ -1,9 +1,9 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import "./AddProductForm.scss";
-import { Product } from "../../../interfaces/interfaces";
-import axios from "../../../apis/axios";
+import { Product } from "../../../../interfaces/interfaces";
+import axios from "../../../../apis/axios";
 
-const AddProductForm: React.FC = () => {
+const AddProductForm: React.FC<{ showAddProductForm: () => void }> = ({ showAddProductForm }) => {
 	const [images, setImages] = useState<File[]>([]);
 	const [genreClicked, setGenreClicked] = useState<boolean>(true);
 	const [platformClicked, setPlatformClicked] = useState<boolean>(true);
@@ -19,6 +19,20 @@ const AddProductForm: React.FC = () => {
 		description: "",
 		stockNum: 0
 	});
+	const ref = useRef<HTMLDivElement>(null);
+
+	useEffect(() => {
+		const form = document.querySelector(".form-overlay");
+		
+		const closeForm = (e: Event) => {
+			if (ref.current && !ref.current.contains(e.target as Node)) {
+				showAddProductForm();
+			}
+		}
+		form?.addEventListener("click", closeForm);
+
+		return () => form?.removeEventListener("click", closeForm);
+	}, []);
 
 	const handleImageChange = (e: ChangeEvent<HTMLInputElement>, index: number) => {
 		const file = e.target.files?.[0];
@@ -116,7 +130,7 @@ const AddProductForm: React.FC = () => {
 	
 	return (
 		<div className="form-overlay">
-			<div className="product-form-container" >
+			<div className="product-form-container" ref={ref}>
 				<div className="product-form">
 					<div className="img-upload">
 						<p>Chọn ảnh(tối đa 5)</p>	

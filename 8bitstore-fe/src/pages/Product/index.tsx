@@ -1,31 +1,56 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useMemo, useCallback } from "react";
 import { Product } from "../../interfaces/interfaces";
 import ProductItem from "../../components/ProductCard";
 import Pagination from "../../components/Pagination";
 import ProductSort from "./ProductSort";
 import LoadingOverlay from "../../components/LoadingOverlay";
+import ProductFilter from "./ProductFilter";
 import axios from "../../apis/axios";
 import "./ProductList.scss"
+import { useLocation } from "react-router-dom";
 
 const ProductList: React.FC = () => {
     const [products, setProducts] = useState<Product[]>([]);
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [filter, setFilter] = useState<string>("Giá thấp đến cao");
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    useEffect(() => {
-        const fetchProducts = async () => {
-            try {
-                setIsLoading(true);
-                const response = await axios.get("/api/Product/get-products")
-                setProducts(response.data);
-            } catch (error: any) {
-                console.log(error.message);
-            } finally {
-                setIsLoading(false);
-            }
+    const location = useLocation();
+    
+    const searchParams = useMemo(() => {
+        const queryParams = new URLSearchParams(location.search);
+        return {
+            productName: queryParams.get("productName") || "",
+            types: queryParams.getAll("type"),
+            manufacturers: queryParams.getAll("manufacturer"),
+            genres: queryParams.getAll("genre")
         };
+    }, [location.search]);
+
+    const fetchProducts = useCallback(async () => {
+        try {
+            setIsLoading(true);
+            const params = new URLSearchParams();
+            
+            if (searchParams.productName) {
+                params.append('productName', searchParams.productName);
+            }
+            searchParams.types.forEach(type => params.append('type', type));
+            searchParams.manufacturers.forEach(manufacturer => params.append('manufacturer', manufacturer));
+            searchParams.genres.forEach(genre => params.append('genre', genre));
+
+            const query = `/api/Product/get-products?${params.toString()}`
+            const response = await axios.get(query);
+            setProducts(response.data);
+        } catch (error: any) {
+            console.log(error.message);
+        } finally {
+            setIsLoading(false);
+        }
+    }, [searchParams]);
+
+    useEffect(() => {
         fetchProducts();
-    }, [filter]);
+    }, [fetchProducts]);
 
     const pageSize: number = 12;
 
@@ -45,10 +70,12 @@ const ProductList: React.FC = () => {
     };
 
     return (
-        <>
-            { isLoading && <LoadingOverlay></LoadingOverlay> } 
+        <div className="product-page-container">
+            { isLoading && <LoadingOverlay></LoadingOverlay> }
+            <div className="product-filter">
+                <ProductFilter />
+            </div>
             <div className="product-list-container">
-                <h1>8BITSTORE</h1>
                 <div className="product-list-header">
                     <p className="product-filter">Hiển thị sản phẩm</p>
                     <ProductSort filterString={filter} onFilterClick={(filterName:string) => handleFilterClick(filterName)} />
@@ -69,7 +96,7 @@ const ProductList: React.FC = () => {
                     />
                 </div>
             </div>
-        </>
+        </div>
         
     );
 }

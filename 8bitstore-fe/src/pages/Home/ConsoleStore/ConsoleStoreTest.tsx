@@ -2,44 +2,44 @@ import ConsoleStore from "./ConsoleStore";
 import playstationIcon from "@/assets/images/playstation-store-icon-4.png";
 import xboxIcon from "@/assets/images/playstation-store-icon-1.png";
 import nintendoIcon from "@/assets/images/switch-store-icon.png";
-import digitalIcon from "@/assets/images/pc-digital-store-icon-v2.png"
+import digitalIcon from "@/assets/images/pc-digital-store-icon-v2.png";
+import "./ConsoleStoreTest.scss";
 
 const ConsoleStoreTest = () => {
-    const img = [
+    const stores = [
         {
             title: "PLAYSTATION STORE",
-            src: playstationIcon
+            src: playstationIcon,
+            color: "#064395"
         },
         {
             title: "XBOX STORE",
-            src: xboxIcon
+            src: xboxIcon,
+            color: "#107C0F"
         },
         {
             title: "NINTENDO STORE",
-            src: nintendoIcon
+            src: nintendoIcon,
+            color: "#F30101"
         },
         {
             title: "DIGITAL STORE",
-            src: digitalIcon
+            src: digitalIcon,
+            color: "#787A71"
         }
-    ]
+    ];
 
     return (
-        <div 
-            style={{
-                display: "flex",
-                flexWrap: "wrap",
-                justifyContent: "center",
-                width: "70%",
-                gap: "10px"
-            }}>
-            <ConsoleStore consoleName={img[0].title} color="#064395" imgSrc={img[0].src}/>
-            <ConsoleStore consoleName={img[1].title} color="#107C0F" imgSrc={img[1].src}/>
-            <ConsoleStore consoleName={img[2].title} color="#F30101" imgSrc={img[2].src}/>
-            <ConsoleStore consoleName={img[3].title} color="#787A71" imgSrc={img[3].src}/>
-
+        <div className="console-store-grid">
+            {stores.map((store, index) => (
+                <ConsoleStore 
+                    key={index}
+                    consoleName={store.title} 
+                    color={store.color} 
+                    imgSrc={store.src}
+                />
+            ))}
         </div>
-        
     );
 }
 

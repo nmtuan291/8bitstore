@@ -9,19 +9,14 @@ import axios from "../../apis/axios";
 import LoadingOverlay from "../../components/LoadingOverlay";
 import { formatNumber } from "../../utils/formatNumber";
 
-const paymentMethods = [
-	{
-		method: "Thanh toán khi giao hàng(COD)",
-		content: "8bitstore hỗ trợ ship hàng COD (giao máy thu tiền tận nơi)"
-	},
-	{
-		method: "Thanh toán qua VNPay",
-		content: "8bitstore hỗ trợ ship hàng COD (giao máy thu tiền tận nơi)"
-	}
-]
+interface PaymentMethod {
+	method: string;
+	content: string;
+}
 
 const Payment: React.FC = () => {
 	const [isLoading, setIsLoading] = useState<boolean>(false);
+	const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([]);
 	const { cart } = useCart();
 	const { user } = useAuth();
 	const [paymentMethod, setPaymentMethod] = useState<string>("");
@@ -29,6 +24,19 @@ const Payment: React.FC = () => {
 	const navigate = useNavigate();
 	const totalAmount: number = cart.reduce((acc, item) =>  acc + item.price * item.quantity, 0);
 	
+	useEffect(() => {
+		setPaymentMethods([
+			{
+				method: "Thanh toán khi giao hàng(COD)",
+				content: "8bitstore hỗ trợ ship hàng COD (giao máy thu tiền tận nơi)"
+			},
+			{
+				method: "Thanh toán qua VNPay",
+				content: "8bitstore hỗ trợ ship hàng COD (giao máy thu tiền tận nơi)"
+			}
+		]);
+	}, []);
+
 	const handlelPaymentClick = async () => {
 		setPaymentClicked(true);
 		if (paymentMethod === "VNPAY") {

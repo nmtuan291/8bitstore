@@ -30,3 +30,21 @@ export interface CartItem {
     quantity: number,
     imgUrl: string[]
 }
+
+
+export interface OrderItem {
+    productId: string
+    imgUrl: string[],
+    productName: string,
+    price: number,
+    quantity: number,
+    total: number,
+}
+
+export interface Review {
+    productId: string,
+    userName: string,
+    score: number,
+    comment: string,
+    reviewDate: string
+}

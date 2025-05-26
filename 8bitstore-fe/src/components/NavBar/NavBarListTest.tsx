@@ -4,65 +4,22 @@ const NavBarListTest = () => {
     const items = [
         {
             title: "Bán Chạy Nhất", 
-            content: [
-                {
-                    category: "asdasd",
-                },
-                {
-                    category: "ACCESSORIES",
-                },
-                {
-                    category: "CONSOLE",
-                },
-                {
-                    category: "ACCESSORIES",
-                },
-                {
-                    category: "CONSOLE",
-                },
-                {
-                    category: "ACCESSORIES",
-                    contentList: ["Battery", "Controller","Battery", "Controll2sar","Battery", "Controller"]
-                },
-                {
-                    category: "CONSOLE",
-                    contentList: ["PS1", "PS2"]
-                },
-                {
-                    category: "ACCESSORIES",
-                    contentList: ["Battery", "Controller","Battery", "Controll2sar","Battery", "Controller"]
-                }
-            ]
+            content: []
         },
         {
             title: "PLAYSTATION", 
             content: [
                 {
-                    category: "asdasd",
+                    category: "Máy PS5",
                 },
                 {
-                    category: "ACCESSORIES",
+                    category: "Máy PS4",
                 },
                 {
-                    category: "CONSOLE",
+                    category: "Đĩa game",
                 },
                 {
-                    category: "ACCESSORIES",
-                },
-                {
-                    category: "CONSOLE",
-                },
-                {
-                    category: "ACCESSORIES",
-                    contentList: ["Battery", "Controller","Battery", "Controll2sar","Battery", "Controller"]
-                },
-                {
-                    category: "CONSOLE",
-                    contentList: ["PS1", "PS2"]
-                },
-                {
-                    category: "ACCESSORIES",
-                    contentList: ["Battery", "Controller","Battery", "Controll2sar","Battery", "Controller"]
+                    category: "Phụ kiện",
                 }
             ]
         },
@@ -70,31 +27,16 @@ const NavBarListTest = () => {
             title: "XBOX", 
             content: [
                 {
-                    category: "asdasd",
+                    category: "Máy Xbox Series X/S",
                 },
                 {
-                    category: "ACCESSORIES",
+                    category: "Máy Xbox One",
                 },
                 {
-                    category: "CONSOLE",
+                    category: "Đĩa game",
                 },
                 {
-                    category: "ACCESSORIES",
-                },
-                {
-                    category: "CONSOLE",
-                },
-                {
-                    category: "ACCESSORIES",
-                    contentList: ["Battery", "Controller","Battery", "Controll2sar","Battery", "Controller"]
-                },
-                {
-                    category: "CONSOLE",
-                    contentList: ["PS1", "PS2"]
-                },
-                {
-                    category: "ACCESSORIES",
-                    contentList: ["Battery", "Controller","Battery", "Controll2sar","Battery", "Controller"]
+                    category: "Phụ kiện",
                 }
             ]
         },
@@ -102,37 +44,22 @@ const NavBarListTest = () => {
             title: "NINTENDO", 
             content: [
                 {
-                    category: "asdasd",
+                    category: "Máy Nintendo Switch 2",
                 },
                 {
-                    category: "ACCESSORIES",
+                    category: "Máy Nintendo Switch",
                 },
                 {
-                    category: "CONSOLE",
+                    category: "Máy 2DS/3DS",
                 },
                 {
-                    category: "ACCESSORIES",
+                    category: "Băng game Nintendo",
                 },
                 {
-                    category: "CONSOLE",
-                },
-                {
-                    category: "ACCESSORIES",
-                    contentList: ["Battery", "Controller","Battery", "Controll2sar","Battery", "Controller"]
-                },
-                {
-                    category: "CONSOLE",
-                    contentList: ["PS1", "PS2"]
-                },
-                {
-                    category: "ACCESSORIES",
-                    contentList: ["Battery", "Controller","Battery", "Controll2sar","Battery", "Controller"]
+                    category: "Phụ kiện",
                 }
             ]
         },
-        
-        
- 
     ];
 
     return (

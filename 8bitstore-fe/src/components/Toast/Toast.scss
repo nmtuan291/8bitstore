@@ -1,13 +1,15 @@
 .toast-container {
-  position: absolute;
-  bottom: 30px;
-  right: 30px;
+  position: fixed;            /* Make it stick to the viewport */
+  bottom: 20px;               /* Distance from bottom edge */
+  right: 20px;                /* Distance from right edge */
   display: flex;
-  align-items: flex-end;
   flex-direction: column;
-  overflow: hidden;
+  align-items: flex-end;
   padding: 20px;
+  transition: opacity 0.5s ease-in-out;
+  z-index: 9999;              /* Keep it on top of everything */
 }
+
 
 .toastBox {
   width: 400px;

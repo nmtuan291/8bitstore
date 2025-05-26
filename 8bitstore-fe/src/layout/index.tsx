@@ -17,7 +17,6 @@ const Layout = () => {
   return (
     <div className="layout-wrapper"> 
       <NavBar displayMobile={() => setDisplayMobile(true)}/>
-      {showBreadcrumbs && <Breadcrumb></Breadcrumb>}
       <main>
         <Outlet></Outlet>
       </main>

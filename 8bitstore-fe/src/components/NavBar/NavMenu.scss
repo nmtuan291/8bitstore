@@ -1,5 +1,16 @@
 @use "../../styles/responsive.scss" as *;
 
+@keyframes list_dropdown {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .navlist__container {
     position: relative;
     margin-right: 50px;
@@ -13,24 +24,29 @@
     }
 
     .navlist__items {
-        color: #000;
         position: absolute;
         top: 100%;
         background: #fff;
         width: 250px;
         margin: 0;
-        padding: 10px;
+        padding: 0px;
+        animation: list_dropdown 0.3s ease-out;
+        background-color: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(8px);
         
         li {
             list-style: none;
             cursor: pointer;
             height: 10%;
             margin-bottom: 10px;
+            padding-left: 10px;
+            color: #9d58e3;
+
+            &:hover {
+                background-color: rgba(255, 255, 255, 1);
+            }
         }
 
-        &:hover {
-            background-color: #EEEEEF;
-        }
 
         &.hide {
             display: none;
