@@ -1,0 +1,21 @@
+@use "../../../styles/responsive.scss" as *;
+
+.console-store-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+
+    @media (max-width: #{$large}) {
+        gap: 15px;
+        padding: 0 15px;
+    }
+
+    @media (max-width: #{$medium}) {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        padding: 0 10px;
+    }
+} 

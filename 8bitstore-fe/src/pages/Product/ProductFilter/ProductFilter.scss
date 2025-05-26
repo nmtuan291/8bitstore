@@ -1,0 +1,57 @@
+@use "../../../styles/responsive.scss" as *;
+
+.product-filter-container {
+  margin-top: 25px;
+  height: 100vh;
+  box-sizing: border-box;
+  padding: 30px;
+
+  @include mobile {
+    display: none;
+  }
+
+  h5 {
+    border-bottom: solid #85BDB6 1px;
+    padding: 10px;
+  }
+
+  ul {
+    li {
+      list-style: none;
+    }
+  }
+
+  input[type="checkbox"] {
+      cursor: pointer;
+      margin-right: 3px;
+  }
+
+  .price-filter {
+
+    input[type="number"] {
+      width: 45%;
+      display: inline;
+      outline: none;
+    }
+  }
+
+  .filter-btn {
+    text-align: end;
+    margin-top: 20px;
+    padding-right: 8%;
+
+    button {
+      background-color: #946CBC;
+      border: solid #946CBC 1px;
+      box-sizing: border-box;
+      padding: 5px;
+      color: #fff;
+      transition: background-color 0.2s, color 0.2s;
+
+      &:hover {
+        background-color: #fff;
+        color: #946CBC;
+      }
+    }
+  }
+}

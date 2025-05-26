@@ -1,3 +1,23 @@
+@use "../../styles/responsive.scss" as *;
+
 body {
-  background-color: #FCFBFC;
+  background-color: #f8f6fb;
+  margin: 0;
+  padding: 0;
+}
+
+.console-store-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  background-color: #eadef7;
+  padding: 30px 20px;
+
+  @media (max-width: #{$medium}) {
+    padding: 20px 10px;
+  }
+
+  @include mobile {
+    padding: 15px 5px;
+  }
 }

@@ -6,7 +6,8 @@ import axios from "../apis/axios";
 interface CartContextType {
     cart: CartItem[],
     updateCart: (cartItem: CartItem) => void,
-    deleteCartItems: () => Promise<void>
+    deleteCartItems: () => Promise<void>,
+    isLoading: boolean
 }
 
 interface CartChangesType {
@@ -17,21 +18,28 @@ interface CartChangesType {
 const CartContext = createContext<CartContextType | null>(null);
 
 const CartProvider: React.FC<{children: ReactNode}> = ({ children }) => {
-    const [cart, setCart] = useState<CartItem[]>([]);
+    const [cart, setCart] = useState<CartItem[] | undefined>(undefined);
     const { user } = useAuth();
     const [cartChange, setCartChange] = useState<CartChangesType[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const fetchCart = async () => {
+            setIsLoading(true);
             try {
                 if (user) {
                     console.log("Fetching cart for user");
                     const response = await axios.get("/api/Cart/get-cart");
                     console.log("Cart fetched:", response.data.cartItems);
-                    setCart(response.data.cartItems);
+                    setCart(response.data.cartItems || []);
+                } else {
+                    setCart([]);
                 }
             } catch (error) {
-                console.error("Error fetching cart:", error);               
+                console.error("Error fetching cart:", error);
+                setCart([]);               
+            } finally {
+                setIsLoading(false);
             }
         };
 
@@ -71,7 +79,9 @@ const CartProvider: React.FC<{children: ReactNode}> = ({ children }) => {
     const updateCart = async (cartItem: CartItem) => {
         console.log("Updating cart with item:", cartItem);
         setCart(prev => {
-            const existingItem = prev.find(item => item.productId === cartItem.productId)
+            if (!prev) return cartItem.quantity > 0 ? [cartItem] : [];
+            
+            const existingItem = prev.find(item => item.productId === cartItem.productId);
             if (existingItem) {
                 return prev.map(item => item.productId === cartItem.productId
                     ? {...item, quantity: cartItem.quantity}
@@ -86,6 +96,8 @@ const CartProvider: React.FC<{children: ReactNode}> = ({ children }) => {
         });
         
         setCartChange(prev => {
+            if (!prev) return [{productId: cartItem.productId, quantity: cartItem.quantity}];
+            
             const existingChange = prev.find(item => item.productId === cartItem.productId);
             if (existingChange) {
                 return prev.map(change => change.productId === cartItem.productId
@@ -136,7 +148,7 @@ const CartProvider: React.FC<{children: ReactNode}> = ({ children }) => {
     };
 
     return (
-        <CartContext.Provider value={{ cart, updateCart, deleteCartItems }}>
+        <CartContext.Provider value={{ cart: cart || [], updateCart, deleteCartItems, isLoading }}>
             {children}
         </CartContext.Provider>
     );

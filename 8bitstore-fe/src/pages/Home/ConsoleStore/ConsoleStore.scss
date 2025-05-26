@@ -1,3 +1,5 @@
+@use "../../../styles/responsive.scss" as *;
+
 * {
     margin: 0;
     padding: 0;
@@ -6,21 +8,47 @@
 
 .console-container {
     color: #fff;
-    width: 570px;
+    width: 100%;
+    max-width: 570px;
+    min-width: 320px;
     height: 250px;
     border-radius: 20px;
     display: flex;
     justify-content: space-around;
     align-items: center;
     cursor: pointer;
+    margin: 0 auto;
+
+    @media (max-width: #{$medium}) {
+        height: 220px;
+    }
+
+    @include mobile {
+        height: 180px;
+    }
 
     img {
         max-width: 90%;
         max-height: 90%;
+        object-fit: contain;
+
+        @include mobile {
+            display: none;
+        }
     }
     
     h1 {
         padding: 50px;
+        font-size: clamp(1.5rem, 3vw, 2rem);
+        text-align: center;
+
+        @media (max-width: #{$medium}) {
+            padding: 30px;
+        }
+
+        @include mobile {
+            padding: 20px;
+        }
     }
 }
 

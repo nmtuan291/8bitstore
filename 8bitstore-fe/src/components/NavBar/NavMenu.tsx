@@ -2,9 +2,11 @@ import { useState } from 'react';
 import './NavMenu.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
+import { useNavigate } from 'react-router-dom';
 
 type Item = {
-    category: string
+    category: string,
+    url: string
 }
 
 interface NavBarListProps {
@@ -14,6 +16,7 @@ interface NavBarListProps {
 
 const NavMenu: React.FC<NavBarListProps> = ({ title, items }) => {
     const [mouseEnter, setMouseEnter] = useState(false);
+    const navigate = useNavigate();
 
     return (
          <div 
@@ -26,7 +29,7 @@ const NavMenu: React.FC<NavBarListProps> = ({ title, items }) => {
             </a>
             <ul className={`navlist__items ${mouseEnter ? "" : "hide"}`}>
                 {items.map((item, index) => 
-                    <li key={`item_${index}`}>
+                    <li key={`item_${index}`} onClick={() => navigate(`/product?${item.url}`)}>
                         {item.category}
                     </li>
                 )}

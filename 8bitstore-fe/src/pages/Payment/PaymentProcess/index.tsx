@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import axios from "../../../apis/axios";
 import LoadingOverlay from "../../../components/LoadingOverlay";
@@ -8,33 +8,50 @@ const PaymentProcess: React.FC = () => {
 	const { paymentMethod } = useParams();
 	const location = useLocation();
 	const navigate = useNavigate();
-	const { cart, deleteCartItems } = useCart();
-	const totalAmount: number = cart.reduce((acc, item) =>  acc + item.price * item.quantity, 0);
-	const orderId = crypto.randomUUID();
+	const { cart, deleteCartItems, isLoading: isCartLoading } = useCart();
+	const orderIdRef = useRef(crypto.randomUUID());
+	const [totalAmount, setTotalAmount] = useState<number>(0);
+	const hasProcessed = useRef(false);
 
-	if (paymentMethod === "VNPAY") {
-		useEffect(() => {
-			const params = new URLSearchParams(location.search);
-			const request = {
-				amount: params.get("vnp_Amount"),
-				transactionNo: params.get("vnp_TransactionNo"),
-				bankCode: params.get("vnp_BankCode"),
-				bankTranNo: params.get("vnp_BankTranNo"),
-				cardType: params.get("vnp_CardType"),
-				payDate: params.get("vnp_PayDate"),
-				responseCode: params.get("vnp_ResponseCode"),
-				secureHash: params.get("vnp_SecureHash"),
-				transactionStatus: params.get("vnp_TransactionStatus"),
-				txnRef: params.get("vnp_TxnRef"),
-				tmnCode: params.get("vnp_TmnCode"),
-				orderInfo: params.get("vnp_OrderInfo"),
-				orderId: orderId
-			}
-	
-			let timer: NodeJS.Timeout;
-			
-			const processPayment = async () => {
-				try {
+	useEffect(() => {
+		if (isCartLoading) return;
+		if (Array.isArray(cart) && cart.length > 0) {
+			const calculatedTotal = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
+			setTotalAmount(calculatedTotal);
+		}
+	}, [cart, isCartLoading]);
+
+	useEffect(() => {
+		if (isCartLoading) return;
+		if (!totalAmount) return;
+		if (hasProcessed.current) return;
+
+		hasProcessed.current = true;
+
+		let timer: NodeJS.Timeout;
+		console.log("Payment process started with cart:", cart);
+		console.log("Total amount for payment:", totalAmount);
+		
+		const doPayment = async () => {
+			try {
+				if (paymentMethod === "VNPAY") {
+					const params = new URLSearchParams(location.search);
+					const request = {
+						amount: params.get("vnp_Amount"),
+						transactionNo: params.get("vnp_TransactionNo"),
+						bankCode: params.get("vnp_BankCode"),
+						bankTranNo: params.get("vnp_BankTranNo"),
+						cardType: params.get("vnp_CardType"),
+						payDate: params.get("vnp_PayDate"),
+						responseCode: params.get("vnp_ResponseCode"),
+						secureHash: params.get("vnp_SecureHash"),
+						transactionStatus: params.get("vnp_TransactionStatus"),
+						txnRef: params.get("vnp_TxnRef"),
+						tmnCode: params.get("vnp_TmnCode"),
+						orderInfo: params.get("vnp_OrderInfo"),
+						orderId: orderIdRef.current
+					}
+					
 					const response = await axios.post("/api/Payment/save-payment-info", request);
 					
 					if (response.data.status === "SUCCESS") {
@@ -47,21 +64,22 @@ const PaymentProcess: React.FC = () => {
 							await axios.post("/api/Order/create-order", {
 								status: "pending",
 								total: totalAmount,
-								orderId: orderId,
+								orderId: orderIdRef.current,
 								items: cart.map((item) => ({
 									productId: item.productId,
 									quantity: item.quantity,
 									price: item.price,
-									orderId: orderId
+									orderId: orderIdRef.current
 								}))
 							});
 	
 							await deleteCartItems();
+							console.log("After deleteCartItems, before setTimeout");
 							timer = setTimeout(() => {
 								localStorage.removeItem("paymentResult");
+								console.log("Payment process completed");
 								window.close();
 							}, 3000);
-	
 						} catch (error) {
 							console.error("Error during order creation:", error);
 						}
@@ -74,55 +92,44 @@ const PaymentProcess: React.FC = () => {
 						
 						timer = setTimeout(() => {
 							localStorage.removeItem("paymentResult");
+							window.close();
 						}, 3000);
 					}
-				} catch (error) {
-					console.error("Error during payment process:", error);
-				}
-			};
-	
-			processPayment();
-			return () => {
-				if (timer) {
-					clearTimeout(timer);
-				}
-			};
-		}, [location]);
-	}
-	else if (paymentMethod === "COD") {
-		useEffect(() => {
-			const createCODOrder = async () => {
-			try {
-				await axios.post("/api/Order/create-order", {
-					status: "pending",
-					total: totalAmount,
-					orderId: orderId,
-					items: cart.map((item) => ({
-						productId: item.productId,
-						quantity: item.quantity,
-						price: item.price,
-						orderId: orderId
-					}))
-				});
+				} else if (paymentMethod === "COD") {
+					const createCODOrder = async () => {
+						try {
+							await axios.post("/api/Order/create-order", {
+								status: "pending",
+								total: totalAmount,
+								orderId: orderIdRef.current,
+								items: cart.map((item) => ({
+									productId: item.productId,
+									quantity: item.quantity,
+									price: item.price,
+									orderId: orderIdRef.current
+								}))
+							});
 
-				await deleteCartItems();
-				} catch (error) {
-					console.error("Error during order creation:", error);
+							await deleteCartItems();
+						} catch (error) {
+							console.error("Error during order creation:", error);
+						}
+					}
+					createCODOrder();
+
+					timer = setTimeout(() => {
+						navigate("/payment-result");
+					}, 3000);
 				}
+			} catch (error) {
+				console.error("Error during payment process:", error);
 			}
-			createCODOrder();
+		};
 
-			const timer = setTimeout(() => {
-				navigate("/payment-result");
-			}, 3000);
+		doPayment();
+	}, [isCartLoading, totalAmount, paymentMethod, location, navigate]);
 
-			return () => {
-				if (timer) {
-					clearTimeout(timer);
-				}
-			};
-		}, []);
-	}
+
 	return (
 		<div style={{height: "100vh"}}>
 			<LoadingOverlay />

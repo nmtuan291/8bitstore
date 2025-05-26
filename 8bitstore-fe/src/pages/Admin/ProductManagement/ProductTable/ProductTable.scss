@@ -1,0 +1,26 @@
+.product-table {
+  width: 100%;
+  border: solid black 1px;
+  border-radius: 20px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  overflow: hidden;
+  th {
+    font-weight: 400;
+    border: solid rgb(197, 194, 194) 1px;
+  }
+
+  td {
+    border: solid rgb(197, 194, 194) 1px;
+    text-align: center;
+    vertical-align: middle; 
+
+    button {
+      border: none;
+      background-color: #946CBC;
+      color: white;
+      padding: 5px;
+      margin-right: 5px;
+    }
+  }
+
+}

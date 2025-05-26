@@ -10,6 +10,8 @@ import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import Review from "../../components/Review";
 import Toast from "../../components/Toast";
 import { CartItem, Product } from "../../interfaces/interfaces";
+import { formatNumber } from "../../utils/FormatNumber";
+import type { Review as ReviewType } from "../../interfaces/interfaces";
 
 const ProductDetail: React.FC = () => {
     const [cartItem, setCartItem] = useState<CartItem>({
@@ -21,15 +23,19 @@ const ProductDetail: React.FC = () => {
     });
     const [productDetail, setProductDetail] = useState<Product | null>(null);
     const [currentImage, setCurrentImage] = useState<number>(0);
+    const [showToast, setShowToast] = useState<boolean>(false);
     const { productId } = useParams();
     const { cart, updateCart } = useCart();
     const { wishlistItems, addItem, removeItem} = useWishlist();
+    const [reviews, setReviews] = useState<ReviewType[]>([]);
     
     useEffect(() => {
         (async () => {
             try {
                 const response = await axios.get(`/api/Product/get-product?ProductId=${productId}`);
+                const reviewResponse = await axios.get(`/api/Review/get-reviews?ProductId=${productId}`);
                 setProductDetail(response.data);
+                setReviews(reviewResponse.data);
             } catch (error) {
                 console.log(error);
             }
@@ -64,16 +70,18 @@ const ProductDetail: React.FC = () => {
         if (!item && productId && productDetail) {
             addItem(productId, productDetail.productName, productDetail.imgUrl, productDetail.price);
             console.log("this");
-
+            setShowToast(true);
+        
         } else if (item && productId) {
             removeItem(productId);
         }
-        console.log("asdasdad");
+
     }
 
     return (
         <>
             <div className="">
+                { showToast && <Toast /> }
                 <div className="product-detail-container">
                     <div className="product-images">
                         <div className="sm-image">
@@ -99,7 +107,7 @@ const ProductDetail: React.FC = () => {
                             }
                         </div>
                         <div className="product-price-section">
-                            <p className="product-price">{productDetail && productDetail.price}</p>
+                            <p className="product-price">{productDetail && formatNumber(productDetail.price)}</p>
                             <div className="review-stars">
                                 {
                                 Array.from({ length: score }, (_, __) => 
@@ -113,6 +121,7 @@ const ProductDetail: React.FC = () => {
                                     Array.from({ length: remainStars }, (_, __) => 
                                         <FontAwesomeIcon 
                                             icon={faStar}
+                                            style={{color: "#CFCFCF"}}
                                         />
                                     )
                                 }   
@@ -146,9 +155,18 @@ const ProductDetail: React.FC = () => {
                     </div>
                 </div>
             <div className="review-section">
-                    <Review userId="asd" userName="afafaf" score={3} comment="asdassdadsfadgea"/>
-                    <Review userId="asd" userName="afafaf" score={3} comment="asdassdadsfadgea"/>
-                    <Review userId="asd" userName="afafaf" score={3} comment="asdassdadsfadgea"/>
+                <h4>Đánh giá sản phẩm</h4>
+                    {
+                        reviews.map(review => (
+                            <Review
+                                key={review.productId}
+                                userId={review.productId}
+                                userName={review.userName}
+                                score={review.score}
+                                comment={review.comment}
+                            />
+                        ))
+                    }
                 </div>
             </div>
         </>

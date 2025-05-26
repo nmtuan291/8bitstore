@@ -5,9 +5,10 @@ import { useCart } from "../../contexts/CartProvider";
 import logo from "@/assets/logo/8bitstore-logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart, faCartShopping, faUser, faBars} from "@fortawesome/free-solid-svg-icons";
-import './NavBar.scss'
-import NavBarListTest from "./NavBarListTest";
+import NavMenu from "./NavMenu";
 import axios from "../../apis/axios";
+import { items } from "./MenuItem";
+import './NavBar.scss'
 
 
 interface HoverStatus {
@@ -31,6 +32,7 @@ const NavBar: React.FC<NavBarProps> = ({ displayMobile }) => {
     })
     const { cart } = useCart();
     const [suggestion, setSuggestion] = useState<string[]>([]);
+    const [showSuggestion, setShowSuggestion] = useState<boolean>(false);
 
     const handleSearchBoxChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         const newText = e.target.value;
@@ -38,7 +40,9 @@ const NavBar: React.FC<NavBarProps> = ({ displayMobile }) => {
 
         if (newText.length <= 2 ) {
             setSuggestion([]);
+            setShowSuggestion(false);
         } else {
+            setShowSuggestion(true);
             getSuggestion(newText);
         }
     }
@@ -56,7 +60,7 @@ const NavBar: React.FC<NavBarProps> = ({ displayMobile }) => {
             if (!user && !isLoading) {
                 navigate("/login")
             } else {
-                navigate("/profile")
+                navigate("/profile/detail")
             }
         },
 
@@ -87,7 +91,14 @@ const NavBar: React.FC<NavBarProps> = ({ displayMobile }) => {
             console.log(error);
         }
     }
+
+    const handleSearchClick = (name: string) => {
+        setSearchText(name);
+        navigate(`/product?productName=${encodeURIComponent(name)}`);
+        setShowSuggestion(false);
+    };
     
+
     return (
         <nav className="navbar">
             <div className="navbar-info">
@@ -101,11 +112,11 @@ const NavBar: React.FC<NavBarProps> = ({ displayMobile }) => {
                         onChange= {(e) => handleSearchBoxChange(e)} 
                         value={searchText}/>
                     {
-                        suggestion.length > 0 &&
+                        showSuggestion &&
                         <div className="search-suggestion">
                             <ul>
                                 {
-                                    suggestion.map(name => <li onClick={() => setSearchText(name)}>{name}</li>)
+                                    suggestion.map(name => <li onClick={() => handleSearchClick(name)}>{name}</li>)
                                 }
                             </ul>
                         </div>
@@ -158,7 +169,7 @@ const NavBar: React.FC<NavBarProps> = ({ displayMobile }) => {
                 </div>
             </div>
             <div className="navbar__second-row">
-                <NavBarListTest></NavBarListTest>
+                {items.map(item => <NavMenu title={item.title} items={item.content}/>)}
             </div>
             
         </nav>

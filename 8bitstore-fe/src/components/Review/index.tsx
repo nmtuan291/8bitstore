@@ -12,6 +12,7 @@ interface ReviewProps {
 }
 const Review: React.FC<ReviewProps> = ({ userId, userName, score, comment }) => {
 	let remainStars = 5 - score;
+	console.log(score)
 
 	return (
 		<div className="review-container">
@@ -37,6 +38,7 @@ const Review: React.FC<ReviewProps> = ({ userId, userName, score, comment }) => 
 							Array.from({ length: remainStars }, (_, __) => 
 								<FontAwesomeIcon 
 									icon={faStar}
+									style={{color: "#CFCFCF"}}
 								/>
 							)
 						}   
