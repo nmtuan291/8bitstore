@@ -1,11 +1,12 @@
-
+import "./404.scss";
 
 const NotFoundPage: React.FC = () => {
   
   return (
     <div className="not-found-container">
       <div>
-        404
+        <h1>404</h1>
+        <p>Xin lỗi, trang này không tồn tại</p>
       </div>
     </div>
   );

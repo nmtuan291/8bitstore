@@ -120,7 +120,11 @@ const products: Product[] = [
   }
 ];
 
-const ProductCarousel: React.FC= () => {
+interface ProductCarouselProps {
+  title: string
+}
+
+const ProductCarousel: React.FC<ProductCarouselProps> = ({ title }) => {
   const settings = {
       dots: true,
       infinite: false,
@@ -146,7 +150,7 @@ const ProductCarousel: React.FC= () => {
   return (
       <div className="carousel-container">
         <hr></hr>
-        <h3>Sản phẩm bán chạy</h3>
+        <h3>{title}</h3>
         <Slider {...settings}>
             {products.map(product => (
                 <ProductItem key={product.productId} product={product} />

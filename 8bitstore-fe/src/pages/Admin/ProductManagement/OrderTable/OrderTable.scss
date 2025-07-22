@@ -1,0 +1,15 @@
+.order-table-container {
+    display: flex;
+    width: 70vw;
+    gap: 20px;
+
+    .order-detail {
+        border-radius: 20px;
+        width: 50%;
+        box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+
+        &.hidden {
+            opacity: 0;
+        }
+    }
+}

@@ -1,11 +1,11 @@
 import { useState } from "react";
 import WishlistItem from "./WishlistItem"
-import { useWishlist } from "../../contexts/WishlistProvider";
+import { useGetWishlistQuery, useAddWishlistMutation, useRemoveWishlistMutation } from "../../store/api";
 import Modal from "../../components/Modal";
 import "./Wishlist.scss";
 
 const Wishlist: React.FC = () => {
-	const { wishlistItems, removeItem } = useWishlist();
+	const { data: wishlistItems, isLoading, isError } = useGetWishlistQuery();
 	const [modal, setModal] = useState<boolean>(false);
 	const [deleteProduct, setDeleteProduct] = useState<string>("");
 
@@ -25,7 +25,7 @@ const Wishlist: React.FC = () => {
 			<div className="wishlist-container">
 				<div className="wishlist-list">
 					{
-						wishlistItems.map(item => 
+						wishlistItems?.map(item => 
 							<WishlistItem 
 								productId={item.productId} 
 								productName={item.productName} 

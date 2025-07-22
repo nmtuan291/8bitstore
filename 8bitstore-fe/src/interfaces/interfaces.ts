@@ -20,7 +20,11 @@ export interface Product {
     description: string,
     platform: string[],
     stockNum: number,
-    genre: string[]
+    genre: string[],
+    weight: number,
+    color: string,
+    dimension: string,
+    internalStorage: string
 }
 
 export interface CartItem {
@@ -47,4 +51,19 @@ export interface Review {
     score: number,
     comment: string,
     reviewDate: string
+}
+
+export interface WishlistItem {
+    productId: string,
+    productName: string,
+    imgSrc: string[],
+    price: number
+}
+
+export interface OrderData {
+    items: OrderItem[];
+    orderId: string;
+    total: number;
+    status: string;
+    orderDate: string;
 }

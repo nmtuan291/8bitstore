@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../../contexts/AuthProvider";
-import axios from "../../../src/apis/axios";
 import LoadingOverlay from "../../components/LoadingOverlay";
+import { useGetCurrentUserQuery, useLoginMutation } from "../../store/api";
 import "./Login.scss"
 
 
@@ -10,9 +9,9 @@ const LoginForm: React.FC = () => {
     const [emailText, setEmailText] = useState<string>("");
     const [passwordText, setPasswordText] = useState<string>("");
     const [loginFailed, setLoginFailed] = useState<boolean>(false);
-    const [isLoading, setIsLoading] = useState<boolean>(false);
 
-    const { user, storeUser } = useAuth();
+    const { data: user, refetch: refetchUser, isLoading } = useGetCurrentUserQuery();
+    const [login] = useLoginMutation();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -23,37 +22,25 @@ const LoginForm: React.FC = () => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         try {
-            setIsLoading(true);
             e.preventDefault();
-            const response = await axios.post("/api/User/login", {
+            console.log("here");
+            const response = await login({
                 userName: emailText,
                 password: passwordText,
-            },
-            {
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            },
-        );  
+            }).unwrap();
+            console.log("asdadasd");
 
-            if (response.status === 200) {
+            if (response) {
                 setLoginFailed(false);
-                const userInfo = response.data;
-                storeUser(userInfo)
                 console.log("Login successfully");
                 navigate("/");
             }  else {
                 setLoginFailed(true);
             }
-            console.log(response.status);
+            console.log(response);
         } catch (error: any) {
-            if (error.response.status >= 400 && error.response.status <= 500) {{
-                setLoginFailed(true);
-            }} else {
-                console.log(error.response.data)
-            }
-        } finally {
-            setIsLoading(false);
+            setLoginFailed(true);
+
         }
     }
 

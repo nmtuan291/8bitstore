@@ -17,7 +17,11 @@ const AddProductForm: React.FC<{ showAddProductForm: () => void }> = ({ showAddP
 		manufacturer: "",
 		imgUrl: [],
 		description: "",
-		stockNum: 0
+		stockNum: 0,
+		weight: 0,
+		color: "",
+		dimension: "",
+		internalStorage: ""
 	});
 	const ref = useRef<HTMLDivElement>(null);
 
@@ -81,7 +85,7 @@ const AddProductForm: React.FC<{ showAddProductForm: () => void }> = ({ showAddP
 			(async () => {
 				
 
-				await axios.post("/api/Product/add-product", finalProductInfo);
+				await axios.post("/api/Product", finalProductInfo);
 				console.log("product added");
 			})();
 		} catch (error) {
@@ -89,7 +93,7 @@ const AddProductForm: React.FC<{ showAddProductForm: () => void }> = ({ showAddP
 		}
 	}
 
-	const handleFieldChange = (e: ChangeEvent<HTMLInputElement>, fieldName: string) => {
+	const handleFieldChange = (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>, fieldName: string) => {
 		setProductInfo({
 			...productInfo,
 			[fieldName]: e.target.value
@@ -132,19 +136,8 @@ const AddProductForm: React.FC<{ showAddProductForm: () => void }> = ({ showAddP
 		<div className="form-overlay">
 			<div className="product-form-container" ref={ref}>
 				<div className="product-form">
-					<div className="img-upload">
-						<p>Chọn ảnh(tối đa 5)</p>	
-						{
-							[0, 1, 2, 3, 4].map(index => 
-								<input 
-									type="file" 
-									style={{ padding: '10px' }}	
-									onChange={e => handleImageChange(e, index)}
-								/>
-							)
-						}
-					</div>
 					<div className="product-info">
+						<h6>Thông tin sản phẩm</h6>
 						<input 
 							type="text" 
 							placeholder="Tên sản phảm"
@@ -154,7 +147,7 @@ const AddProductForm: React.FC<{ showAddProductForm: () => void }> = ({ showAddP
 								type="text" 
 								placeholder="Giá"
 								onChange={e => handleFieldChange(e, "price")}
-								value={productInfo.price}></input>	
+								value={productInfo.price === 0 ? "" : productInfo.price}></input>	
 						<input 
 							type="text" 
 							placeholder="Loại sản phẩm"
@@ -169,12 +162,27 @@ const AddProductForm: React.FC<{ showAddProductForm: () => void }> = ({ showAddP
 							type="text" 
 							placeholder="Số lượng"
 							onChange={e => handleFieldChange(e, "stockNum")}
-							value={productInfo.stockNum}></input>
+							value={productInfo.stockNum === 0 ? "" : productInfo.stockNum}></input>
 						<input 
 							type="text" 
-							placeholder="Mô tả"
-							onChange={e => handleFieldChange(e, "description")}
-							value={productInfo.description}></input>
+							placeholder="Cân nặng"
+							onChange={e => handleFieldChange(e, "weight")}
+							value={productInfo.weight === 0 ? "" : productInfo.weight}></input>
+						<input 
+							type="text" 
+							placeholder="Màu sắc"
+							onChange={e => handleFieldChange(e, "color")}
+							value={productInfo.color}></input>
+						<input 
+							type="text" 
+							placeholder="Kích thước"
+							onChange={e => handleFieldChange(e, "dimension")}
+							value={productInfo.dimension}></input>
+						<input 
+							type="text" 
+							placeholder="Kích thước ổ cứng"
+							onChange={e => handleFieldChange(e, "internalStorage")}
+							value={productInfo.internalStorage}></input>
 						<div className="checklist-container">
 							<button onClick={() => setGenreClicked(!genreClicked)}>Thể loại</button>
 							<div className={`checklist ${!genreClicked && "hide"}`}>
@@ -202,16 +210,25 @@ const AddProductForm: React.FC<{ showAddProductForm: () => void }> = ({ showAddP
 							</div>
 						</div>
 					</div>
-					{/* <input className="description-input" type="text"></input> */}
-					<div>
-						<textarea
-							placeholder="Start typing here..."
-							style={{ padding: '10px', fontSize: '16px' }}
-						/>
-				</div>
+					<div className="img-upload">
+						<p>Chọn ảnh(tối đa 5)</p>	
+						{
+							[0, 1, 2, 3, 4].map(index => 
+								<input 
+									type="file" 
+									style={{ padding: '10px' }}	
+									onChange={e => handleImageChange(e, index)}
+								/>
+							)
+						}
+					</div>
+				<textarea 
+							placeholder="Mô tả sản phẩm"
+							onChange={e => handleFieldChange(e, "description")}
+							value={productInfo.description} />
 				</div>
 				<div className="submit-btn-container">
-					<button onClick={handleSubmit}>Upload</button>
+					<button onClick={handleSubmit}>Thêm sản phẩm</button>
 				</div>
 			</div>
 		</div>

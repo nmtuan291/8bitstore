@@ -1,0 +1,25 @@
+.not-found-container {
+    width: 100vw;
+    height: 100vh;
+    background-color: #dfc3fc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    div {
+        background-color: white;
+        height: 60%;
+        width: 40%;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+        border-radius: 15px;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+
+        h1 {
+            font-size: 5rem;
+            color: #714f96;
+        }
+    }
+}

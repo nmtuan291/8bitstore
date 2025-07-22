@@ -36,7 +36,7 @@ const ProductFilter: React.FC = () => {
     items.map((item) => (
       <li key={item}>
         <input type="checkbox" id={item} />
-        <label htmlFor={item}>{item}</label>
+        <label htmlFor={item}>{item}</label>w 
       </li>
     ));
 
@@ -59,9 +59,11 @@ const ProductFilter: React.FC = () => {
 
       <div className="price-filter">
         <h5>Lọc theo giá</h5>
-        <input type="number" placeholder="Giá tối thiểu" />
-        <label>-</label>
-        <input type="number" placeholder="Giá tối đa" />
+        <div className="price-row">
+          <input type="number" placeholder="Giá tối thiểu" />
+          <label>-</label>
+          <input type="number" placeholder="Giá tối đa" />
+        </div>
       </div>
 
       <div className="filter-btn">

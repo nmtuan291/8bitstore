@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import './NavMenu.scss';
+import './HeaderMenu.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';

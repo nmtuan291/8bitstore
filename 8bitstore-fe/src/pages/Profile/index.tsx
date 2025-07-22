@@ -1,33 +1,32 @@
 import { useState, useEffect } from "react";
 import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
-import { useAuth } from "../../contexts/AuthProvider";
 import Avatar from "../../components/Avatar";
 import "./Profile.scss";
 import axios from "../../apis/axios";
 import LoadingOverlay from "../../components/LoadingOverlay";
+import { useGetCurrentUserQuery } from "../../store/api";
 
 const Profile: React.FC = () => {
-  const { user, storeUser } = useAuth();
-  const [isLoading, setIsLoading] = useState(false);
+  const { data: user, isLoading, error } = useGetCurrentUserQuery();
+  const [isLoadingState, setIsLoadingState] = useState(false);
   const navigate = useNavigate();
 
   const handleLogout = async () => {
     try {
-      setIsLoading(true);
+      setIsLoadingState(true);
       const response = await axios.post(`api/User/logout`);
       if (response.status === 200) {
         navigate("/");
-        storeUser(null);
       }
     } catch (error) {
       console.log(error);
     } finally {
-      setIsLoading(false);
+      setIsLoadingState(false);
     }
   }
   return (
     <>
-      {isLoading && <LoadingOverlay />}
+      {isLoadingState && <LoadingOverlay />}
       <div className="profile-container">
         <div className="profile-menu">
           <div className="profile-header">

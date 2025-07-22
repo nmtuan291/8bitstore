@@ -1,4 +1,3 @@
-import { useWishlist } from "../../../contexts/WishlistProvider";
 import "./WishlistItem.scss";
 
 interface WishlistItemProps {

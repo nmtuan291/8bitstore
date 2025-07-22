@@ -1,8 +1,8 @@
-import NavBar from "../components/NavBar";
+import NavBar from "../components/Header";
 import { Outlet, useLocation } from "react-router-dom";
 import Footer from "../components/Footer";
 import "./Layout.scss";
-import MobileMenu from "../components/NavBar/MobileMenu";
+import MobileMenu from "../components/Header/MobileMenu";
 import Breadcrumb from "../components/Breadcrumb";
 import { useState } from "react";
 

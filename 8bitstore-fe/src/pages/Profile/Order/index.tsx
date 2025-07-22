@@ -10,36 +10,24 @@ interface OrderData {
     total: number;
     status: string;
     orderDate: string;
-    // Add other order properties as needed
 }
 
 const Order: React.FC = () => {
     const [selectedFilter, setSelectedFilter] = useState<number>(0);
     const [orders, setOrders] = useState<OrderData[]>([]);
 
-    useEffect(() => {
-        const fetchItems = async () => {
-            try {
-                const response = await axios.get("/api/Order/get-orders");
-                console.log("API Response:", response.data);
-                const ordersData = Array.isArray(response.data.message) ? response.data.message : [];
-                setOrders(ordersData);
-            } catch (error) {
-                console.error("Error fetching orders:", error);
-                setOrders([]);
-            }
-        }
-        fetchItems();
-    }, []);
+    // Remove useEffect+axios logic
+
+    const filteredOrders = orders;
 
     return (
         <div className="order-container">
             <div className="order-filter">
                 <ul>
                     <li className={`${selectedFilter === 0 && "selected"}`} onClick={() => setSelectedFilter(0)}>Tất cả</li>
-                    <li className={`${selectedFilter === 1 && "selected"}`} onClick={() => setSelectedFilter(1)}>Hoàn thành</li>
-                    <li className={`${selectedFilter === 2 && "selected"}`} onClick={() => setSelectedFilter(2)}>Đã thanh toán</li>
-                    <li className={`${selectedFilter === 3 && "selected"}`} onClick={() => setSelectedFilter(3)}>Vận chuyển</li>
+                    <li className={`${selectedFilter === 1 && "selected"}`} onClick={() => setSelectedFilter(1)}>Đang xử lý</li>
+                    <li className={`${selectedFilter === 2 && "selected"}`} onClick={() => setSelectedFilter(2)}>Vận chuyển</li>
+                    <li className={`${selectedFilter === 3 && "selected"}`} onClick={() => setSelectedFilter(3)}>Hoàn thành</li>
                     <li className={`${selectedFilter === 4 && "selected"}`} onClick={() => setSelectedFilter(4)}>Đã hủy</li>
                 </ul>
             </div>
@@ -55,6 +43,12 @@ const Order: React.FC = () => {
                                 createdAt={order.orderDate}/>
                         </div>
                     ))
+            }
+            {
+                filteredOrders.length === 0 &&
+                <div>
+                    <p>Không có đơn hàng nào</p>
+                </div>
             }
         </div>
     )

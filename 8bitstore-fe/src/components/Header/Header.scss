@@ -8,9 +8,24 @@
     z-index: 1000;
     .navbar-info {
         width: 100vw;
-        height: 4vh;
         margin: 0;
         background: #85BDB6;
+
+        .marquee {
+            color: #fff;
+            display: inline-block;
+            white-space: nowrap;
+            animation: marquee 25s linear infinite;
+          }
+
+          @keyframes marquee {
+            0% {
+              transform: translateX(100%);
+            }
+            100% {
+              transform: translateX(-100%);
+            }
+          }
     }
 
     .navbar__first-row {
@@ -21,7 +36,7 @@
         box-sizing: border-box;
         height: 120px;
         align-items: center;
-        z-index: 0;
+        z-index: 2000;
 
         .navbar__logo {
             width: 11vw;
@@ -31,6 +46,7 @@
         }
 
         .navbar__search {
+            position: relative;
             width: 40%;
             height: 35%;
 
@@ -46,25 +62,40 @@
 
             .search-suggestion {
                 position: absolute;
-                height: auto;
-                margin-left: 10px;
-                width: 39%;
-                background-color: #fff;
-
+                background: #fff;
+                pointer-events: auto;
+                width: 100%;
+                left: 0;
+                box-shadow: 0 4px 16px 0 rgba(148, 108, 188, 0.13);
+                border-radius: 12px;
+                border: 1.5px solid #85BDB6;
+                padding: 8px 0;
+                margin-top: 6px;
+                
                 ul {
-                    padding: 0;
+                    padding: 0 0.5em;
+                    margin: 0;
                     
                     li {
                         list-style-type: none;
                         cursor: pointer;
                         user-select: none;
-
+                        padding: 10px 16px;
+                        font-size: 1.08em;
+                        color: #222;
+                        border-radius: 6px;
+                        margin-bottom: 2px;
+                        transition: background 0.18s, color 0.18s;
+                        
                         &:hover {
-                            background-color: rgba(0, 0, 0, 0.1);
+                            background-color: #85BDB6;
+                            color: #fff;
+                        }
+                        &:last-child {
+                            margin-bottom: 0;
                         }
                     }
                 }
-                
             }
         }
         

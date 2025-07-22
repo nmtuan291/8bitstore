@@ -1,11 +1,9 @@
-import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import axios from "../../apis/axios";
-import { useCart } from "../../contexts/CartProvider";
-import { useWishlist } from "../../contexts/WishlistProvider";
+import { useState, useMemo, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useGetProductQuery, useGetReviewsQuery, useGetCartQuery, useAddCartMutation, useUpdateCartMutation, useGetWishlistQuery, useAddWishlistMutation, useRemoveWishlistMutation } from "../../store/api";
 import "./ProductDetail.scss"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faStar } from "@fortawesome/free-solid-svg-icons";
+import { faCropSimple, faStar } from "@fortawesome/free-solid-svg-icons";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import Review from "../../components/Review";
 import Toast from "../../components/Toast";
@@ -14,53 +12,64 @@ import { formatNumber } from "../../utils/FormatNumber";
 import type { Review as ReviewType } from "../../interfaces/interfaces";
 
 const ProductDetail: React.FC = () => {
-    const [cartItem, setCartItem] = useState<CartItem>({
-        productId: "",
-        quantity: 0,
-        productName: "",
-        price: 0,
-        imgUrl: []
-    });
-    const [productDetail, setProductDetail] = useState<Product | null>(null);
+    
     const [currentImage, setCurrentImage] = useState<number>(0);
+    const [tabSelect, setTabSelect] = useState<number>(0);
     const [showToast, setShowToast] = useState<boolean>(false);
     const { productId } = useParams();
-    const { cart, updateCart } = useCart();
-    const { wishlistItems, addItem, removeItem} = useWishlist();
-    const [reviews, setReviews] = useState<ReviewType[]>([]);
-    
-    useEffect(() => {
-        (async () => {
-            try {
-                const response = await axios.get(`/api/Product/get-product?ProductId=${productId}`);
-                const reviewResponse = await axios.get(`/api/Review/get-reviews?ProductId=${productId}`);
-                setProductDetail(response.data);
-                setReviews(reviewResponse.data);
-            } catch (error) {
-                console.log(error);
-            }
-            
-        })();
-    }, []);
+    const navigate = useNavigate();
+    const [addCart] = useAddCartMutation();
+    const [updateCart] = useUpdateCartMutation();
+    const { data: cart = [] } = useGetCartQuery();
+    const { data: wishlistItems = [] } = useGetWishlistQuery();
+    const [addWishlist] = useAddWishlistMutation();
+    const [removeWishlist] = useRemoveWishlistMutation();
 
-    useEffect(() => {
-        const item = cart.find(cartItem => cartItem.productId === productId)
+    const { data: productDetail, isLoading } = useGetProductQuery(productId || "");
+    const { data: reviews = [] } = useGetReviewsQuery(productId || "");
+
+    const [cartItem, setCartItem] = useState<CartItem>({
+        productId: "",
+        productName: "",
+        price: 0,
+        imgUrl: [],
+        quantity: 0
+    });
+
+
+    const fields = [
+        { label: "Tên sản phẩm", key: "productName" },
+        { label: "Nhà sản xuất", key: "manufacturer" },
+        { label: "Kích thước", key: "dimension" },
+        { label: "Loại sản phẩm", key: "type" },
+        { label: "Cân nặng", key: "weight" },
+        { label: "Màu sắc", key: "color" },
+        { label: "Kích thước ổ cứng", key: "internalStorage" },
+      ];
+    
+      useEffect(() => {
+        const item = cart.find((cartItem: CartItem) => cartItem.productId === productId);
+        console.log(cart);
+        console.log("item: ", item);
         if (item) {
-            setCartItem({...item});
-        } else {
-            if (productDetail) {
-                const newItem: CartItem = {
+            if (
+                cartItem.productId !== item.productId ||
+                cartItem.quantity !== item.quantity
+            ) {
+                setCartItem(item);
+            }
+        } else if (!isLoading && productDetail) {
+            if (cartItem.productId !== productDetail.productId) {
+                setCartItem({
                     productId: productDetail.productId,
                     productName: productDetail.productName,
                     price: productDetail.price,
                     imgUrl: productDetail.imgUrl,
                     quantity: 0
-                }
-
-                setCartItem(newItem);
+                });
             }
         }
-    }, [productDetail])
+    }, [isLoading, cart, productId, productDetail]);
 
     const score: number = 3;
     let remainStars = 5 - score;
@@ -68,13 +77,14 @@ const ProductDetail: React.FC = () => {
     const handleWishlistClick = () => {
         const item = wishlistItems.find(i => i.productId === productId);
         if (!item && productId && productDetail) {
-            addItem(productId, productDetail.productName, productDetail.imgUrl, productDetail.price);
-            console.log("this");
+            addWishlist({ productId });
             setShowToast(true);
         
         } else if (item && productId) {
-            removeItem(productId);
+            removeWishlist({ productId });
         }
+
+        console.log("wishlist", wishlistItems);
 
     }
 
@@ -85,13 +95,20 @@ const ProductDetail: React.FC = () => {
                 <div className="product-detail-container">
                     <div className="product-images">
                         <div className="sm-image">
-                            <img src={productDetail?.imgUrl[0]}></img>
-                            <img src={productDetail?.imgUrl[0]}></img>
-                            <img src={productDetail?.imgUrl[0]}></img>
-                            <img src={productDetail?.imgUrl[0]}></img>
+                            {
+                                productDetail?.imgUrl
+                                .slice(0, 5)
+                                .map((image, index) => 
+                                    <img 
+                                        src={image} 
+                                        onClick={() => setCurrentImage(index)}/>
+                                )
+                            }
                         </div>
                         <div className="main-image">
-                            <img src={productDetail?.imgUrl[0]}></img>
+                            <img 
+                                key={productDetail?.imgUrl[currentImage]}
+                                src={productDetail?.imgUrl[currentImage]} />
                         </div>
                     </div>
                     <div className="product-detail">
@@ -127,7 +144,46 @@ const ProductDetail: React.FC = () => {
                                 }   
                             </div>
                         </div>  
-                        <p className="product-description">{productDetail?.description}</p>
+                        <div className="product-description">
+                            <div className="product-info-select">
+                                <span 
+                                    className={`${tabSelect === 0 && "selected"}`}
+                                    onClick={() => setTabSelect(0)}>Thông tin sản phẩm</span>
+                                <span 
+                                    className={`${tabSelect === 1 && "selected"} middle-border`}
+                                    onClick={() => setTabSelect(1)}>Thông số kỹ thuật </span>
+                                <span 
+                                    className={`${tabSelect === 2 && "selected"}`}
+                                    onClick={() => setTabSelect(2)}>Chính sách bảo hành</span>
+                            </div>
+                            <div>
+                                { tabSelect === 0 && <p className="product-info">{productDetail?.description}</p> }
+                                {
+                                    tabSelect === 1 &&
+                                    <table>
+                                        <tbody>
+                                        {fields.map(field => (
+                                            <tr key={field.key}>
+                                                <th>{field.label}</th>
+                                                <td>{productDetail?.[field.key as keyof Product]}</td>
+                                            </tr>
+                                        ))}
+                                        </tbody>
+                                    </table>
+                                }
+                                {
+                                    tabSelect === 2 &&
+                                    <ul className="warranty-policy">
+                                        <li>Sản phẩm được bảo hành chính hãng trong vòng <strong>12 tháng</strong> kể từ ngày mua hàng.</li>
+                                        <li>Bảo hành áp dụng cho các lỗi kỹ thuật do nhà sản xuất.</li>
+                                        <li>Không áp dụng bảo hành đối với các trường hợp: rơi vỡ, vào nước, tự ý tháo lắp, sửa chữa bởi bên thứ ba không được ủy quyền.</li>
+                                        <li>Khách hàng vui lòng giữ hóa đơn mua hàng hoặc phiếu bảo hành để được hỗ trợ nhanh chóng.</li>
+                                        <li>Địa điểm bảo hành: Trung tâm bảo hành chính hãng hoặc tại cửa hàng 8bitstore.</li>
+                                        <li>Mọi thắc mắc hoặc cần hỗ trợ, vui lòng liên hệ hotline: <strong>1900 1234</strong> hoặc email: <strong>support@8bitstore.vn</strong>.</li>
+                                    </ul>
+                                }
+                            </div>
+                        </div>
                         <div className="product-btn-container">
                             <div className="cart-counter">
                                 <p 
@@ -145,12 +201,24 @@ const ProductDetail: React.FC = () => {
                                     +
                                 </p>
                             </div>
-                            <button 
-                                className="product-btn cart-btn"
-                                onClick={() => updateCart(cartItem)}
-                            >
-                                    Thêm vào giỏ hàng
-                            </button>
+                            <div className="button-wrapper">
+                                <button 
+                                    className="product-btn cart-btn green-btn"
+                                    onClick={() => {
+                                        updateCart(cartItem)}}
+                                        
+                                        >
+                                        Thêm vào giỏ hàng
+                                </button>
+                                <button 
+                                    className="product-btn cart-btn purple-btn"
+                                    onClick={() => {
+                                        updateCart(cartItem);
+                                        navigate("/payment");
+                                    }}>
+                                    Thanh toán ngay
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>

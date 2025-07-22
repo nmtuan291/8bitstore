@@ -1,4 +1,4 @@
-import NavMenu from "./NavMenu";
+import NavMenu from "./HeaderMenu";
 
 const NavBarListTest = () => {
     const items = [

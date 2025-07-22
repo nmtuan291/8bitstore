@@ -14,8 +14,7 @@
 		background-color: #fff;
 		width: 60%;
 		box-sizing: border-box;
-		padding-right: 50px;
-		padding-bottom: 20px;
+		padding: 1rem;
 
 		.product-form {
 			height: 800px;
@@ -24,6 +23,7 @@
 			box-sizing: border-box;
 			padding: 20px;
 			display: flex;
+			gap: 10px;
 	
 			input {
 				display: block;
@@ -31,9 +31,15 @@
 			}
 	
 			.product-info {
-				border-left: solid black 1px;
+				box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 				box-sizing: border-box;
-				padding-left: 20px;
+				padding: 1rem;
+			}
+
+			.img-upload {
+				box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+				padding: 1rem;
+				width: 30%;
 			}
 	
 			.checklist-container {
@@ -61,6 +67,15 @@
 			.description-input {
 				width: 100%;
 			}
+
+			textarea {
+				box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+				border: none;
+				resize: none;
+				outline: none;
+				padding: 1rem;
+				flex: 2;
+			}
 		}
 
 		.submit-btn-container {
@@ -69,8 +84,9 @@
 			justify-content: flex-end;
 
 			button {
-				width: 100px;
+				width: 150px;
 				border: none;
+				padding: 10px;
 				background-color: #CAFCD6;
 			}
 		}

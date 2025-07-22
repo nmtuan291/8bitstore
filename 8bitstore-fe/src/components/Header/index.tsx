@@ -1,14 +1,15 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../contexts/AuthProvider";
-import { useCart } from "../../contexts/CartProvider";
+import { useGetCurrentUserQuery, useGetCartQuery } from "../../store/api";
 import logo from "@/assets/logo/8bitstore-logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart, faCartShopping, faUser, faBars} from "@fortawesome/free-solid-svg-icons";
-import NavMenu from "./NavMenu";
+import NavMenu from "./HeaderMenu";
 import axios from "../../apis/axios";
 import { items } from "./MenuItem";
-import './NavBar.scss'
+import './Header.scss'
+import capitalizeString from "../../utils/CapitalizeString";
+import { clippingParents } from "@popperjs/core";
 
 
 interface HoverStatus {
@@ -23,16 +24,18 @@ interface NavBarProps {
 
 const NavBar: React.FC<NavBarProps> = ({ displayMobile }) => {
     const navigate = useNavigate();
-    const { user, isLoading } = useAuth();
+    const { data: user, isLoading: isUserLoading } = useGetCurrentUserQuery();
+    const { data: cart, isLoading: isCartLoading } = useGetCartQuery();
     const [ searchText, setSearchText ] = useState<string>('');
     const [ hoverStatus, setHoverStatus ] = useState<HoverStatus>({
         wishlist: false,
         cart: false,
         user: false
     })
-    const { cart } = useCart();
     const [suggestion, setSuggestion] = useState<string[]>([]);
     const [showSuggestion, setShowSuggestion] = useState<boolean>(false);
+
+    const ref = useRef<HTMLInputElement>(null);
 
     const handleSearchBoxChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         const newText = e.target.value;
@@ -57,7 +60,7 @@ const NavBar: React.FC<NavBarProps> = ({ displayMobile }) => {
 
     const handleIconClick = {
         profileClick: () => {
-            if (!user && !isLoading) {
+            if (!user && !isUserLoading) {
                 navigate("/login")
             } else {
                 navigate("/profile/detail")
@@ -94,15 +97,31 @@ const NavBar: React.FC<NavBarProps> = ({ displayMobile }) => {
 
     const handleSearchClick = (name: string) => {
         setSearchText(name);
-        navigate(`/product?productName=${encodeURIComponent(name)}`);
+        navigate(`/product?productName=${encodeURIComponent(capitalizeString(name))}`);
         setShowSuggestion(false);
     };
+
+
+    useEffect(() => {
+        const closeSugesstion = (event: MouseEvent) => {
+            if (ref.current && !ref.current.contains(event.target as Node)) {
+                console.log("Clicked");
+                setShowSuggestion(false);
+            }
+        }
+
+        document.addEventListener("click", closeSugesstion);
+
+        return () => document.removeEventListener("click", closeSugesstion);
+    }, []);
     
 
     return (
         <nav className="navbar">
             <div className="navbar-info">
-                
+                <div className="marquee">
+                    <span>Thế giới game trong tầm tay bạn - Chốt đơn ngay để nhận nhiềù ưu đãi bất ngờ từ 8bitstore!!!</span>
+                </div>
             </div>
             <div className="navbar__first-row">
                 <img src={logo} className="navbar__logo" onClick={() => navigate("/")}/>
@@ -110,7 +129,8 @@ const NavBar: React.FC<NavBarProps> = ({ displayMobile }) => {
                     <input 
                         type="text" 
                         onChange= {(e) => handleSearchBoxChange(e)} 
-                        value={searchText}/>
+                        value={searchText}
+                        ref={ref}/>
                     {
                         showSuggestion &&
                         <div className="search-suggestion">
@@ -143,7 +163,7 @@ const NavBar: React.FC<NavBarProps> = ({ displayMobile }) => {
                             <span>Giỏ hàng</span>
                         </div>
                         {
-                            cart.length > 0 &&
+                            cart && cart.length > 0 &&
                             <div className="cart-count">
                                 <span>{cart.length}</span>
                             </div>

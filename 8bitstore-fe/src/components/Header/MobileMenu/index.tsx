@@ -72,6 +72,27 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ user, isVisible, setIsVisible})
             Wishlist
           </li>
         </ul>
+        <ul className="product-menu">
+          <li>Sản phẩm bán chạy</li>
+          <li>
+            Playstation
+            <svg width="16" height="16" viewBox="0 0 16 16">
+              <polyline points="4,6 8,10 12,6" fill="none" stroke="#85BDB6" stroke-width="2"/>
+            </svg>
+          </li>
+          <li>
+            Xbox
+            <svg width="16" height="16" viewBox="0 0 16 16">
+              <polyline points="4,6 8,10 12,6" fill="none" stroke="#85BDB6" stroke-width="2"/>
+            </svg>
+          </li>
+          <li>
+            Nintendo
+            <svg width="16" height="16" viewBox="0 0 16 16">
+              <polyline points="4,6 8,10 12,6" fill="none" stroke="#85BDB6" stroke-width="2"/>
+            </svg>
+          </li>
+        </ul>
       </div>
     </div>
   );

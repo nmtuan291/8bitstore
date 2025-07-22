@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faStar } from "@fortawesome/free-solid-svg-icons";
+import { faStar, faTimes } from "@fortawesome/free-solid-svg-icons";
 import "./ReviewForm.scss";
 import { OrderItem } from "../../../../interfaces/interfaces";
 import axios from "../../../../apis/axios";
@@ -23,20 +23,20 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ closeForm, orderItems }) => {
     setStarHover(score);
   }
 
-  const handleStarClick = async (index: number) => {
+  const handleSubmit = async () => {
+    if (!selectedProduct || selectedStar === -1) return;
     try {
       setIsLoading(true);
-      setSelectedStar(index);
-      console.log(index);
-      await axios.post("/api/Review/add-review", {
+      await axios.post("/api/Review/add", {
         productId: selectedProduct,
         comment: comment,
-        score: index + 1
+        score: selectedStar + 1
       })
       setIsLoading(false);
+      closeForm();
     } catch (error) {
+      setIsLoading(false);
       console.log(error);
-    } finally {
       closeForm();
     }
   }
@@ -44,7 +44,6 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ closeForm, orderItems }) => {
   useEffect(() => {
     if (orderItems.length > 0) {
       setSelectedProduct(orderItems[0].productId);
-      console.log(orderItems[0].productId);
     }
   }, [orderItems]);
 
@@ -64,52 +63,55 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ closeForm, orderItems }) => {
   return (
     <div className="review-form-overlay">
       <div className="review-form-container" ref={ref}>
-        <div>
-          <h6>Chọn sản phẩm:</h6>
-          <select
-              value={selectedProduct}
-              onChange={e => {
-                setSelectedProduct(e.target.value);
-                console.log(e.target.value);
-              }}
-            >
-            {
-              orderItems.map(item => {
-                return <option
-                  key={item.productId}  
-                  value={item.productId} >
-                    {item.productName}
-                  </option>
-              })
-            }
-          </select>
-          <div>
-            <textarea 
-              name="comment" 
-              rows={10} 
-              cols={80} 
-              placeholder="Nhập đánh giá sản phẩm..." 
-              onChange={(e) => setComment(e.target.value)} />
-          </div>
-          <div className="score-stars">
+        <button className="close-btn" onClick={closeForm} aria-label="Đóng">
+          <FontAwesomeIcon icon={faTimes} />
+        </button>
+        <h6>Chọn sản phẩm:</h6>
+        <select
+            value={selectedProduct}
+            onChange={e => setSelectedProduct(e.target.value)}
+          >
           {
-            scores.map((score, index) => {
-              if (starHover !== null && index <= starHover) {
-                return <FontAwesomeIcon 
-                          icon={faStar}
-                          style={{color: "yellow", cursor: "pointer", fontSize: "30px"}}
-                           onMouseEnter={() => handleStarHover(index)}
-                           onMouseLeave={() => setStarHover(null)}
-                           onClick={() => handleStarClick(index)}/>
-              }
-              return <FontAwesomeIcon 
-                        icon={faStar} 
-                        onMouseEnter={() => handleStarHover(index)}
-                        style={{ cursor: "pointer", fontSize: "30px", color: "#CFCFCF"}}/>
-            })
+            orderItems.map(item => (
+              <option
+                key={item.productId}  
+                value={item.productId} >
+                  {item.productName}
+                </option>
+            ))
           }
-          </div>
+        </select>
+        <textarea 
+          name="comment" 
+          rows={6} 
+          placeholder="Nhập đánh giá sản phẩm..." 
+          onChange={(e) => setComment(e.target.value)}
+        />
+        <div className="score-stars">
+        {
+          scores.map((score, index) => (
+            <FontAwesomeIcon 
+              key={index}
+              icon={faStar}
+              style={{
+                color: (starHover !== null ? index <= starHover : index <= selectedStar) ? "#FFD600" : "#CFCFCF",
+                cursor: "pointer",
+                fontSize: "30px"
+              }}
+              onMouseEnter={() => handleStarHover(index)}
+              onMouseLeave={() => setStarHover(null)}
+              onClick={() => setSelectedStar(index)}
+            />
+          ))
+        }
         </div>
+        <button
+          className="submit-btn"
+          onClick={handleSubmit}
+          disabled={isLoading || !selectedProduct || selectedStar === -1}
+        >
+          {isLoading ? "Đang gửi..." : "Gửi đánh giá"}
+        </button>
       </div>
     </div>
   )

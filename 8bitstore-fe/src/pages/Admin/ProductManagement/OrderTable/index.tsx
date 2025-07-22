@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Table } from "react-bootstrap"
 import axios from "../../../../apis/axios";
 import { OrderItem } from "../../../../interfaces/interfaces";
+import "./OrderTable.scss"
 
 interface OrderData {
   items: OrderItem[];
@@ -9,18 +10,19 @@ interface OrderData {
   total: number;
   status: string;
   orderDate: string;
+  user: string,
+  phone: string
 }
 
 const OrderTable: React.FC = () => {
   const [orders, setOrders] = useState<OrderData[]>([]);
+  const [selectedOrder, setSelectedOrder] = useState<OrderData | null>(null);
 
 	useEffect(() => {
 		const fetchProducts = async () => {
 			try {
-				const response = await axios.get("/api/Order/get-orders");
-				if (response.status === 200) {
-					setOrders(response.data.message);
-				}
+				const response = await axios.get("/api/Order/get-all");
+        setOrders(response.data.message);
 			} catch (error) {
 				console.log(error);
 			}
@@ -46,12 +48,13 @@ const OrderTable: React.FC = () => {
   }
 
   return (
-    <>
+    <div className="order-table-container ">
       <Table className="product-table">
         <thead>
           <tr>
-            <th>Mã sản phẩm</th>
-            <th>Tên sản phẩm</th>
+            <th>Mã đơn hàng</th>
+            <th>Tên người đặt</th>
+            <th>Số  điện thoại người đặt</th>
             <th>Trạng thái</th>
             <th>Thao tác</th>
           </tr>
@@ -63,7 +66,10 @@ const OrderTable: React.FC = () => {
                 <p>{order.items[0].productName}</p>
               </td>
               <td>
-                <p>{order.orderId}</p>
+                <p>{order.user}</p>
+              </td>
+              <td>
+                <p>{order.phone}</p>
               </td>
               <td>
                 <select defaultValue={order.status} onChange={(e) => handleSelectChange(e, order.orderId)}>
@@ -83,8 +89,10 @@ const OrderTable: React.FC = () => {
           ))}
         </tbody>
       </Table>
-			<button>Cập nhật</button>
-    </>
+      <div className={`order-detail ${selectedOrder === null && "hidden"}`}>
+
+      </div>
+    </div>
   )
 }
 

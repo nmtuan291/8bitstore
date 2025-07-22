@@ -3,11 +3,11 @@ import "./Payment.scss";
 import PaymentMethod from "./PaymentMethod";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../contexts/AuthProvider";
-import { useCart } from "../../contexts/CartProvider";
+import { useGetCartQuery } from "../../store/api";
+import { useGetCurrentUserQuery } from "../../store/api";
 import axios from "../../apis/axios";
 import LoadingOverlay from "../../components/LoadingOverlay";
-import { formatNumber } from "../../utils/formatNumber";
+import { formatNumber } from "../../utils/FormatNumber";	
 
 interface PaymentMethod {
 	method: string;
@@ -17,12 +17,12 @@ interface PaymentMethod {
 const Payment: React.FC = () => {
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([]);
-	const { cart } = useCart();
-	const { user } = useAuth();
+	const { data: cart } = useGetCartQuery();
+	const { data: user } = useGetCurrentUserQuery();
 	const [paymentMethod, setPaymentMethod] = useState<string>("");
 	const [paymentClicked, setPaymentClicked] = useState<boolean>(false);
 	const navigate = useNavigate();
-	const totalAmount: number = cart.reduce((acc, item) =>  acc + item.price * item.quantity, 0);
+	const totalAmount: number = cart?.reduce((acc, item) =>  acc + item.price * item.quantity, 0) || 0;
 	
 	useEffect(() => {
 		setPaymentMethods([
@@ -56,7 +56,7 @@ const Payment: React.FC = () => {
 	}
 
 	useEffect(() => {
-		if (cart.length === 0) {
+		if (!cart || cart.length === 0) {
 			navigate("/");
 		}
 		
@@ -78,7 +78,7 @@ const Payment: React.FC = () => {
 			interval = setInterval(handlePaymentResult, 1000);
 		}
 		return () => clearInterval(interval);
-	}, [paymentClicked, paymentMethod]);
+	}, [paymentClicked, paymentMethod, cart]);
 
 	return (
 		<>
@@ -91,7 +91,7 @@ const Payment: React.FC = () => {
 						</div> */}
 						<div className="product-list">
 							{
-								cart.map(item => 
+								cart?.map(item => 
 								<PaymentItem 
 									productCount={item.quantity} 
 									productName={item.productName} 

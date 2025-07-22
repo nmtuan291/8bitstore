@@ -25,7 +25,12 @@ $filter-font-color: #946CBC;
         align-items: center;
         font-family: "Poppins", sans-serif;
         box-sizing: border-box;
-        padding-top: 50px;
+
+        img {
+            border-radius: 25px;
+            width: 90%;
+            margin: 20px 0 20px 0;
+        }
 
         .product-list-header {
             display: flex;

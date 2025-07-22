@@ -1,5 +1,5 @@
 import React from "react";
-import Loader from "./loader";
+import Loader from "./Loader";
 import "./LoadingOverlay.scss";
 
 const LoadingOverlay: React.FC = () => {

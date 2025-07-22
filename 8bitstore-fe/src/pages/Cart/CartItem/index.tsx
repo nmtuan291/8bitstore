@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { useCart } from "../../../contexts/CartProvider";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import "./CartItem.scss"
@@ -26,7 +25,6 @@ const CartItem: React.FC<CartItemProps> = ({
     }) => {
     const [productCount, setProductCount] = useState<number>(productQuantity);
     const [totalPrice, setTotalPrice] = useState<number>(productCount * productPrice);
-    const { updateCart } = useCart();
     
     const handleDeleteItem = (productId: string) => {
         deleteItem(productId);
@@ -35,13 +33,14 @@ const CartItem: React.FC<CartItemProps> = ({
     const handleQuantityIncrease = () => {
         setProductCount(prev => {
             const increasedQuantity = prev + 1;
-            updateCart({
-                productId: productId,
-                quantity: increasedQuantity,
-                productName: "",
-                price: 0,
-                imgUrl: []
-            });
+            // Use RTK Query mutation hooks for cart actions.
+            // updateCart({
+            //     productId: productId,
+            //     quantity: increasedQuantity,
+            //     productName: "",
+            //     price: 0,
+            //     imgUrl: []
+            // });
 
             setTotalPrice(increasedQuantity * productPrice)
 
@@ -53,13 +52,14 @@ const CartItem: React.FC<CartItemProps> = ({
     const handleQuantityDecrease = () => {
         setProductCount(prev => {
             const decreasedQuantity = prev - 1 >= 1 ? prev - 1 : 1;
-            updateCart({
-                productId: productId,
-                quantity: decreasedQuantity,
-                productName: "",
-                price: 0,
-                imgUrl: []
-            })
+            // Use RTK Query mutation hooks for cart actions.
+            // updateCart({
+            //     productId: productId,
+            //     quantity: decreasedQuantity,
+            //     productName: "",
+            //     price: 0,
+            //     imgUrl: []
+            // })
 
             setTotalPrice(decreasedQuantity * productPrice)
 

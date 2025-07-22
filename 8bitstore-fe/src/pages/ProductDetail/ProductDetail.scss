@@ -1,23 +1,30 @@
+@use "../../styles/responsive.scss" as *;
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 $primary-color: #85BDB6;
 $font-color-purple: #946CBC;
 
 .product-detail-container {
-    width: 99vw;
-    height: 100vh;
+    width: 100vw;
     display: flex;
+    height: 100vh;
+    margin-top: 20px;
     box-sizing: border-box;
-    padding: 0 15em 0 5em;
+    padding: 0 5em 0 5em;
     font-family: "Poppins", sans-serif;
+
+    @include mobile {
+        display: block;
+        padding: 0;
+        height: auto;
+
+    }
 
     .product-images {
         width: 70%;
         height: 100%;
         display: flex;
         justify-content: space-between;
-        border-right: solid #85BDB6 1px;
-
         .sm-image {
             width: 13%;
             display: flex;
@@ -27,27 +34,47 @@ $font-color-purple: #946CBC;
             justify-content: center;
             
             img {
-                border: solid #000 1px;
+                border-radius: 15px;
+                border: solid #85BDB6 1px;
                 width: 80%;
                 aspect-ratio: 1 / 1 ;
                 cursor: pointer;
+
+                &:hover {
+                    border: solid #85BDB6 2px;
+                }
             }
         }
 
         .main-image {
             flex: 1;
+            align-content: center;
 
             img {
                 width: 100%;
+                animation: showImage 1s linear;
+            }
+
+            @keyframes showImage {
+                0% { opacity: 0;}
+                100% { opacity: 1;}
             }
         }
+
     }   
 
     .product-detail {
         // border: solid red 1px;
-        width:50%;
-        height: 100%;
-        padding: 3em 0 3em 3em;
+        width:70%;
+        height: 90%;
+        padding: 3em;
+        border-radius: 25px;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+
+        @include mobile {
+            width: 100%;
+            padding: 1em;
+        }
 
         .product-detail-header{
             display: grid;
@@ -55,6 +82,10 @@ $font-color-purple: #946CBC;
             gap: 20px;
             align-items: center;
             margin-bottom: 50px;
+
+            @include mobile {
+                border-top: solid black 1px;
+            }
 
             .wishlist-icon {
                 display: flex;
@@ -95,22 +126,87 @@ $font-color-purple: #946CBC;
             .review-stars {
                 grid-column: 4;
             }
+
+            .product-price {
+                font-size: 1.5rem;
+                font-weight: 600;
+                color:#85BDB6
+            }
         }
 
         .product-description {
             margin-top: 30px;
             min-height: 50%;
+            margin-bottom: 30px;
+            
+            @include mobile {
+                padding: 0;
+                margin: 0;
+            }
+
+            .product-info-select {
+                display: flex;
+                border-bottom: solid #946CBC 1px;
+                padding-bottom: 2px;
+
+
+                span {
+                    width: 100%;
+                    text-align: center;
+                    cursor: pointer;
+                    transition: background-color 0.2s, color 0.2s;
+                    
+                    &.middle-border {
+                        border-left: solid white 1px;
+                        border-right: solid white 1px;
+                    }
+
+                    &.selected, &:hover {
+                        background-color: #946CBC;
+                        color: #fff;
+                    }
+
+                }
+            }
+
+            .product-info {
+                white-space: pre-line;
+                padding: 30px;
+            }
+
+            .warranty-policy {
+                padding: 30px;
+            }
+
+            table {
+                border-collapse: collapse;
+                width: 100%;
+                background: #fff;
+                margin-top: 30px;
+              }
+              
+              th, td {
+                border: 1px solid #946CBC;
+                padding: 8px 12px;
+                text-align: left;
+              }
+              
+              th {
+                color: #946CBC;
+              }
+              
+              tr:nth-child(even) {
+                background: #f5f5f5;
+              }
         }
 
         .product-btn-container {
-            display: grid;
-            grid-template-rows: repeat(2, 1fr);
-            grid-template-columns: repeat(4,1fr);
+            display: flex;
             gap: 10px;
             
             .cart-counter {
                 display: flex;
-                width: 100%;
+                width: 50%;
                 height: 80%;
                 justify-content: space-around;
                 align-items: center;
@@ -139,31 +235,49 @@ $font-color-purple: #946CBC;
                       }
                 }
             }
-            
-            .product-btn {
-                border: solid $primary-color 1px;
-                border-radius: 30px;
-                background-color: $primary-color;
-                color: #fff;
-                height: 80%;
-                font-weight: 500px;
-                transition: background-color 0.3s, color 0.3s, border 0.3s;
 
-                &:hover {
-                    background-color: #fff;
-                    color: $primary-color;
+            .button-wrapper {
+                display: flex;
+                align-items: center;
+                width: 100%;
+                gap: 10px;
+                
+                .product-btn {
+                    border-radius: 30px;
+                    color: #fff;
+                    width: 100%;
+                    height: 80%;
+                    font-weight: 500px;
+                    transition: background-color 0.3s, color 0.3s, border 0.3s;
+    
+                    &.green-btn {
+                        background-color: $primary-color;
+                        border: solid $primary-color 1px;
+
+                        &:hover {
+                            background-color: #fff;
+                            color: $primary-color;
+                        }
+                    }
+
+                    &.purple-btn {
+                        background-color: $font-color-purple;
+                        border: solid $font-color-purple 1px;
+
+                        &:hover {
+                            background-color: #fff;
+                            color: $font-color-purple;
+                        }
+                    }
+                }
+                
+                .cart-btn {
+                    grid-column-start: 2;
+                    grid-column-end: 5;
                 }
             }
             
-            .cart-btn {
-                grid-column-start: 2;
-                grid-column-end: 5;
-            }
             
-            .buy-now-btn {
-                grid-column: 1 / 5;
-                grid-row: 2;
-            }
         }
     }
 
@@ -172,12 +286,16 @@ $font-color-purple: #946CBC;
 
 .review-section {
     margin-top: 10px;
-    height: 100vh;
     width: 99vw;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 10px;
+
+    @include mobile {
+        height: auto;
+    }
 
     h4 {
         font-size: 1.5em;

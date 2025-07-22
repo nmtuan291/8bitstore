@@ -10,7 +10,7 @@ body {
   display: flex;
   justify-content: center;
   width: 100%;
-  background-color: #eadef7;
+  background-image: linear-gradient(to right, #94130a, #004AAD);
   padding: 30px 20px;
 
   @media (max-width: #{$medium}) {
@@ -20,4 +20,8 @@ body {
   @include mobile {
     padding: 15px 5px;
   }
+}
+
+img {
+  width: 100%;
 }

@@ -6,14 +6,6 @@ import "./PaymentResult.scss";
 
 const PaymentResult: React.FC = () => {
   const navigate = useNavigate();
-  const location = useLocation();
-
-  useEffect(() => {
-    const searchParams = new URLSearchParams(location.search);
-    if (!searchParams.has('reloaded')) {
-      window.location.href = `${location.pathname}?reloaded=true`;
-    }
-  }, [location]);
 
 	return (
 		<div className="result-container">

@@ -2,13 +2,14 @@ import { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import axios from "../../../apis/axios";
 import LoadingOverlay from "../../../components/LoadingOverlay";
-import { useCart } from "../../../contexts/CartProvider";
+import { useGetCartQuery, useDeleteCartItemMutation } from "../../../store/api";
 
 const PaymentProcess: React.FC = () => {
 	const { paymentMethod } = useParams();
 	const location = useLocation();
 	const navigate = useNavigate();
-	const { cart, deleteCartItems, isLoading: isCartLoading } = useCart();
+	const { data: cart, isLoading: isCartLoading } = useGetCartQuery();
+	const [deleteCartItem] = useDeleteCartItemMutation();
 	const orderIdRef = useRef(crypto.randomUUID());
 	const [totalAmount, setTotalAmount] = useState<number>(0);
 	const hasProcessed = useRef(false);
@@ -61,7 +62,7 @@ const PaymentProcess: React.FC = () => {
 						}));
 	
 						try {
-							await axios.post("/api/Order/create-order", {
+							await axios.post("/api/Order/add", {
 								status: "pending",
 								total: totalAmount,
 								orderId: orderIdRef.current,
@@ -73,7 +74,7 @@ const PaymentProcess: React.FC = () => {
 								}))
 							});
 	
-							await deleteCartItems();
+							await deleteCartItem(orderIdRef.current);
 							console.log("After deleteCartItems, before setTimeout");
 							timer = setTimeout(() => {
 								localStorage.removeItem("paymentResult");
@@ -110,7 +111,7 @@ const PaymentProcess: React.FC = () => {
 								}))
 							});
 
-							await deleteCartItems();
+							await deleteCartItem(orderIdRef.current);
 						} catch (error) {
 							console.error("Error during order creation:", error);
 						}
@@ -127,7 +128,7 @@ const PaymentProcess: React.FC = () => {
 		};
 
 		doPayment();
-	}, [isCartLoading, totalAmount, paymentMethod, location, navigate]);
+	}, [isCartLoading, totalAmount, paymentMethod, location, navigate, cart, deleteCartItem]);
 
 
 	return (

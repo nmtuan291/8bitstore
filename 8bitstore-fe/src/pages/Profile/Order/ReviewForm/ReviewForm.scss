@@ -1,5 +1,5 @@
 .review-form-overlay {
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(60, 16, 83, 0.18);
   position: fixed;
   top: 0;
   left: 0;
@@ -8,25 +8,116 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  backdrop-filter: blur(3px);
-  z-index: 9999; 
-
-  select {
-    margin-bottom: 20px;
-    width: 50%;
-  }
+  backdrop-filter: blur(4px);
+  z-index: 9999;
 
   .review-form-container {
-    height: 50%;
+    min-width: 350px;
+    max-width: 95vw;
+    width: 420px;
     background-color: #fff;
     box-sizing: border-box;
-    padding: 30px;
-    border: solid #946CBC 1px;
-    border-radius: 10px;
+    padding: 36px 32px 28px 32px;
+    border: solid #946CBC 1.5px;
+    border-radius: 18px;
+    box-shadow: 0 4px 32px 0 rgba(148, 108, 188, 0.10);
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    position: relative;
+
+    h6 {
+      color: #946CBC;
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 14px;
+      right: 18px;
+      background: none;
+      border: none;
+      font-size: 1.3rem;
+      color: #946CBC;
+      cursor: pointer;
+      transition: color 0.2s;
+      &:hover {
+        color: #85BDB6;
+      }
+    }
+
+    select {
+      margin-bottom: 18px;
+      width: 100%;
+      padding: 8px 10px;
+      border: 1px solid #946CBC;
+      border-radius: 8px;
+      font-size: 1rem;
+      color: #000;
+      background: #fff;
+      transition: border-color 0.2s;
+      &:focus {
+        border-color: #85BDB6;
+        outline: none;
+      }
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 90px;
+      border: 1px solid #946CBC;
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-size: 1rem;
+      color: #000;
+      background: #fff;
+      resize: none;
+      margin-bottom: 10px;
+      transition: border-color 0.2s;
+      &:focus {
+        border-color: #85BDB6;
+        outline: none;
+      }
+    }
 
     .score-stars {
       margin-top: 10px;
       text-align: center;
+      .fa-star {
+        transition: color 0.2s, transform 0.2s;
+        &:hover {
+          color: #85BDB6 !important;
+          transform: scale(1.15);
+        }
+      }
+    }
+
+    .submit-btn {
+      margin-top: 18px;
+      width: 100%;
+      padding: 12px 0;
+      background: #946CBC;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 2px 8px 0 rgba(0,0,0,0.08);
+      transition: background 0.2s, box-shadow 0.2s;
+      &:hover {
+        background: #85BDB6;
+        color: #fff;
+        box-shadow: 0 4px 16px 0 rgba(0,0,0,0.12);
+      }
+      &:disabled {
+        background: #CFCFCF;
+        color: #fff;
+        cursor: not-allowed;
+      }
     }
   }
 }

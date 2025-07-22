@@ -24,7 +24,7 @@ $list-width: 70%;
             min-width: 422px;
             display:flex;
             background-color: #fff;
-            box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
             width: $list-width;
             justify-content: space-around;
             padding: 0;
@@ -32,6 +32,7 @@ $list-width: 70%;
             li {
                 list-style-type: none;
                 width: 100%;
+                padding: 10px;
                 text-align: center;
                 cursor: pointer;
                 transition: background-color 0.3s, color 0.3s;
@@ -57,7 +58,7 @@ $list-width: 70%;
         width: $list-width;
         min-width: 422px;
         background: #fff;
-        box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
         border-radius: 10px;
 
 

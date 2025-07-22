@@ -3,10 +3,64 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
+  background: #f5f5f5;
 
   .result {
-    width: 300px;
-    height: 300px;
+    width: 340px;
+    min-height: 340px;
+    background: #fff;
+    border-radius: 22px;
+    box-shadow: 0 4px 24px 0 rgba(148, 108, 188, 0.10);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    padding: 36px 24px 28px 24px;
+
+    svg {
+      font-size: 3.5rem;
+      color: #85BDB6;
+      margin-bottom: 8px;
+    }
+    p {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #946CBC;
+      margin-bottom: 10px;
+      margin-top: 0;
+      text-align: center;
+    }
+    div {
+      display: flex;
+      gap: 14px;
+      width: 100%;
+      justify-content: center;
+      button {
+        padding: 10px 22px;
+        border-radius: 8px;
+        border: none;
+        background: #946CBC;
+        color: #fff;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.2s, box-shadow 0.2s;
+        box-shadow: 0 2px 8px 0 rgba(0,0,0,0.08);
+        &:hover {
+          background: #85BDB6;
+          color: #fff;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 500px) {
+    .result {
+      width: 98vw;
+      min-height: 220px;
+      padding: 18px 2vw 18px 2vw;
+    }
   }
 }
 
