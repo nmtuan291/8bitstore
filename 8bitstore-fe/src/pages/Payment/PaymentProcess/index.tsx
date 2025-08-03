@@ -30,8 +30,6 @@ const PaymentProcess: React.FC = () => {
 		hasProcessed.current = true;
 
 		let timer: NodeJS.Timeout;
-		console.log("Payment process started with cart:", cart);
-		console.log("Total amount for payment:", totalAmount);
 		
 		const doPayment = async () => {
 			try {

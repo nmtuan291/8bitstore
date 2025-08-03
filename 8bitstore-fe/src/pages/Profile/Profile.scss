@@ -1,109 +1,437 @@
 @use "../../styles/responsive.scss" as *;
-$primary-color: #946CBC;
-$shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
 
+.profile-page {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  background: #f8f9fa;
+  min-height: 100vh;
 
-.profile-container {
-    display: flex;
-    justify-content: flex-start;
-    padding-top: 40px;
-    background: #FCFBFC;
-    padding-left: 5rem;
+  .profile-container {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    max-width: 1400px;
+    margin: 0 auto;
+    min-height: 100vh;
+
+    @media (max-width: #{$medium}) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  // Profile Sidebar
+  .profile-sidebar {
+    background: white;
+    border-right: 1px solid #e9ecef;
+    overflow-y: auto;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+
+    // Profile Header
+    .profile-header {
+      padding: 32px 24px;
+      border-bottom: 1px solid #f0f0f0;
+      text-align: center;
+
+      .profile-avatar {
+        margin-bottom: 20px;
+
+        .avatar-container {
+          position: relative;
+          display: inline-block;
+
+          .edit-avatar-btn {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: #667eea;
+            color: white;
+            border: 2px solid white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            &:hover {
+              background: #5a67d8;
+              transform: scale(1.1);
+            }
+
+            svg {
+              font-size: 0.8rem;
+            }
+          }
+        }
+      }
+
+      .profile-info {
+        .profile-name {
+          font-size: 1.25rem;
+          font-weight: 700;
+          color: #1a1a1a;
+          margin: 0 0 8px 0;
+        }
+
+        .profile-email {
+          color: #6c757d;
+          font-size: 0.9rem;
+          margin: 0 0 12px 0;
+        }
+
+        .profile-status {
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          color: white;
+          padding: 4px 12px;
+          border-radius: 12px;
+          font-size: 0.8rem;
+          font-weight: 500;
+        }
+      }
+    }
+
+    // Navigation
+    .profile-nav {
+      padding: 0;
+
+      .nav-section {
+        &:not(:last-child) {
+          border-bottom: 1px solid #f0f0f0;
+        }
+
+        .nav-section-title {
+          padding: 20px 24px 12px 24px;
+          margin: 0;
+          font-size: 0.85rem;
+          font-weight: 600;
+          color: #6c757d;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+        }
+
+        .nav-menu {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+
+          .nav-item {
+            .nav-link {
+              display: flex;
+              align-items: center;
+              padding: 16px 24px;
+              color: #495057;
+              text-decoration: none;
+              transition: all 0.3s ease;
+              position: relative;
+
+              &:hover {
+                background: #f8f9fa;
+                color: #667eea;
+              }
+
+              &.active {
+                background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+                color: #667eea;
+                border-right: 3px solid #667eea;
+
+                .nav-icon {
+                  color: #667eea;
+                }
+              }
+
+              .nav-icon {
+                width: 40px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: #6c757d;
+                transition: color 0.3s ease;
+
+                svg {
+                  font-size: 1.1rem;
+                }
+              }
+
+              .nav-content {
+                flex: 1;
+
+                .nav-label {
+                  display: block;
+                  font-size: 0.95rem;
+                  font-weight: 500;
+                  line-height: 1.4;
+                }
+
+                .nav-description {
+                  display: block;
+                  font-size: 0.8rem;
+                  color: #6c757d;
+                  margin-top: 2px;
+                  line-height: 1.3;
+                }
+              }
+            }
+          }
+        }
+
+        &.logout-section {
+          padding: 20px 0;
+
+          .logout-btn {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            padding: 16px 24px;
+            background: none;
+            border: none;
+            color: #dc3545;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+
+            &:hover {
+              background: rgba(220, 53, 69, 0.1);
+            }
+
+            .nav-icon {
+              width: 40px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+
+              svg {
+                font-size: 1.1rem;
+              }
+            }
+
+            .nav-content {
+              flex: 1;
+
+              .nav-label {
+                display: block;
+                font-size: 0.95rem;
+                font-weight: 500;
+                line-height: 1.4;
+              }
+
+              .nav-description {
+                display: block;
+                font-size: 0.8rem;
+                color: #dc3545;
+                opacity: 0.8;
+                margin-top: 2px;
+                line-height: 1.3;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    // Mobile Styles
+    @media (max-width: #{$medium}) {
+      position: fixed;
+      top: 0;
+      left: -100%;
+      width: 320px;
+      height: 100vh;
+      z-index: 1050;
+      transition: left 0.3s ease;
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+
+      &.mobile-open {
+        left: 0;
+      }
+    }
 
     @include mobile {
-        display: block;
+      width: 280px;
     }
+  }
 
-    .profile-menu {
-        width: 30%;
-        min-width: 260px;
+  // Mobile Overlay
+  .mobile-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1040;
+    display: none;
+
+    @media (max-width: #{$medium}) {
+      display: block;
+    }
+  }
+
+  // Main Content
+  .profile-main {
+    background: #f8f9fa;
+    overflow-y: auto;
+
+    // Page Header
+    .page-header {
+      background: white;
+      border-bottom: 1px solid #e9ecef;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+
+      .page-header-content {
+        padding: 24px 32px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .mobile-menu-toggle {
+          display: none;
+          background: #667eea;
+          color: white;
+          border: none;
+          padding: 10px 16px;
+          border-radius: 8px;
+          font-size: 0.9rem;
+          font-weight: 500;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          gap: 8px;
+
+          &:hover {
+            background: #5a67d8;
+          }
+
+          svg {
+            font-size: 1rem;
+          }
+
+          @media (max-width: #{$medium}) {
+            display: flex;
+            align-items: center;
+          }
+        }
+
+        .page-title-section {
+          flex: 1;
+
+          .page-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin: 0 0 4px 0;
+            line-height: 1.2;
+
+            @media (max-width: #{$medium}) {
+              font-size: 1.5rem;
+              text-align: center;
+            }
+
+            @include mobile {
+              font-size: 1.25rem;
+            }
+          }
+
+          .page-description {
+            color: #6c757d;
+            margin: 0;
+            font-size: 1rem;
+
+            @media (max-width: #{$medium}) {
+              text-align: center;
+              font-size: 0.9rem;
+            }
+          }
+        }
+
+        .page-actions {
+          display: flex;
+          gap: 12px;
+
+          .action-btn {
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            &.secondary {
+              background: #f8f9fa;
+              color: #495057;
+              border: 1px solid #e9ecef;
+
+              &:hover {
+                background: #e9ecef;
+                color: #495057;
+              }
+            }
+
+            svg {
+              font-size: 0.9rem;
+            }
+
+            @media (max-width: #{$medium}) {
+              display: none;
+            }
+          }
+        }
+
+        @media (max-width: #{$medium}) {
+          padding: 20px 24px;
+          flex-direction: column;
+          gap: 16px;
+          text-align: center;
+        }
 
         @include mobile {
-            width: 100%;
+          padding: 16px 20px;
         }
-
-        .profile-header {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            height: 12rem;
-            width: 90%;
-            border-radius: 25px;
-            box-shadow: $shadow;
-            margin-bottom: 20px;
-            background-color: #fff;
-            box-sizing: border-box;
-            padding-bottom: 10px;
-
-            button {
-                border: solid 1px #946CBC;
-                box-sizing: border-box;
-                padding: 3px;
-                background-color: #946CBC;
-                color: #fff;
-                border-radius: 5px;
-                transition: all 0.3s ease;
-
-                &:hover {
-                    background-color: #fff;
-                    color: #946CBC;
-                }
-            }
-    
-        }
-    
-        .profile-detail-container {
-
-            .profile-detail {
-                display: flex;
-                gap: 4rem;
-                ul {
-                    box-shadow: $shadow;
-                    width: 90%;
-                    list-style: none;
-                    padding: 0;
-                    max-height: 200px;
-                    border-radius: 25px;
-                    background: #fff;
-    
-                    .nav-link {
-                        display: flex;
-                        align-items: center;
-                        height: 50px;
-                        cursor: pointer;
-                        box-sizing: border-box;
-                        padding-left: 30px;
-    
-        
-                        &:hover {
-                            background: $primary-color;
-                            color: #fff;
-    
-                            
-                        }
-    
-                        &.top {
-                            border-top-right-radius: 25px;
-                            border-top-left-radius: 25px;
-                        }
-    
-                        &.bottom {
-                            border-bottom-right-radius: 25px;
-                            border-bottom-left-radius: 25px;
-                        }
-                    }
-                }
-    
-               
-    
-    
-            }
-        }
-
+      }
     }
 
-    .profile-content {
-        width: 100%;
-    }
+    // Content Area
+    .content-area {
+      padding: 32px;
 
+      .content-wrapper {
+        max-width: 1000px;
+        margin: 0 auto;
+      }
+
+      @media (max-width: #{$medium}) {
+        padding: 24px;
+      }
+
+      @include mobile {
+        padding: 20px;
+      }
+    }
+  }
+
+  // Custom Scrollbar
+  .profile-sidebar::-webkit-scrollbar,
+  .profile-main::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .profile-sidebar::-webkit-scrollbar-track,
+  .profile-main::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+
+  .profile-sidebar::-webkit-scrollbar-thumb,
+  .profile-main::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 3px;
+
+    &:hover {
+      background: #a8a8a8;
+    }
+  }
 }

@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { CartItem, User, Product, WishlistItem, OrderData, Review } from "../../interfaces/interfaces";
+import { Address } from "../../interfaces/interfaces";
 
 export const apiSlice = createApi({
     reducerPath: "api",
@@ -7,7 +8,7 @@ export const apiSlice = createApi({
         baseUrl: "https://localhost:7213", 
         credentials: 'include'
     }),
-    tagTypes: ["User", "Cart", "Wishlist", "Product", "Order", "Review"],
+    tagTypes: ["User", "Cart", "Wishlist", "Product", "Order", "Review", "Address"],
     endpoints: builder => ({
         // User
         getCurrentUser: builder.query<User, void>({
@@ -21,6 +22,26 @@ export const apiSlice = createApi({
                 body
             }),
             invalidatesTags: ["User"]
+        }),
+        signUp: builder.mutation<void, {
+            userName: string,
+            Email: string,
+            fullName: string,
+            password: string,
+            confirmPassword: string,
+            phoneNumber: string
+        }>({
+            query: body => ({
+                url: "/api/User/signup",
+                method: "POST",
+                body
+            })
+        }),
+        logout: builder.mutation<void, void>({
+            query: () => ({
+                url: "api/User/logout",
+                method: "POST"
+            })
         }),
         // Cart
         getCart: builder.query<CartItem[], void>({
@@ -82,8 +103,11 @@ export const apiSlice = createApi({
             query: (productId) => `/api/Product/get-product?ProductId=${productId}`,
             providesTags: ["Product"]
         }),
+        getAllProducts: builder.query<Product[], void>({
+            query: () => "/api/Product/get-all",
+        }),
         // Orders
-        getOrders: builder.query<OrderData[], void>({
+        getOrders: builder.query<{ message: OrderData[] }, void>({
             query: () => "/api/Order",
             providesTags: ["Order"]
         }),
@@ -99,6 +123,45 @@ export const apiSlice = createApi({
                 body
             }),
             invalidatesTags: ["Review"]
+        }),
+        // Payment
+        createPaymentUrl: builder.mutation<{ result: string }, { amount: string }>({
+            query: body => ({
+                url: "api/Payment/create-url",
+                method: "POST",
+                body
+            })
+        }),
+        // Address
+        getProvinces: builder.query({
+            query: () => "https://provinces.open-api.vn/api/?depth=3"
+        }),
+        addAddress: builder.mutation({
+            query: body => ({
+                url: "/api/user/address/add",
+                method: "POST",
+                body
+            }),
+            invalidatesTags: ["Address"]
+        }),
+        getAddress: builder.query<Address[], void>({
+            query: () => "/api/user/address",
+            providesTags: ["Address"]
+        }),
+        deleteAddress: builder.mutation<void, string>({
+            query: addressId => ({
+                url: `/api/user/address/delete/${addressId}`,
+                method: "DELETE"
+            }),
+            invalidatesTags: ["Address"]
+        }),
+        updateAddress: builder.mutation({
+            query: body => ({
+                url: "/api/user/address/update",
+                method: "PUT",
+                body
+            }),
+            invalidatesTags: ["Address"]
         })
     })
 })
@@ -106,6 +169,8 @@ export const apiSlice = createApi({
 export const {
     useGetCurrentUserQuery,
     useLoginMutation,
+    useSignUpMutation,
+    useLogoutMutation,
     useGetCartQuery,
     useAddCartMutation,
     useUpdateCartMutation,
@@ -117,5 +182,11 @@ export const {
     useGetProductQuery,
     useGetOrdersQuery,
     useGetReviewsQuery,
-    useAddReviewMutation
+    useAddReviewMutation,
+    useCreatePaymentUrlMutation,
+    useGetAddressQuery,
+    useAddAddressMutation,
+    useUpdateAddressMutation,
+    useDeleteAddressMutation,
+    useGetAllProductsQuery
 } = apiSlice;

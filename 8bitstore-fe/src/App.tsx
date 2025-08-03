@@ -21,6 +21,7 @@ import NotFoundPage from "./pages/404";
 import PaymentResult from "./pages/Payment/PaymentResult";
 import ManageProductList from "./pages/Admin/ProductManagement/ProductTable";
 import OrderTable from "./pages/Admin/ProductManagement/OrderTable";
+import Address from "./pages/Profile/Address";
 function App() {
 
   return (
@@ -36,6 +37,8 @@ function App() {
               <Route path="/profile/order" element={<Order />}/> 
               <Route path="/profile/detail" element={<Detail />} />
               <Route path="/profile/change-pwd" element={<ChangePassword />} />
+              <Route path="/profile/address" element={<Address />} />
+
           </Route>
           <Route element={<ProductManagement />}>
             <Route path="manage/product" element={<ManageProductList />}/>

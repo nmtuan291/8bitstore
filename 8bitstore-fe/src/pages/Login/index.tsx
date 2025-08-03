@@ -10,7 +10,7 @@ const LoginForm: React.FC = () => {
     const [passwordText, setPasswordText] = useState<string>("");
     const [loginFailed, setLoginFailed] = useState<boolean>(false);
 
-    const { data: user, refetch: refetchUser, isLoading } = useGetCurrentUserQuery();
+    const { data: user, error, isLoading } = useGetCurrentUserQuery();
     const [login] = useLoginMutation();
     const navigate = useNavigate();
 

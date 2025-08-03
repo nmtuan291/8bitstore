@@ -67,3 +67,15 @@ export interface OrderData {
     status: string;
     orderDate: string;
 }
+
+export interface Address {
+    id: string | null;
+    recipent: string;
+    recipentPhone: string;
+    addressDetail: string;
+    city: string;
+    district: string;
+    ward: string;
+    isDefault: boolean;
+}
+

@@ -3,8 +3,8 @@ import "./Payment.scss";
 import PaymentMethod from "./PaymentMethod";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useGetCartQuery } from "../../store/api";
-import { useGetCurrentUserQuery } from "../../store/api";
+import { useGetCartQuery, useGetCurrentUserQuery, useCreatePaymentUrlMutation } from "../../store/api";
+import { } from "../../store/api";
 import axios from "../../apis/axios";
 import LoadingOverlay from "../../components/LoadingOverlay";
 import { formatNumber } from "../../utils/FormatNumber";	
@@ -15,14 +15,18 @@ interface PaymentMethod {
 }
 
 const Payment: React.FC = () => {
-	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([]);
-	const { data: cart } = useGetCartQuery();
-	const { data: user } = useGetCurrentUserQuery();
 	const [paymentMethod, setPaymentMethod] = useState<string>("");
 	const [paymentClicked, setPaymentClicked] = useState<boolean>(false);
 	const navigate = useNavigate();
+
+	const { data: cart } = useGetCartQuery();
+	const { data: user } = useGetCurrentUserQuery();
+	const [createPaymentUrl, { isLoading }] = useCreatePaymentUrlMutation();
+
+
 	const totalAmount: number = cart?.reduce((acc, item) =>  acc + item.price * item.quantity, 0) || 0;
+
 	
 	useEffect(() => {
 		setPaymentMethods([
@@ -41,11 +45,8 @@ const Payment: React.FC = () => {
 		setPaymentClicked(true);
 		if (paymentMethod === "VNPAY") {
 			try {
-				const response = await axios.post("api/Payment/create-url", {
-					amount: totalAmount.toString()
-			})
-			setIsLoading(true);
-			window.open(response.data, "_blank");
+			const response = await createPaymentUrl({ amount: totalAmount.toString() }).unwrap();
+			window.open(response.result, "_blank");
 			} catch (error) {
 				console.log(error);
 			}
@@ -62,10 +63,8 @@ const Payment: React.FC = () => {
 		
 		const handlePaymentResult = () => {
 			const storedResult = localStorage.getItem("paymentResult");
-			console.log(storedResult);
 			if (storedResult) {
 				const paymentResult = JSON.parse(storedResult);
-				console.log(paymentResult);
 				if (paymentResult.responseCode === "00") {
 					navigate("/payment-result");
 					console.log(paymentResult.responseCode);

@@ -1,97 +1,198 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
-import "./CartItem.scss"
-import productImg from "../../../assets/images/switch-store-icon.png"
-import Modal from "../../../components/Modal";
+import { 
+  faTrash, 
+  faPlus, 
+  faMinus, 
+  faHeart,
+  faSpinner
+} from "@fortawesome/free-solid-svg-icons";
+import "./CartItem.scss";
 import { formatNumber } from "../../../utils/FormatNumber";
+import { useUpdateCartMutation } from "../../../store/api";
 
 interface CartItemProps {
-    productId: string
-    imgSrc: string[],
-    productName: string,
-    productPrice: number,
-    productQuantity: number,
-    deleteItem: (productId: string) => void
-};
+  productId: string;
+  imgSrc: string[];
+  productName: string;
+  productPrice: number;
+  productQuantity: number;
+  deleteItem: (productId: string) => void;
+}
 
 const CartItem: React.FC<CartItemProps> = ({
-     productId, 
-     imgSrc, 
-     productName, 
-     productPrice, 
-     productQuantity,
-     deleteItem
-    }) => {
-    const [productCount, setProductCount] = useState<number>(productQuantity);
-    const [totalPrice, setTotalPrice] = useState<number>(productCount * productPrice);
+  productId, 
+  imgSrc, 
+  productName, 
+  productPrice, 
+  productQuantity,
+  deleteItem
+}) => {
+  const [productCount, setProductCount] = useState<number>(productQuantity);
+  const [isUpdating, setIsUpdating] = useState<boolean>(false);
+  const [updateCart] = useUpdateCartMutation();
+
+  const totalPrice = productCount * productPrice;
+
+  // Update local state when props change
+  useEffect(() => {
+    setProductCount(productQuantity);
+  }, [productQuantity]);
+
+  const handleDeleteItem = () => {
+    deleteItem(productId);
+  };
+
+  const updateQuantity = async (newQuantity: number) => {
+    if (newQuantity < 1) return;
     
-    const handleDeleteItem = (productId: string) => {
-        deleteItem(productId);
+    setIsUpdating(true);
+    try {
+      await updateCart({
+        productId: productId,
+        quantity: newQuantity
+      }).unwrap();
+      
+      setProductCount(newQuantity);
+    } catch (error) {
+      console.error("Error updating cart:", error);
+      // Revert to previous state on error
+      setProductCount(productQuantity);
+    } finally {
+      setIsUpdating(false);
     }
+  };
 
-    const handleQuantityIncrease = () => {
-        setProductCount(prev => {
-            const increasedQuantity = prev + 1;
-            // Use RTK Query mutation hooks for cart actions.
-            // updateCart({
-            //     productId: productId,
-            //     quantity: increasedQuantity,
-            //     productName: "",
-            //     price: 0,
-            //     imgUrl: []
-            // });
+  const handleQuantityIncrease = () => {
+    const newQuantity = productCount + 1;
+    setProductCount(newQuantity);
+    updateQuantity(newQuantity);
+  };
 
-            setTotalPrice(increasedQuantity * productPrice)
+  const handleQuantityDecrease = () => {
+    if (productCount <= 1) return;
+    const newQuantity = productCount - 1;
+    setProductCount(newQuantity);
+    updateQuantity(newQuantity);
+  };
 
-            return increasedQuantity;
-        });
-        
+  const handleQuantityInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseInt(e.target.value) || 1;
+    if (value > 0 && value <= 99) {
+      setProductCount(value);
     }
+  };
 
-    const handleQuantityDecrease = () => {
-        setProductCount(prev => {
-            const decreasedQuantity = prev - 1 >= 1 ? prev - 1 : 1;
-            // Use RTK Query mutation hooks for cart actions.
-            // updateCart({
-            //     productId: productId,
-            //     quantity: decreasedQuantity,
-            //     productName: "",
-            //     price: 0,
-            //     imgUrl: []
-            // })
-
-            setTotalPrice(decreasedQuantity * productPrice)
-
-            return decreasedQuantity; 
-        });
-        
+  const handleQuantityBlur = () => {
+    if (productCount !== productQuantity) {
+      updateQuantity(productCount);
     }
+  };
 
-    return (
-        <>
-            <div className="cart-item-container">
-            <div className="product-image-section">
-                <img className="product-cart-img" src={imgSrc[0]}></img>
-                <p>{productName}</p>
+  const handleMoveToWishlist = () => {
+    // TODO: Implement move to wishlist functionality
+    console.log("Move to wishlist:", productId);
+    // After successful move, delete from cart
+    // deleteItem(productId);
+  };
+
+  return (
+    <div className="cart-item">
+      <div className="item-content">
+        {/* Product Image & Info */}
+        <div className="product-section">
+          <div className="product-image">
+            <img 
+              src={imgSrc?.[0] || "/default-product.png"} 
+              alt={productName}
+              onError={(e) => {
+                e.currentTarget.src = "/default-product.png";
+              }}
+            />
+          </div>
+          <div className="product-info">
+            <h4 className="product-name">{productName}</h4>
+            <p className="product-id">Mã SP: {productId}</p>
+            <div className="product-actions">
+              <button 
+                className="action-btn wishlist-btn"
+                onClick={handleMoveToWishlist}
+                title="Chuyển vào danh sách yêu thích"
+              >
+                <FontAwesomeIcon icon={faHeart} />
+                Yêu thích
+              </button>
             </div>
-            <p className="price">{formatNumber(productPrice)}</p>
-            <div className="product-count">
-                <button onClick={handleQuantityDecrease}>-</button>
-                <p>{productCount}</p>
-                <button onClick={handleQuantityIncrease}>+</button>
-            </div>
-            <p className="total-price">{formatNumber(totalPrice)}</p>
-            <p 
-                className="delete-product"
-                onClick={() => handleDeleteItem(productId)}
-            >
-                <FontAwesomeIcon icon={faTrash} style={{color: "#C10000", cursor:"pointer"}}></FontAwesomeIcon>
-            </p>
+          </div>
         </div>
-        </>
-        
-    ); 
-}
+
+        {/* Price */}
+        <div className="price-section">
+          <span className="price">{formatNumber(productPrice)}</span>
+        </div>
+
+        {/* Quantity Controls */}
+        <div className="quantity-section">
+          <div className="quantity-controls">
+            <button 
+              className="qty-btn decrease"
+              onClick={handleQuantityDecrease}
+              disabled={productCount <= 1 || isUpdating}
+              title="Giảm số lượng"
+            >
+              <FontAwesomeIcon icon={faMinus} />
+            </button>
+            
+            <input
+              type="number"
+              className="qty-input"
+              value={productCount}
+              onChange={handleQuantityInput}
+              onBlur={handleQuantityBlur}
+              disabled={isUpdating}
+              min="1"
+              max="99"
+            />
+            
+            <button 
+              className="qty-btn increase"
+              onClick={handleQuantityIncrease}
+              disabled={isUpdating || productCount >= 99}
+              title="Tăng số lượng"
+            >
+              <FontAwesomeIcon icon={faPlus} />
+            </button>
+          </div>
+          
+          {isUpdating && (
+            <div className="updating-indicator">
+              <FontAwesomeIcon icon={faSpinner} spin />
+              Đang cập nhật...
+            </div>
+          )}
+        </div>
+
+        {/* Total Price */}
+        <div className="total-section">
+          <span className="total-price">{formatNumber(totalPrice)}</span>
+          <span className="savings">
+            {productCount > 1 && `(${formatNumber(productPrice)} × ${productCount})`}
+          </span>
+        </div>
+
+        {/* Actions */}
+        <div className="actions-section">
+          <button 
+            className="delete-btn"
+            onClick={handleDeleteItem}
+            title="Xóa khỏi giỏ hàng"
+          >
+            <FontAwesomeIcon icon={faTrash} />
+          </button>
+        </div>
+      </div>
+    </div>
+  ); 
+};
 
 export default CartItem;

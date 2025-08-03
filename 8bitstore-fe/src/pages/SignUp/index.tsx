@@ -4,7 +4,7 @@ import "./SignUp.scss";
 import { User } from "../../interfaces/interfaces.ts";
 import { useNavigate } from "react-router-dom";
 import LoadingOverlay from "../../components/LoadingOverlay";
-import axios from "../../apis/axios.ts"
+import { useSignUpMutation } from "../../store/api/index.ts";
 
 
 const RegistrationForm: React.FC = () => {
@@ -20,33 +20,17 @@ const RegistrationForm: React.FC = () => {
     const [tosCheck, setTosCheck] = useState<boolean>(false);
     const [errors, setErrors] = useState<{ [key: string]: string }>({})
     const [tosError, setTosError] = useState<boolean>(false);
-    const [isLoading, setIsLoading] = useState<boolean>(false);
     const [signUpSuccess, setSignUpSuccess] = useState<boolean>(false);
-    const [timer, setTimer] = useState<number>(3);
     const navigate = useNavigate();
+
+    const [signUp, { error, isLoading }] = useSignUpMutation();
+
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setFormData(prevData => ({
             ...prevData,
             [event.target.name]: event.target.value
         }))
     }
-
-    useEffect(() => {
-        let interval: NodeJS.Timeout;
-        if (signUpSuccess) {
-            interval = setInterval(() => {
-                setTimer(prevTimer => prevTimer - 1);
-            }, 1000);
-        }
-
-        return () => clearInterval(interval);
-    }, [signUpSuccess]);
-
-    useEffect(() => {
-        if (timer === 0) {
-            navigate("/login");
-        }
-    }, [timer]);
 
     const handleValidation = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -60,30 +44,19 @@ const RegistrationForm: React.FC = () => {
         handleValidation(event);
         try {
                 event.preventDefault();
-                setIsLoading(true);
-                const response = await axios.post("/api/User/signup", {
+                await signUp(
+                    {
                     userName: formData.userName,
                     Email: formData.email,
                     fullName: formData.fullName,
                     password: formData.password,
                     confirmPassword: formData.confirmPassword,
                     phoneNumber: formData.phoneNumber
-                },
-                {
-                    headers: {
-                        "Content-Type": "application/json"
-                    }
-                });
-
-                if (response.status === 200) {
-                    setSignUpSuccess(true);
-                }
+                }).unwrap();
+                setSignUpSuccess(true);
         } catch (error) {
             console.log(error);
-        } finally {
-            setIsLoading(false);
-        }
-
+        } 
     }
     
     const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -181,8 +154,14 @@ const RegistrationForm: React.FC = () => {
                     {
                         signUpSuccess && 
                         <div className="signup-success">
-                                <h1>Đăng ký thành công</h1>
-                                <p>Trở về trang đăng nhập trong <span>{timer}</span> giây</p>
+                                <h1>Đăng ký thành công!</h1>
+                                <p>Cảm ơn bạn đã đăng ký tài khoản.</p>
+                                <button 
+                                    className="customBtn rounded" 
+                                    onClick={() => navigate("/")}
+                                >
+                                    Về trang chủ
+                                </button>
                         </div>
                     }
                 </div>

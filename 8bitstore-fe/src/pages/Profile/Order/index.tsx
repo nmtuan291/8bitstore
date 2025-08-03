@@ -1,57 +1,268 @@
-import { useState, useEffect } from "react";
-import "./Order.scss"
+import React, { useState, useMemo } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { 
+  faSearch, 
+  faFilter, 
+  faShoppingBag, 
+  faSpinner,
+  faBox,
+  faClipboardCheck,
+  faTruck,
+  faCheckCircle,
+  faTimesCircle,
+  faEye
+} from "@fortawesome/free-solid-svg-icons";
+import "./Order.scss";
 import OrderItem from "./OrderItem";
-import axios from "../../../apis/axios";
 import type { OrderItem as OrderItemType } from "../../../interfaces/interfaces";
+import { useGetOrdersQuery } from "../../../store/api";
+import Loader from "../../../components/LoadingOverlay/Loader";
 
 interface OrderData {
-    items: OrderItemType[];
-    orderId: string;
-    total: number;
-    status: string;
-    orderDate: string;
+  items: OrderItemType[];
+  orderId: string;
+  total: number;
+  status: string;
+  orderDate: string;
+}
+
+interface OrderFilter {
+  id: number;
+  label: string;
+  status: string[];
+  icon: any;
+  color: string;
 }
 
 const Order: React.FC = () => {
-    const [selectedFilter, setSelectedFilter] = useState<number>(0);
-    const [orders, setOrders] = useState<OrderData[]>([]);
+  const [selectedFilter, setSelectedFilter] = useState<number>(0);
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const { data: orders, error, isLoading } = useGetOrdersQuery();
 
-    // Remove useEffect+axios logic
+  const orderFilters: OrderFilter[] = [
+    {
+      id: 0,
+      label: "Tất cả",
+      status: [],
+      icon: faShoppingBag,
+      color: "#667eea"
+    },
+    {
+      id: 1,
+      label: "Đang xử lý",
+      status: ["pending", "processing"],
+      icon: faSpinner,
+      color: "#ffc107"
+    },
+    {
+      id: 2,
+      label: "Đang giao",
+      status: ["shipping", "delivering"],
+      icon: faTruck,
+      color: "#17a2b8"
+    },
+    {
+      id: 3,
+      label: "Hoàn thành",
+      status: ["completed", "delivered"],
+      icon: faCheckCircle,
+      color: "#28a745"
+    },
+    {
+      id: 4,
+      label: "Đã hủy",
+      status: ["cancelled", "failed"],
+      icon: faTimesCircle,
+      color: "#dc3545"
+    }
+  ];
 
-    const filteredOrders = orders;
+  const filteredOrders = useMemo(() => {
+    if (!orders?.message) return [];
 
+    let filtered = orders.message;
+
+    // Filter by status
+    if (selectedFilter > 0) {
+      const filter = orderFilters.find(f => f.id === selectedFilter);
+      if (filter) {
+        filtered = filtered.filter(order => 
+          filter.status.includes(order.status.toLowerCase())
+        );
+      }
+    }
+
+    // Filter by search query
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase();
+      filtered = filtered.filter(order =>
+        order.orderId.toLowerCase().includes(query) ||
+        order.items.some(item => 
+          item.productName.toLowerCase().includes(query)
+        )
+      );
+    }
+
+    return filtered;
+  }, [orders?.message, selectedFilter, searchQuery, orderFilters]);
+
+  const getOrderCounts = () => {
+    if (!orders?.message) return {};
+    
+    const counts: { [key: number]: number } = { 0: orders.message.length };
+    
+    orderFilters.slice(1).forEach(filter => {
+      counts[filter.id] = orders.message.filter(order =>
+        filter.status.includes(order.status.toLowerCase())
+      ).length;
+    });
+
+    return counts;
+  };
+
+  const orderCounts = getOrderCounts();
+
+  if (isLoading) {
     return (
-        <div className="order-container">
-            <div className="order-filter">
-                <ul>
-                    <li className={`${selectedFilter === 0 && "selected"}`} onClick={() => setSelectedFilter(0)}>Tất cả</li>
-                    <li className={`${selectedFilter === 1 && "selected"}`} onClick={() => setSelectedFilter(1)}>Đang xử lý</li>
-                    <li className={`${selectedFilter === 2 && "selected"}`} onClick={() => setSelectedFilter(2)}>Vận chuyển</li>
-                    <li className={`${selectedFilter === 3 && "selected"}`} onClick={() => setSelectedFilter(3)}>Hoàn thành</li>
-                    <li className={`${selectedFilter === 4 && "selected"}`} onClick={() => setSelectedFilter(4)}>Đã hủy</li>
-                </ul>
-            </div>
-            {
-                    orders.map((order, index) => (
-                        <div className="order-list">
-                            <OrderItem 
-                                key={index} 
-                                items={order.items} 
-                                orderId={order.orderId} 
-                                total={order.total}
-                                status={order.status}
-                                createdAt={order.orderDate}/>
-                        </div>
-                    ))
-            }
-            {
-                filteredOrders.length === 0 &&
-                <div>
-                    <p>Không có đơn hàng nào</p>
-                </div>
-            }
+      <div className="order-loading">
+        <Loader />
+        <p>Đang tải danh sách đơn hàng...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="order-error">
+        <div className="error-content">
+          <FontAwesomeIcon icon={faTimesCircle} className="error-icon" />
+          <h3>Không thể tải đơn hàng</h3>
+          <p>Có lỗi xảy ra khi tải danh sách đơn hàng. Vui lòng thử lại sau.</p>
+          <button className="retry-btn" onClick={() => window.location.reload()}>
+            Thử lại
+          </button>
         </div>
-    )
-}
+      </div>
+    );
+  }
+
+  return (
+    <div className="order-page">
+      {/* Header */}
+      <div className="order-header">
+        <div className="header-content">
+          <div className="header-info">
+            <h2>Đơn hàng của tôi</h2>
+            <p>Theo dõi và quản lý tất cả đơn hàng của bạn</p>
+          </div>
+          
+          {/* Search */}
+          <div className="search-section">
+            <div className="search-box">
+              <FontAwesomeIcon icon={faSearch} className="search-icon" />
+              <input
+                type="text"
+                placeholder="Tìm theo mã đơn hàng hoặc tên sản phẩm..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="search-input"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Filters */}
+      <div className="order-filters">
+        <div className="filters-container">
+          {orderFilters.map((filter) => (
+            <button
+              key={filter.id}
+              className={`filter-btn ${selectedFilter === filter.id ? 'active' : ''}`}
+              onClick={() => setSelectedFilter(filter.id)}
+              style={{ 
+                '--filter-color': filter.color,
+                backgroundColor: selectedFilter === filter.id ? filter.color : 'transparent',
+                color: selectedFilter === filter.id ? 'white' : filter.color,
+                borderColor: filter.color
+              } as React.CSSProperties}
+            >
+              <FontAwesomeIcon icon={filter.icon} className="filter-icon" />
+              <span className="filter-label">{filter.label}</span>
+              {orderCounts[filter.id] !== undefined && (
+                <span className="filter-count">{orderCounts[filter.id]}</span>
+              )}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Orders List */}
+      <div className="orders-container">
+        {filteredOrders.length > 0 ? (
+          <div className="orders-list">
+            {filteredOrders.map((order, index) => (
+              <div key={order.orderId || index} className="order-item-wrapper">
+                <OrderItem 
+                  items={order.items} 
+                  orderId={order.orderId} 
+                  total={order.total}
+                  status={order.status}
+                  createdAt={order.orderDate}
+                />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="empty-orders">
+            <div className="empty-content">
+              <FontAwesomeIcon icon={faBox} className="empty-icon" />
+              <h3>
+                {searchQuery.trim() 
+                  ? "Không tìm thấy đơn hàng" 
+                  : selectedFilter === 0 
+                    ? "Chưa có đơn hàng nào" 
+                    : `Không có đơn hàng ${orderFilters[selectedFilter]?.label.toLowerCase()}`
+                }
+              </h3>
+              <p>
+                {searchQuery.trim() 
+                  ? "Thử thay đổi từ khóa tìm kiếm hoặc bộ lọc."
+                  : selectedFilter === 0 
+                    ? "Hãy mua sắm và đặt hàng để theo dõi đơn hàng tại đây."
+                    : "Thử chọn bộ lọc khác để xem đơn hàng."
+                }
+              </p>
+              {selectedFilter !== 0 && (
+                <button 
+                  className="clear-filter-btn"
+                  onClick={() => setSelectedFilter(0)}
+                >
+                  Xem tất cả đơn hàng
+                </button>
+              )}
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Summary */}
+      {orders?.message && orders.message.length > 0 && (
+        <div className="order-summary">
+          <div className="summary-content">
+            <div className="summary-item">
+              <span className="summary-label">Tổng đơn hàng:</span>
+              <span className="summary-value">{orders.message.length}</span>
+            </div>
+            <div className="summary-item">
+              <span className="summary-label">Hiển thị:</span>
+              <span className="summary-value">{filteredOrders.length}</span>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
 
 export default Order;
