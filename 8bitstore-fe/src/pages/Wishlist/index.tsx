@@ -32,18 +32,17 @@ const Wishlist: React.FC = () => {
     setDeleteProduct(productId);
   };
 
+
   const handleDeleteItem = async () => {
     try {
       await removeWishlist({ productId: deleteProduct }).unwrap();
       setModal(false);
     } catch (error) {
-      console.error("Error removing from wishlist:", error);
       setModal(false);
     }
   };
-
   const handleContinueShopping = () => {
-    navigate("/products");
+    navigate("/product");
   };
 
   const filteredItems = React.useMemo(() => {
@@ -112,8 +111,6 @@ const Wishlist: React.FC = () => {
               </div>
             </div>
           </div>
-
-          {/* Search and Controls */}
           {wishlistItems && wishlistItems.length > 0 && (
             <div className="wishlist-controls">
               <div className="controls-content">
@@ -153,7 +150,6 @@ const Wishlist: React.FC = () => {
             </div>
           )}
 
-          {/* Wishlist Content */}
           <div className="wishlist-content">
             {filteredItems.length > 0 ? (
               <div className={`wishlist-items ${viewMode}-view`}>
@@ -163,7 +159,7 @@ const Wishlist: React.FC = () => {
                     productId={item.productId} 
                     productName={item.productName} 
                     productPrice={item.price} 
-                    imgSrc={item.imgSrc?.[0] || ""}
+                    imgSrc={item.imgUrl?.[0] || ""}
                     deleteItem={handleDeleteModal}
                     viewMode={viewMode}
                   />

@@ -1,0 +1,167 @@
+.product-sort-container {
+  position: relative;
+  display: inline-block;
+  z-index: 100;
+
+  .sort-dropdown {
+    position: relative;
+  }
+
+  .sort-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 16px;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 14px;
+    font-weight: 500;
+    color: #4a5568;
+    min-width: 160px;
+    justify-content: space-between;
+
+    &:hover {
+      border-color: #667eea;
+      box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);
+    }
+
+    &.active {
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .sort-icon {
+      font-size: 14px;
+      color: #718096;
+    }
+
+    .sort-label {
+      flex: 1;
+      text-align: left;
+    }
+
+    .chevron-icon {
+      font-size: 12px;
+      color: #718096;
+      transition: transform 0.2s ease;
+
+      &.rotated {
+        transform: rotate(180deg);
+      }
+    }
+  }
+
+  .dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    transition: all 0.2s ease;
+    margin-top: 4px;
+    z-index: 1000;
+
+    &.show {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .dropdown-item {
+      display: block;
+      width: 100%;
+      padding: 12px 16px;
+      background: none;
+      border: none;
+      text-align: left;
+      font-size: 14px;
+      color: #4a5568;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border-radius: 0;
+
+      &:first-child {
+        border-radius: 8px 8px 0 0;
+      }
+
+      &:last-child {
+        border-radius: 0 0 8px 8px;
+      }
+
+      &:hover {
+        background: #f7fafc;
+        color: #667eea;
+      }
+
+      &.active {
+        background: #667eea;
+        color: white;
+        font-weight: 600;
+
+        &:hover {
+          background: #5a67d8;
+        }
+      }
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .product-sort-container {
+    .sort-button {
+      padding: 10px 12px;
+      font-size: 13px;
+      min-width: 140px;
+
+      .sort-icon {
+        font-size: 13px;
+      }
+
+      .chevron-icon {
+        font-size: 11px;
+      }
+    }
+
+    .dropdown-menu {
+      .dropdown-item {
+        padding: 10px 12px;
+        font-size: 13px;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .product-sort-container {
+    .sort-button {
+      padding: 8px 10px;
+      font-size: 12px;
+      min-width: 120px;
+
+      .sort-icon {
+        font-size: 12px;
+      }
+
+      .chevron-icon {
+        font-size: 10px;
+      }
+    }
+
+    .dropdown-menu {
+      .dropdown-item {
+        padding: 8px 10px;
+        font-size: 12px;
+      }
+    }
+  }
+} 

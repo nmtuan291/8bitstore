@@ -2,15 +2,12 @@ import React, { useState, useMemo } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { 
   faSearch, 
-  faFilter, 
   faShoppingBag, 
   faSpinner,
   faBox,
-  faClipboardCheck,
   faTruck,
   faCheckCircle,
   faTimesCircle,
-  faEye
 } from "@fortawesome/free-solid-svg-icons";
 import "./Order.scss";
 import OrderItem from "./OrderItem";
@@ -50,28 +47,28 @@ const Order: React.FC = () => {
     {
       id: 1,
       label: "Đang xử lý",
-      status: ["pending", "processing"],
+      status: ["pending"],
       icon: faSpinner,
       color: "#ffc107"
     },
     {
       id: 2,
       label: "Đang giao",
-      status: ["shipping", "delivering"],
+      status: ["shipped"],
       icon: faTruck,
       color: "#17a2b8"
     },
     {
       id: 3,
       label: "Hoàn thành",
-      status: ["completed", "delivered"],
+      status: ["delivered"],
       icon: faCheckCircle,
       color: "#28a745"
     },
     {
       id: 4,
       label: "Đã hủy",
-      status: ["cancelled", "failed"],
+      status: ["cancelled"],
       icon: faTimesCircle,
       color: "#dc3545"
     }
@@ -172,7 +169,6 @@ const Order: React.FC = () => {
         </div>
       </div>
 
-      {/* Filters */}
       <div className="order-filters">
         <div className="filters-container">
           {orderFilters.map((filter) => (
@@ -197,7 +193,6 @@ const Order: React.FC = () => {
         </div>
       </div>
 
-      {/* Orders List */}
       <div className="orders-container">
         {filteredOrders.length > 0 ? (
           <div className="orders-list">
@@ -246,7 +241,6 @@ const Order: React.FC = () => {
         )}
       </div>
 
-      {/* Summary */}
       {orders?.message && orders.message.length > 0 && (
         <div className="order-summary">
           <div className="summary-content">

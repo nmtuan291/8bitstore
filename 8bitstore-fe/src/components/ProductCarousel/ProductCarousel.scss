@@ -1,10 +1,18 @@
 .carousel-container {
   box-sizing: border-box;
-  padding: 2rem 5rem 5rem 5rem;
 
   h3 {
     color: #85BDB6;
     margin-bottom: 20px;
     font-size: 1.5rem;
+  }
+
+  .slick-slide {
+    padding: 0 15px;
+    
+    .product-card {
+      width: 70%;
+      min-width: 280px;
+    }
   }
 }

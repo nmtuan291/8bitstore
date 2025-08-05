@@ -103,7 +103,6 @@ const OrderTable: React.FC = () => {
   const getStatusIcon = (status: string) => {
     switch (status) {
       case "pending": return faClock;
-      case "confirmed": return faCheckCircle;
       case "shipped": return faTruck;
       case "delivered": return faBoxOpen;
       case "cancelled": return faTimesCircle;
@@ -114,7 +113,6 @@ const OrderTable: React.FC = () => {
   const getStatusColor = (status: string) => {
     switch (status) {
       case "pending": return "warning";
-      case "confirmed": return "info";
       case "shipped": return "primary";
       case "delivered": return "success";
       case "cancelled": return "danger";
@@ -199,7 +197,6 @@ const OrderTable: React.FC = () => {
           >
             <option value="all">Tất cả trạng thái</option>
             <option value="pending">Chờ xác nhận</option>
-            <option value="confirmed">Đã xác nhận</option>
             <option value="shipped">Đang giao hàng</option>
             <option value="delivered">Đã giao hàng</option>
             <option value="cancelled">Đã hủy</option>
@@ -270,7 +267,6 @@ const OrderTable: React.FC = () => {
                         <FontAwesomeIcon icon={getStatusIcon(order.status)} />
                         <span>
                           {order.status === "pending" && "Chờ xác nhận"}
-                          {order.status === "confirmed" && "Đã xác nhận"}
                           {order.status === "shipped" && "Đang giao"}
                           {order.status === "delivered" && "Đã giao"}
                           {order.status === "cancelled" && "Đã hủy"}
@@ -282,7 +278,6 @@ const OrderTable: React.FC = () => {
                         className="status-select"
                       >
                         <option value="pending">Chờ xác nhận</option>
-                        <option value="confirmed">Đã xác nhận</option>
                         <option value="shipped">Đang giao hàng</option>
                         <option value="delivered">Đã giao hàng</option>
                         <option value="cancelled">Đã hủy</option>

@@ -49,7 +49,7 @@ export const apiSlice = createApi({
             transformResponse: (response: any) => response.cartItems ?? [],
             providesTags: ["Cart"]
         }),
-        addCart: builder.mutation<void, { productId: string, quantity: number }>({
+        addCart: builder.mutation<void, CartItem>({
             query: body => ({
                 url: "/api/Cart/add",
                 method: "POST",
@@ -57,7 +57,7 @@ export const apiSlice = createApi({
             }),
             invalidatesTags: ["Cart"]
         }),
-        updateCart: builder.mutation<void, { productId: string, quantity: number }>({
+        updateCart: builder.mutation<void, CartItem>({
             query: body => ({
                 url: "/api/Cart/add",
                 method: "POST",
@@ -110,6 +110,17 @@ export const apiSlice = createApi({
         getOrders: builder.query<{ message: OrderData[] }, void>({
             query: () => "/api/Order",
             providesTags: ["Order"]
+        }),
+        cancelOrder: builder.mutation<void, string>({
+            query: orderId => ({
+                url: `/api/Order/change-status/${orderId}`,
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify("cancelled")
+            }),
+            invalidatesTags: ["Order"]
         }),
         // Reviews
         getReviews: builder.query<Review[], string>({
@@ -188,5 +199,6 @@ export const {
     useAddAddressMutation,
     useUpdateAddressMutation,
     useDeleteAddressMutation,
-    useGetAllProductsQuery
+    useGetAllProductsQuery,
+    useCancelOrderMutation
 } = apiSlice;

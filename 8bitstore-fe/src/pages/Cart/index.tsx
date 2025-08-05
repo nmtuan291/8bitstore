@@ -30,22 +30,21 @@ import LoadingOverlay from "../../components/LoadingOverlay";
 import { formatNumber } from "../../utils/FormatNumber";
 
 const Cart: React.FC = () => {
-  const { data: cart, isLoading, error } = useGetCartQuery();
-  const { data: user } = useGetCurrentUserQuery();
+  const { data: cart, isLoading, error, refetch } = useGetCartQuery();
   const [modal, setModal] = useState<boolean>(false);
   const [deleteProduct, setDeleteProduct] = useState<string>("");
   const [paymentMethod, setPaymentMethod] = useState<string>("");
   const [paymentClicked, setPaymentClicked] = useState<boolean>(false);
   const [selectedAddress, setSelectedAddress] = useState<string>("1");
+  const [isPaying, setIsPaying] = useState<boolean>(false);
   
   const [deleteCartItem] = useDeleteCartItemMutation();
   const [createPaymentUrl, { isLoading: isPaymentLoading }] = useCreatePaymentUrlMutation();
 
+
   const {data: addresses, isLoading: addressLoading} = useGetAddressQuery();
 
   const navigate = useNavigate();
-
-
 
   // Calculate totals
   const cartTotals = useMemo(() => {
@@ -85,13 +84,7 @@ const Cart: React.FC = () => {
   };
 
   const handleContinueShopping = () => {
-    navigate("/products");
-  };
-
-  const handleCheckout = () => {
-    if (cart && cart.length > 0) {
-      navigate("/payment");
-    }
+    navigate("/product");
   };
 
   const handlePaymentClick = async () => {
@@ -105,6 +98,7 @@ const Cart: React.FC = () => {
       try {
         const response = await createPaymentUrl({ amount: cartTotals.total.toString() }).unwrap();
         window.open(response.result, "_blank");
+        setIsPaying(true)
       } catch (error) {
         console.log(error);
       }
@@ -121,7 +115,8 @@ const Cart: React.FC = () => {
         const paymentResult = JSON.parse(storedResult);
         if (paymentResult.responseCode === "00") {
           navigate("/payment-result");
-          console.log(paymentResult.responseCode);
+        } else {
+          setIsPaying(false)
         }
       }
     };
@@ -134,6 +129,7 @@ const Cart: React.FC = () => {
     return () => clearInterval(interval);
   }, [paymentClicked, paymentMethod, navigate]);
 
+ 
   if (isLoading) {
     return (
       <div className="cart-loading">
@@ -147,7 +143,7 @@ const Cart: React.FC = () => {
 
   return (
     <>
-      {(isPaymentLoading) && <LoadingOverlay />}
+      {(isPaymentLoading || isPaying) && <LoadingOverlay />}
       {modal && (
         <Modal 
           message="Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng?" 
@@ -266,16 +262,8 @@ const Cart: React.FC = () => {
                       <span className="total-amount">{formatNumber(cartTotals.total)}</span>
                     </div>
                   </div>
-
-                  <div className="checkout-section">
-                    <div className="payment-badges">
-                      <span className="badge">🔒 Thanh toán an toàn</span>
-                      <span className="badge">📱 Hỗ trợ ví điện tử</span>
-                    </div>
-                  </div>
                 </div>
 
-                {/* User Delivery Information - Updated CSS v2 */}
                 <div className="delivery-info-card">
                   <h3>
                     <FontAwesomeIcon icon={faMapMarkerAlt} />

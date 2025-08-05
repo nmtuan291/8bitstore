@@ -24,14 +24,12 @@ const HomePage: React.FC = () => {
                 </div>
             </section>
 
-            {/* Featured Products */}
             <section className="featured-section">
                 <div className="section-container">
-                    <ProductCarousel title="Sản phẩm nổi bật" />
+                    <ProductCarousel title="Sản phẩm nổi bật" type="score"/>
                 </div>
             </section>
 
-            {/* Promotional Banner */}
             <section className="promo-banner">
                 <div className="promo-content">
                     <div className="promo-text">
@@ -52,7 +50,7 @@ const HomePage: React.FC = () => {
                         <h2 className="section-title">Bán chạy nhất</h2>
                         <p className="section-subtitle">Sản phẩm phổ biến nhất trong cộng đồng game thủ</p>
                     </div>
-                    <ProductCarousel title="Sản phẩm bán chạy" />
+                    <ProductCarousel title="Sản phẩm bán chạy" type="sale"/>
                 </div>
             </section>
 
@@ -63,7 +61,7 @@ const HomePage: React.FC = () => {
                         <h2 className="section-title">Hàng mới về</h2>
                         <p className="section-subtitle">Thiết bị và phụ kiện gaming mới nhất</p>
                     </div>
-                    <ProductCarousel title="Sản phẩm mới" />
+                    <ProductCarousel title="Sản phẩm mới" type="date"/>
                 </div>
             </section>
 

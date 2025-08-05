@@ -10,44 +10,39 @@ interface ReviewProps {
 	score: number,
 	comment: string
 }
+
 const Review: React.FC<ReviewProps> = ({ userId, userName, score, comment }) => {
-	let remainStars = 5 - score;
-	console.log(score)
+	const renderStars = () => {
+		return Array.from({ length: 5 }, (_, index) => (
+			<FontAwesomeIcon 
+				key={index}
+				icon={faStar}
+				className={`star ${index < score ? 'filled' : 'empty'}`}
+			/>
+		));
+	};
 
 	return (
 		<div className="review-container">
 			<div className="user-info-container">
 				<div className="avatar">
-					<Avatar imgUrl="" width={0} height={0}></Avatar>
+					<Avatar imgUrl="" width={48} height={48} userName={userName} />
 				</div>
 				<div className="user-info">
-					
 					<div className="username">
 						{userName}
 					</div>
 					<div className="user-score">
-						{
-							Array.from({ length: score }, (_, __) => 
-								<FontAwesomeIcon 
-									icon={faStar}
-									style={{color: "yellow"}}
-								/>
-							)
-						}
-						{
-							Array.from({ length: remainStars }, (_, __) => 
-								<FontAwesomeIcon 
-									icon={faStar}
-									style={{color: "#CFCFCF"}}
-								/>
-							)
-						}   
+						{renderStars()}
+						<span className="score-text">{score}/5</span>
 					</div>
 				</div>
 			</div>
-			<p className="comment">
-				{comment}
-			</p>
+			<div className="comment-container">
+				<p className="comment">
+					{comment}
+				</p>
+			</div>
 		</div>
 	)
 }

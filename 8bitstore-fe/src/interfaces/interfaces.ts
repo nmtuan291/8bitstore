@@ -56,7 +56,7 @@ export interface Review {
 export interface WishlistItem {
     productId: string,
     productName: string,
-    imgSrc: string[],
+    imgUrl: string[],
     price: number
 }
 

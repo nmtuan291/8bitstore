@@ -92,6 +92,20 @@
             &:hover {
               color: #dc3545;
             }
+            
+            &.loading {
+              opacity: 0.7;
+              cursor: wait;
+              
+              &:hover {
+                transform: none;
+                color: #6c757d;
+              }
+            }
+            
+            &:disabled {
+              pointer-events: none;
+            }
           }
         }
       }
@@ -221,6 +235,44 @@
             transform: none;
             box-shadow: none;
           }
+
+          &.loading {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            cursor: wait;
+            transform: none;
+            
+            .fa-spinner {
+              animation: spin 1s linear infinite;
+            }
+          }
+
+          &.success {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            
+            &:hover {
+              background: linear-gradient(135deg, #218838 0%, #1bb18a 100%);
+            }
+          }
+
+          &.error {
+            background: linear-gradient(135deg, #dc3545 0%, #fd7e14 100%);
+            
+            &:hover {
+              background: linear-gradient(135deg, #c82333 0%, #e66a0a 100%);
+            }
+          }
+
+          &.out-of-stock {
+            background: #6c757d;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+          }
+
+          @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+          }
         }
       }
     }
@@ -295,6 +347,20 @@
           &.wishlist-btn {
             &:hover {
               color: #dc3545;
+            }
+            
+            &.loading {
+              opacity: 0.7;
+              cursor: wait;
+              
+              &:hover {
+                transform: none;
+                color: #6c757d;
+              }
+            }
+            
+            &:disabled {
+              pointer-events: none;
             }
           }
         }
@@ -403,6 +469,44 @@
             cursor: not-allowed;
             transform: none;
             box-shadow: none;
+          }
+
+          &.loading {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            cursor: wait;
+            transform: none;
+            
+            .fa-spinner {
+              animation: spin 1s linear infinite;
+            }
+          }
+
+          &.success {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            
+            &:hover {
+              background: linear-gradient(135deg, #218838 0%, #1bb18a 100%);
+            }
+          }
+
+          &.error {
+            background: linear-gradient(135deg, #dc3545 0%, #fd7e14 100%);
+            
+            &:hover {
+              background: linear-gradient(135deg, #c82333 0%, #e66a0a 100%);
+            }
+          }
+
+          &.out-of-stock {
+            background: #6c757d;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+          }
+
+          @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
           }
         }
       }

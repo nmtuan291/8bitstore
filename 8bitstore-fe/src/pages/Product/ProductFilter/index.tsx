@@ -199,8 +199,8 @@ const ProductFilter: React.FC<ProductFilterProps> = ({ onFilterChange }) => {
     }, 300);
     
     return () => clearTimeout(timeoutId);
-  }, [filter, onFilterChange]);
-
+  }, [filter.type, filter.manufacturer, filter.genres, filter.minPrice, filter.maxPrice, onFilterChange]);
+  
   return (
     <div className="product-filter-container">
       {/* Filter Header */}

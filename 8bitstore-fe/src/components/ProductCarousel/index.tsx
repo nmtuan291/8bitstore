@@ -1,130 +1,24 @@
 import Slider from "react-slick";
+import { useGetProductsQuery } from "../../store/api";
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
 import "./ProductCarousel.scss"
 import ProductItem from "../ProductCard";
 import { Product } from "../../interfaces/interfaces";
 
-const products: Product[] = [
-  {
-    productId: "prod-001",
-    productName: "8-Bit Arcade Console",
-    price: 299.99,
-    manufacturer: "RetroTech Inc.",
-    imgUrl: [
-      "https://example.com/images/console-front.jpg",
-      "https://example.com/images/console-back.jpg"
-    ],
-    type: "Console",
-    description:
-      "A modern take on the classic 8-bit arcade console, featuring retro-inspired design along with modern connectivity.",
-    platform: ["Retro", "Arcade"],
-    stockNum: 50,
-    genre: ["Action", "Adventure", "Puzzle"]
-  },
-  {
-    productId: "prod-002",
-    productName: "8-Bit Arcade Console",
-    price: 299.99,
-    manufacturer: "RetroTech Inc.",
-    imgUrl: [
-      "https://example.com/images/console-front.jpg",
-      "https://example.com/images/console-back.jpg"
-    ],
-    type: "Console",
-    description:
-      "A modern take on the classic 8-bit arcade console, featuring retro-inspired design along with modern connectivity.",
-    platform: ["Retro", "Arcade"],
-    stockNum: 50,
-    genre: ["Action", "Adventure", "Puzzle"]
-  },
-  {
-    productId: "prod-002",
-    productName: "8-Bit Arcade Console",
-    price: 299.99,
-    manufacturer: "RetroTech Inc.",
-    imgUrl: [
-      "https://example.com/images/console-front.jpg",
-      "https://example.com/images/console-back.jpg"
-    ],
-    type: "Console",
-    description:
-      "A modern take on the classic 8-bit arcade console, featuring retro-inspired design along with modern connectivity.",
-    platform: ["Retro", "Arcade"],
-    stockNum: 50,
-    genre: ["Action", "Adventure", "Puzzle"]
-  },
-  {
-    productId: "prod-002",
-    productName: "8-Bit Arcade Console",
-    price: 299.99,
-    manufacturer: "RetroTech Inc.",
-    imgUrl: [
-      "https://example.com/images/console-front.jpg",
-      "https://example.com/images/console-back.jpg"
-    ],
-    type: "Console",
-    description:
-      "A modern take on the classic 8-bit arcade console, featuring retro-inspired design along with modern connectivity.",
-    platform: ["Retro", "Arcade"],
-    stockNum: 50,
-    genre: ["Action", "Adventure", "Puzzle"]
-  },
-  {
-    productId: "prod-002",
-    productName: "8-Bit Arcade Console",
-    price: 299.99,
-    manufacturer: "RetroTech Inc.",
-    imgUrl: [
-      "https://example.com/images/console-front.jpg",
-      "https://example.com/images/console-back.jpg"
-    ],
-    type: "Console",
-    description:
-      "A modern take on the classic 8-bit arcade console, featuring retro-inspired design along with modern connectivity.",
-    platform: ["Retro", "Arcade"],
-    stockNum: 50,
-    genre: ["Action", "Adventure", "Puzzle"]
-  },
-  {
-    productId: "prod-002",
-    productName: "8-Bit Arcade Console",
-    price: 299.99,
-    manufacturer: "RetroTech Inc.",
-    imgUrl: [
-      "https://example.com/images/console-front.jpg",
-      "https://example.com/images/console-back.jpg"
-    ],
-    type: "Console",
-    description:
-      "A modern take on the classic 8-bit arcade console, featuring retro-inspired design along with modern connectivity.",
-    platform: ["Retro", "Arcade"],
-    stockNum: 50,
-    genre: ["Action", "Adventure", "Puzzle"]
-  },
-  {
-    productId: "prod-002",
-    productName: "8-Bit Arcade Console",
-    price: 299.99,
-    manufacturer: "RetroTech Inc.",
-    imgUrl: [
-      "https://example.com/images/console-front.jpg",
-      "https://example.com/images/console-back.jpg"
-    ],
-    type: "Console",
-    description:
-      "A modern take on the classic 8-bit arcade console, featuring retro-inspired design along with modern connectivity.",
-    platform: ["Retro", "Arcade"],
-    stockNum: 50,
-    genre: ["Action", "Adventure", "Puzzle"]
-  }
-];
-
 interface ProductCarouselProps {
   title: string
+  type: "date" | "score" | "sale"
 }
 
-const ProductCarousel: React.FC<ProductCarouselProps> = ({ title }) => {
+const ProductCarousel: React.FC<ProductCarouselProps> = ({ title, type }) => {
+  const { data: products, error, isLoading} = useGetProductsQuery({ 
+    page: 1, params: `top=4&${type === "sale" 
+      ? "sortByWeeklySales"
+      : type === "date"
+        ? "sortByDate"
+        : "sortByScore" }=1`} )
+
   const settings = {
       dots: true,
       infinite: false,
@@ -150,9 +44,8 @@ const ProductCarousel: React.FC<ProductCarouselProps> = ({ title }) => {
   return (
       <div className="carousel-container">
         <hr></hr>
-        <h3>{title}</h3>
         <Slider {...settings}>
-            {products.map(product => (
+            {(products?.products ?? []).map(product => (
                 <ProductItem key={product.productId} product={product} />
             ))}
         </Slider>

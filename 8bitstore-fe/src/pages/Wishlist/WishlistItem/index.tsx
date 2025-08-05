@@ -29,7 +29,6 @@ const WishlistItem: React.FC<WishlistItemProps> = ({
 
   const handleAddToCart = () => {
     // TODO: Implement add to cart functionality
-    console.log("Add to cart:", productId);
   };
 
   const handleRemoveItem = () => {
@@ -42,7 +41,7 @@ const WishlistItem: React.FC<WishlistItemProps> = ({
         {/* Product Image */}
         <div className="product-image">
           <img 
-            src={imgSrc || "/default-product.png"} 
+            src={imgSrc} 
             alt={productName}
             onError={(e) => {
               e.currentTarget.src = "/default-product.png";

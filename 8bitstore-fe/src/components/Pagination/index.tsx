@@ -7,7 +7,7 @@ interface PaginationProps {
     totalCount: number,
     currentPage: number,
     pageSize: number,
-    onPageChange: (pageIndex: number) => void,
+    onPageChange: (page: number) => void,
     siblingCount : number,
     className: string
 }
@@ -52,7 +52,11 @@ const Pagination:React.FC<PaginationProps>
                     return(
                         <li 
                             className={`pagination-item ${currentPage === pageItem ? "selected" : ""}`}
-                            onClick={() => onPageChange(pageItem)}
+                            onClick={() => {
+                                if (typeof pageItem === 'number') {
+                                    onPageChange(pageItem);
+                                }
+                            }}
                         >
                             {pageItem}
                         </li>

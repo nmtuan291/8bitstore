@@ -194,7 +194,16 @@ const AddProductForm: React.FC<{ showAddProductForm: () => void }> = ({ showAddP
   };
 
   const handleSubmit = async () => {
-    if (!validateForm()) {
+    const isValid = validateForm();
+    
+    // Debug logging to see validation status
+    console.log('Form validation result:', isValid);
+    console.log('Current errors:', errors);
+    console.log('Product info:', productInfo);
+    console.log('Images count:', images.length);
+    
+    if (!isValid) {
+      console.log('Validation failed, going back to step 1');
       setCurrentStep(1); // Go back to first step if validation fails
       return;
     }
@@ -226,7 +235,7 @@ const AddProductForm: React.FC<{ showAddProductForm: () => void }> = ({ showAddP
         ...productInfo,
         imgUrl: [...productInfo.imgUrl, ...urls]
       };
-
+      
       // Submit product data
       await axios.post("/api/Product", finalProductInfo);
       
@@ -250,7 +259,7 @@ const AddProductForm: React.FC<{ showAddProductForm: () => void }> = ({ showAddP
     setProductInfo({
       ...productInfo,
       [fieldName]: fieldName === 'price' || fieldName === 'stockNum' || fieldName === 'weight' 
-        ? parseFloat(value) || 0 
+        ? (value === '' ? 0 : parseFloat(value) || 0)
         : value
     });
 
@@ -312,7 +321,7 @@ const AddProductForm: React.FC<{ showAddProductForm: () => void }> = ({ showAddP
 
   const genreList: string[] = ["Action", "RPG", "Adventure", "Strategy", "Simulation", "Sports", "Racing", "Fighting", "Puzzle"];
   const platformList: string[] = ["PS4", "PS5", "Xbox One", "Xbox Series X/S", "Nintendo Switch", "PC", "Steam Deck"];
-  const typeList: string[] = ["Console", "Game", "Accessory", "Controller", "Headset"];
+  const typeList: string[] = ["Máy chơi game", "Đĩa game", "Phụ kiện", "Controller", "Headset"];
 
   const nextStep = () => {
     if (currentStep < 3) setCurrentStep(currentStep + 1);
@@ -631,6 +640,18 @@ const AddProductForm: React.FC<{ showAddProductForm: () => void }> = ({ showAddP
           {currentStep === 3 && (
             <div className="form-step">
               <h3>✅ Xác nhận thông tin</h3>
+              
+              {/* Show validation errors if any */}
+              {Object.keys(errors).length > 0 && (
+                <div className="validation-errors">
+                  <h4 style={{color: 'red'}}>⚠️ Lỗi cần khắc phục:</h4>
+                  <ul style={{color: 'red'}}>
+                    {Object.entries(errors).map(([field, error]) => (
+                      <li key={field}><strong>{field}:</strong> {error}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
               
               <div className="confirmation-grid">
                 <div className="info-section">

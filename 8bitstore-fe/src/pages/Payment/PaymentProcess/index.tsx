@@ -64,7 +64,7 @@ const PaymentProcess: React.FC = () => {
 								status: "pending",
 								total: totalAmount,
 								orderId: orderIdRef.current,
-								items: cart.map((item) => ({
+								items: (cart ?? []).map((item) => ({
 									productId: item.productId,
 									quantity: item.quantity,
 									price: item.price,
@@ -72,13 +72,8 @@ const PaymentProcess: React.FC = () => {
 								}))
 							});
 	
-							await deleteCartItem(orderIdRef.current);
-							console.log("After deleteCartItems, before setTimeout");
-							timer = setTimeout(() => {
-								localStorage.removeItem("paymentResult");
-								console.log("Payment process completed");
-								window.close();
-							}, 3000);
+							await deleteCartItem({ productId: "" });
+							window.close();
 						} catch (error) {
 							console.error("Error during order creation:", error);
 						}
@@ -97,11 +92,11 @@ const PaymentProcess: React.FC = () => {
 				} else if (paymentMethod === "COD") {
 					const createCODOrder = async () => {
 						try {
-							await axios.post("/api/Order/create-order", {
+							await axios.post("/api/Order/add", {
 								status: "pending",
 								total: totalAmount,
 								orderId: orderIdRef.current,
-								items: cart.map((item) => ({
+								items: (cart?? []).map((item) => ({
 									productId: item.productId,
 									quantity: item.quantity,
 									price: item.price,
@@ -109,7 +104,7 @@ const PaymentProcess: React.FC = () => {
 								}))
 							});
 
-							await deleteCartItem(orderIdRef.current);
+							await deleteCartItem({ productId: "" });
 						} catch (error) {
 							console.error("Error during order creation:", error);
 						}

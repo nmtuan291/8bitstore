@@ -1,73 +1,249 @@
 import { useState, useEffect } from "react";
-import "./OrderItem.scss"
-import productImg from "../../../../assets/images/switch-store-icon.png";
+import { createPortal } from "react-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { 
+  faShoppingBag, 
+  faCalendarAlt, 
+  faReceipt, 
+  faStar, 
+  faTimes,
+  faTruck,
+  faCheckCircle,
+  faClock,
+  faExclamationTriangle
+} from "@fortawesome/free-solid-svg-icons";
+import "./OrderItem.scss";
 import ReviewForm from "../ReviewForm";
-import type { OrderItem } from "../../../../interfaces/interfaces";
+import type { OrderItem as OrderItemType } from "../../../../interfaces/interfaces";
 import { formatNumber } from "../../../../utils/FormatNumber";
 import formatDate from "../../../../utils/FormatDate";
+import { useCancelOrderMutation } from "../../../../store/api";
 
 interface OrderItemProps {
-    items: OrderItem[],
-    orderId: string,
-    total: number,
-    status: string,
-    createdAt: string
-};
+    items: OrderItemType[];
+    orderId: string;
+    total: number;
+    status: string;
+    createdAt: string;
+}
 
 const OrderItem: React.FC<OrderItemProps> = ({ items, orderId, total, status, createdAt }) => {
     const [showReviewForm, setShowReviewForm] = useState<boolean>(false);
+    const [showCancelConfirm, setShowCancelConfirm] = useState<boolean>(false);
+    const [portalContainer, setPortalContainer] = useState<HTMLElement | null>(null);
 
-    const statusConvert = (status: string): string => {
+    // Create portal container
+    useEffect(() => {
+        let container = document.getElementById('modal-root');
+        if (!container) {
+            container = document.createElement('div');
+            container.id = 'modal-root';
+            document.body.appendChild(container);
+        }
+        setPortalContainer(container);
+    }, []);
+
+    const handleReviewClick = () => {
+        setShowReviewForm(true);
+    };
+
+    const [cancelOrder, { isLoading }] = useCancelOrderMutation();
+    const handleCancelOrder = async () => {
+        try {
+            await cancelOrder(orderId).unwrap();
+          } catch (error) {
+            console.log(error);
+          }
+        setShowCancelConfirm(false);
+    };
+
+    const handleCancelClick = () => {
+        setShowCancelConfirm(true);
+    };
+
+    const getStatusInfo = (status: string) => {
         switch (status) {
             case "pending":
-                return "Đang xử lý";
+                return {
+                    text: "Đang xử lý",
+                    color: "#f59e0b",
+                    bgColor: "#fef3c7",
+                    icon: faClock,
+                    description: "Đơn hàng đang được xử lý"
+                };
+            case "shipped":
+                console.log(status);
+                return {
+                    text: "Đang giao",
+                    color: "#8b5cf6",
+                    bgColor: "#ede9fe",
+                    icon: faTruck,
+                    description: "Đơn hàng đang được giao"
+                };
+            case "delivered":
+                return {
+                    text: "Hoàn thành",
+                    color: "#10b981",
+                    bgColor: "#d1fae5",
+                    icon: faCheckCircle,
+                    description: "Đơn hàng đã được giao thành công"
+                };
+            case "cancelled":
+                return {
+                    text: "Đã hủy",
+                    color: "#ef4444",
+                    bgColor: "#fee2e2",
+                    icon: faTimes,
+                    description: "Đơn hàng đã bị hủy"
+                };
             default:
-                return "";
+                return {
+                    text: "Không xác định",
+                    color: "#6b7280",
+                    bgColor: "#f3f4f6",
+                    icon: faExclamationTriangle,
+                    description: "Trạng thái không xác định"
+                };
         }
-    }
+    };
 
-    const statusColor = (status: string): string => {
-        switch (status) {
-            case "pending":
-                return "green";
-            default:
-                return "";
-        }
-    }
-    
+    const statusInfo = getStatusInfo(status);
+    const canReview = status === "completed";
+    const canCancel = status === "pending";
+
     return (
         <>
-            { showReviewForm && <ReviewForm closeForm={() => setShowReviewForm(false)} orderItems={items} /> }
+            {showReviewForm && (
+                <ReviewForm 
+                    closeForm={() => setShowReviewForm(false)} 
+                    orderItems={items} 
+                />
+            )}
+            
             <div className="order-item-container">
-                <div className="order-item-header">
-                    <div>
-                        <p>Mã đơn hàng: {orderId}</p>
-                        <p className="order-date">Ngày đặt: {formatDate(createdAt)}</p>
+                {/* Order Header */}
+                <div className="order-header">
+                    <div className="order-info">
+                        <div className="order-id">
+                            <FontAwesomeIcon icon={faReceipt} />
+                            <span>Mã đơn hàng: {orderId}</span>
+                        </div>
+                        <div className="order-date">
+                            <FontAwesomeIcon icon={faCalendarAlt} />
+                            <span>Ngày đặt: {formatDate(createdAt)}</span>
+                        </div>
                     </div>
-                    <p style={{color: `${statusColor(status)}`}}>{statusConvert(status)}</p>
+                    <div 
+                        className="status-badge"
+                        style={{ 
+                            backgroundColor: statusInfo.bgColor,
+                            color: statusInfo.color
+                        }}
+                    >
+                        <FontAwesomeIcon icon={statusInfo.icon} />
+                        <span>{statusInfo.text}</span>
+                    </div>
                 </div>
-                {
-                    items.map(item => {
-                        return (
-                            <div className="product-image-section">
-                                <img className="product-order-img" src={item.imgUrl[0]}></img>
-                                <div>
-                                    <p>{item.productName}</p>
-                                    <p>Số lượng: {item.quantity}</p>
+
+                {/* Status Description */}
+                <div className="status-description">
+                    <p>{statusInfo.description}</p>
+                </div>
+
+                {/* Products List */}
+                <div className="products-section">
+                    <h4>Sản phẩm đã đặt</h4>
+                    <div className="products-list">
+                        {items.map((item, index) => (
+                            <div key={`${item.productId}-${index}`} className="product-item">
+                                <div className="product-image">
+                                    <img 
+                                        src={item.imgUrl[0]} 
+                                        alt={item.productName}
+                                        onError={(e) => {
+                                            e.currentTarget.src = "https://via.placeholder.com/80x80?text=No+Image";
+                                        }}
+                                    />
                                 </div>
-                                <p className="price">{formatNumber(item.price)}</p>
+                                <div className="product-details">
+                                    <h5 className="product-name">{item.productName}</h5>
+                                    <p className="product-quantity">Số lượng: {item.quantity}</p>
+                                    <p className="product-price">{formatNumber(item.price)}</p>
+                                </div>
                             </div>
-                        )
-                    })
-                }
-                <p className="total-price"><span className="t-bold">Tổng tiền: </span>{formatNumber(total)}</p>
-                <div className="order-btn">
-                    <button onClick={() => setShowReviewForm(true)}>Đánh giá</button>
-                    <button>Hủy đơn hàng</button>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Order Summary */}
+                <div className="order-summary">
+                    <div className="summary-row">
+                        <span>Tổng tiền ({items.length} sản phẩm):</span>
+                        <span className="total-amount">{formatNumber(total)}</span>
+                    </div>
+                </div>
+
+                {/* Action Buttons */}
+                <div className="order-actions">
+                    {canReview && (
+                        <button 
+                            className="btn btn-primary"
+                            onClick={handleReviewClick}
+                        >
+                            <FontAwesomeIcon icon={faStar} />
+                            Đánh giá sản phẩm
+                        </button>
+                    )}
+                    
+                    {canCancel && (
+                        <button 
+                            className="btn btn-secondary"
+                            onClick={handleCancelClick}
+                        >
+                            <FontAwesomeIcon icon={faTimes} />
+                            Hủy đơn hàng
+                        </button>
+                    )}
+                    
+                    <button className="btn btn-outline">
+                        <FontAwesomeIcon icon={faReceipt} />
+                        Xem chi tiết
+                    </button>
                 </div>
             </div>
+
+            {/* Cancel Confirmation Modal */}
+            {showCancelConfirm && portalContainer && createPortal(
+                <div 
+                    className="cancel-modal-overlay" 
+                    onClick={() => setShowCancelConfirm(false)}
+                >
+                    <div 
+                        className="cancel-modal-content" 
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <h4>Xác nhận hủy đơn hàng</h4>
+                        <p>Bạn có chắc chắn muốn hủy đơn hàng này? Hành động này không thể hoàn tác.</p>
+                        <div className="confirmation-actions">
+                            <button 
+                                className="btn btn-danger"
+                                onClick={handleCancelOrder}
+                            >
+                                Hủy đơn hàng
+                            </button>
+                            <button 
+                                className="btn btn-outline"
+                                onClick={() => setShowCancelConfirm(false)}
+                            >
+                                Không
+                            </button>
+                        </div>
+                    </div>
+                </div>,
+                portalContainer
+            )}
         </>
-    ); 
-}
+    );
+};
 
 export default OrderItem;

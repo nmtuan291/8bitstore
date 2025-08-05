@@ -22,38 +22,42 @@ import PaymentResult from "./pages/Payment/PaymentResult";
 import ManageProductList from "./pages/Admin/ProductManagement/ProductTable";
 import OrderTable from "./pages/Admin/ProductManagement/OrderTable";
 import Address from "./pages/Profile/Address";
+import { ToastProvider } from "./contexts/ToastContext";
+
 function App() {
 
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={ <Layout /> }>
-          <Route index element={<Home />} />
-          <Route path="admin/manage" element={<ProductManagement />}/>
-          <Route path="product" element={<ProductList />} />
-          <Route path="/product/:productId" element={<ProductDetail />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route element={<Profile />}>
-              <Route path="/profile/order" element={<Order />}/> 
-              <Route path="/profile/detail" element={<Detail />} />
-              <Route path="/profile/change-pwd" element={<ChangePassword />} />
-              <Route path="/profile/address" element={<Address />} />
+    <ToastProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={ <Layout /> }>
+            <Route index element={<Home />} />
+            <Route path="admin/manage" element={<ProductManagement />}/>
+            <Route path="product" element={<ProductList />} />
+            <Route path="/product/:productId" element={<ProductDetail />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route element={<Profile />}>
+                <Route path="/profile/order" element={<Order />}/> 
+                <Route path="/profile/detail" element={<Detail />} />
+                <Route path="/profile/change-pwd" element={<ChangePassword />} />
+                <Route path="/profile/address" element={<Address />} />
 
+            </Route>
+            <Route element={<ProductManagement />}>
+              <Route path="manage/product" element={<ManageProductList />}/>
+              <Route path="manage/order" element={<OrderTable />}/>
+            </Route>
+            <Route path="/payment" element={<Payment />}/>
+            <Route path="/payment-process/:paymentMethod" element={<PaymentProcess />}></Route>
+            <Route path="/payment-result" element={<PaymentResult />}></Route>
+            <Route path="/wishlist" element={<Wishlist />}/>
           </Route>
-          <Route element={<ProductManagement />}>
-            <Route path="manage/product" element={<ManageProductList />}/>
-            <Route path="manage/order" element={<OrderTable />}/>
-          </Route>
-          <Route path="/payment" element={<Payment />}/>
-          <Route path="/payment-process/:paymentMethod" element={<PaymentProcess />}></Route>
-          <Route path="/payment-result" element={<PaymentResult />}></Route>
-          <Route path="/wishlist" element={<Wishlist />}/>
-        </Route>
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="*" element={<NotFoundPage />}/>
-      </Routes>
-    </BrowserRouter>
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="*" element={<NotFoundPage />}/>
+        </Routes>
+      </BrowserRouter>
+    </ToastProvider>
   )
 }
 

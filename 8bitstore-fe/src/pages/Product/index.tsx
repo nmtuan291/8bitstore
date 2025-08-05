@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState, useMemo, useCallback } from "react";
 import { Product } from "../../interfaces/interfaces";
 import { useLocation, useNavigate } from "react-router-dom";
 import ProductItem from "../../components/ProductCard";
@@ -12,24 +12,32 @@ import "./ProductList.scss"
 import { useGetProductsQuery } from "../../store/api";
 
 const ProductList: React.FC = () => {
-    const [currentPage, setCurrentPage] = useState<number>(1);
-    const [sort, setSort] = useState<string>("Giá thấp đến cao");
     const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
     const [showMobileFilter, setShowMobileFilter] = useState<boolean>(false);
     const location = useLocation();
     
+    // Track URL changes
     const searchParams = useMemo(() => {
         const queryParams = new URLSearchParams(location.search);
-        return {
+        const params = {
             productName: queryParams.get("productName") || "",
             types: queryParams.getAll("type"),
             manufacturers: queryParams.getAll("manufacturer"),
             genres: queryParams.getAll("genre"),
             minPrice: queryParams.get("minPrice"),
-            maxPrice: queryParams.get("maxPrice")
+            maxPrice: queryParams.get("maxPrice"),
+            sort: queryParams.get("sort") || "Giá thấp đến cao",
+            page: parseInt(queryParams.get("page") || "1", 10)
         };
+        return params;
     }, [location.search]);
 
+    // Use page from URL instead of local state
+    const currentPage = searchParams.page;
+    
+    // Use sort from URL instead of local state
+    const currentSort = searchParams.sort;
+    
     // Build params string for API
     const paramsString = useMemo(() => {
         const params = new URLSearchParams();
@@ -41,26 +49,78 @@ const ProductList: React.FC = () => {
         searchParams.genres.forEach(genre => params.append('genre', genre));
         searchParams.minPrice !== "0" && params.append('minPrice', searchParams.minPrice ?? "");
         searchParams.maxPrice !== "0" && params.append('maxPrice', searchParams.maxPrice ?? "");
+        
+        // Add sort parameters based on the selected sort option
+        if (searchParams.sort) {
+            switch (searchParams.sort) {
+                case "Phổ biến":
+                    params.append('SortByDate', '1'); // Sort by date for popularity
+                    break;
+                case "Giá thấp đến cao":
+                    params.append('SortByPrice', '1');
+                    break;
+                case "Giá cao đến thấp":
+                    params.append('SortByPrice', '-1'); // Use negative for descending
+                    break;
+                case "Mới nhất":
+                    params.append('SortByDate', '1');
+                    break;
+                case "Đánh giá cao":
+                    params.append('SortByName', '1'); // Fallback to name sort
+                    break;
+                default:
+                    params.append('SortByDate', '1'); // Default sort
+                    break;
+            }
+        }
+        
         return params.toString();
     }, [searchParams]);
 
     const { data, isLoading, error } = useGetProductsQuery({ page: currentPage, params: paramsString });
     const navigate = useNavigate();
     
-    const handleFilterClick = (filters: any) => {
+    // Function to update page in URL
+    const setCurrentPage = useCallback((newPage: number) => {
+        const params = new URLSearchParams(location.search);
+        if (newPage === 1) {
+            params.delete('page'); // Remove page=1 from URL for cleaner URLs
+        } else {
+            params.set('page', newPage.toString());
+        }
+        const newUrl = `?${params.toString()}`;
+        navigate(newUrl);
+    }, [navigate]); // Remove location.search dependency that was causing the cycle
+  
+    const handleSortChange = useCallback((newSort: string) => {
+        const params = new URLSearchParams(location.search);
+        params.set('sort', newSort);
+        // Reset to page 1 when sorting changes
+        params.delete('page');
+        const newUrl = `?${params.toString()}`;
+        navigate(newUrl);
+    }, [navigate, location.search]);
+
+    const handleFilterClick = useCallback((filters: any) => {
         const params = new URLSearchParams();
         const minPrice = filters.minPrice;
         const maxPrice = filters.maxPrice;
   
+        // Build new filter params from scratch
         filters.type.forEach((type: string) => params.append('type', type));
         filters.manufacturer.forEach((manufacturer: string) => params.append('manufacturer', manufacturer));
         filters.genres.forEach((genre: string) => params.append('genre', genre));
         minPrice !== 0 && params.append('minPrice', minPrice);
         maxPrice !== 0 && params.append('maxPrice', maxPrice);
         
-        navigate(`?${params.toString()}`);
-        setCurrentPage(1); // Reset to first page when filters change
-    };
+        // Preserve current sort
+        if (currentSort) {
+            params.set('sort', currentSort);
+        }
+        
+        const newUrl = `?${params.toString()}`;
+        navigate(newUrl);
+    }, [navigate, currentSort]);
 
     const getSearchQuery = () => {
         if (searchParams.productName) {
@@ -79,11 +139,6 @@ const ProductList: React.FC = () => {
         if (!data) return 0;
         return data.products.length;
     };
-
-    // Reset page when location changes
-    useEffect(() => {
-        setCurrentPage(1);
-    }, [location.search]);
 
     return (
         <div className="product-page">
@@ -158,8 +213,8 @@ const ProductList: React.FC = () => {
                         
                         <div className="toolbar-right">
                             <ProductSort 
-                                filterString={sort} 
-                                onFilterClick={(filterName: string) => setSort(filterName)} 
+                                filterString={currentSort} 
+                                onFilterClick={handleSortChange} 
                             />
                         </div>
                     </div>
@@ -199,7 +254,7 @@ const ProductList: React.FC = () => {
                             <Pagination 
                                 className="pagination-bar"
                                 currentPage={currentPage}
-                                totalCount={data ? data.totalPages : 0}
+                                totalCount={data ? (data.totalPages * data.pageSize) : 0}
                                 pageSize={data ? data.pageSize : 1}
                                 siblingCount={1}
                                 onPageChange={(page: number) => setCurrentPage(page)}

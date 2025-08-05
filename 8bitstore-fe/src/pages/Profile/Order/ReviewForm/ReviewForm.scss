@@ -1,5 +1,5 @@
 .review-form-overlay {
-  background-color: rgba(60, 16, 83, 0.18);
+  background-color: rgba(0, 0, 0, 0.6);
   position: fixed;
   top: 0;
   left: 0;
@@ -10,113 +10,440 @@
   justify-content: center;
   backdrop-filter: blur(4px);
   z-index: 9999;
+  animation: fadeIn 0.3s ease-out;
 
   .review-form-container {
     min-width: 350px;
     max-width: 95vw;
-    width: 420px;
+    width: 480px;
     background-color: #fff;
     box-sizing: border-box;
-    padding: 36px 32px 28px 32px;
-    border: solid #946CBC 1.5px;
-    border-radius: 18px;
-    box-shadow: 0 4px 32px 0 rgba(148, 108, 188, 0.10);
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    animation: slideIn 0.3s ease-out;
     position: relative;
 
-    h6 {
-      color: #946CBC;
-      font-size: 1.15rem;
-      font-weight: 600;
-      margin-bottom: 10px;
-      text-align: center;
-    }
-
-    .close-btn {
-      position: absolute;
-      top: 14px;
-      right: 18px;
-      background: none;
-      border: none;
-      font-size: 1.3rem;
-      color: #946CBC;
-      cursor: pointer;
-      transition: color 0.2s;
-      &:hover {
-        color: #85BDB6;
-      }
-    }
-
-    select {
-      margin-bottom: 18px;
-      width: 100%;
-      padding: 8px 10px;
-      border: 1px solid #946CBC;
-      border-radius: 8px;
-      font-size: 1rem;
-      color: #000;
-      background: #fff;
-      transition: border-color 0.2s;
-      &:focus {
-        border-color: #85BDB6;
-        outline: none;
-      }
-    }
-
-    textarea {
-      width: 100%;
-      min-height: 90px;
-      border: 1px solid #946CBC;
-      border-radius: 8px;
-      padding: 10px 12px;
-      font-size: 1rem;
-      color: #000;
-      background: #fff;
-      resize: none;
-      margin-bottom: 10px;
-      transition: border-color 0.2s;
-      &:focus {
-        border-color: #85BDB6;
-        outline: none;
-      }
-    }
-
-    .score-stars {
-      margin-top: 10px;
-      text-align: center;
-      .fa-star {
-        transition: color 0.2s, transform 0.2s;
-        &:hover {
-          color: #85BDB6 !important;
-          transform: scale(1.15);
+    // Success state
+    &.success {
+      .success-content {
+        padding: 48px 32px;
+        text-align: center;
+        
+        .success-icon {
+          font-size: 64px;
+          color: #10b981;
+          margin-bottom: 24px;
+          animation: bounceIn 0.6s ease-out;
+        }
+        
+        h3 {
+          color: #1f2937;
+          font-size: 24px;
+          font-weight: 600;
+          margin: 0 0 12px 0;
+        }
+        
+        p {
+          color: #6b7280;
+          font-size: 16px;
+          margin: 0;
         }
       }
     }
 
-    .submit-btn {
-      margin-top: 18px;
-      width: 100%;
-      padding: 12px 0;
-      background: #946CBC;
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      font-size: 1.1rem;
-      font-weight: 600;
-      cursor: pointer;
-      box-shadow: 0 2px 8px 0 rgba(0,0,0,0.08);
-      transition: background 0.2s, box-shadow 0.2s;
-      &:hover {
-        background: #85BDB6;
-        color: #fff;
-        box-shadow: 0 4px 16px 0 rgba(0,0,0,0.12);
+    .form-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 24px 0;
+      border-bottom: 1px solid #f3f4f6;
+      margin-bottom: 24px;
+
+      h2 {
+        color: #1f2937;
+        font-size: 20px;
+        font-weight: 600;
+        margin: 0;
       }
-      &:disabled {
-        background: #CFCFCF;
+
+      .close-btn {
+        background: none;
+        border: none;
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        color: #6b7280;
+        transition: all 0.2s ease;
+        
+        &:hover {
+          background-color: #f3f4f6;
+          color: #374151;
+        }
+        
+        &:active {
+          transform: scale(0.95);
+        }
+      }
+    }
+
+    .form-content {
+      padding: 0 24px 24px;
+
+      .form-group {
+        margin-bottom: 24px;
+
+        label {
+          display: block;
+          color: #374151;
+          font-size: 14px;
+          font-weight: 500;
+          margin-bottom: 8px;
+        }
+
+        select, textarea {
+          width: 100%;
+          padding: 12px 16px;
+          border: 2px solid #e5e7eb;
+          border-radius: 8px;
+          font-size: 14px;
+          color: #1f2937;
+          background: #fff;
+          transition: all 0.2s ease;
+          box-sizing: border-box;
+
+          &:focus {
+            border-color: #946CBC;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(148, 108, 188, 0.1);
+          }
+
+          &.error {
+            border-color: #ef4444;
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+          }
+        }
+
+        select {
+          cursor: pointer;
+          
+          &:hover {
+            border-color: #d1d5db;
+          }
+        }
+
+        textarea {
+          resize: vertical;
+          min-height: 100px;
+          font-family: inherit;
+          line-height: 1.5;
+          
+          &::placeholder {
+            color: #9ca3af;
+          }
+        }
+
+        .textarea-footer {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-top: 8px;
+
+          .char-count {
+            font-size: 12px;
+            color: #6b7280;
+          }
+        }
+
+        .error-message {
+          display: block;
+          color: #ef4444;
+          font-size: 12px;
+          margin-top: 4px;
+          animation: shake 0.5s ease-in-out;
+        }
+
+        .score-stars {
+          display: flex;
+          gap: 8px;
+          align-items: center;
+          justify-content: center;
+          margin: 12px 0;
+
+          .star {
+            font-size: 32px;
+            color: #d1d5db;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            user-select: none;
+
+            &:hover {
+              transform: scale(1.1);
+            }
+
+            &.active {
+              color: #fbbf24;
+              animation: starPop 0.3s ease-out;
+            }
+          }
+        }
+
+        .rating-text {
+          display: block;
+          text-align: center;
+          color: #6b7280;
+          font-size: 14px;
+          font-weight: 500;
+          margin-top: 8px;
+          animation: fadeIn 0.3s ease-out;
+        }
+      }
+
+      .error-banner {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 16px;
+        background-color: #fef2f2;
+        border: 1px solid #fecaca;
+        border-radius: 8px;
+        margin-bottom: 16px;
+        animation: slideInDown 0.3s ease-out;
+
+        svg {
+          color: #ef4444;
+          font-size: 16px;
+        }
+
+        span {
+          color: #dc2626;
+          font-size: 14px;
+          font-weight: 500;
+        }
+      }
+
+      .submit-btn {
+        width: 100%;
+        padding: 14px 24px;
+        background: linear-gradient(135deg, #946CBC, #85BDB6);
         color: #fff;
-        cursor: not-allowed;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        position: relative;
+        overflow: hidden;
+
+        &:hover:not(:disabled) {
+          transform: translateY(-1px);
+          box-shadow: 0 8px 25px rgba(148, 108, 188, 0.3);
+        }
+
+        &:active:not(:disabled) {
+          transform: translateY(0);
+        }
+
+        &:disabled {
+          background: #d1d5db;
+          cursor: not-allowed;
+          transform: none;
+          box-shadow: none;
+        }
+
+        .spinner {
+          width: 16px;
+          height: 16px;
+          border: 2px solid transparent;
+          border-top: 2px solid #fff;
+          border-radius: 50%;
+          animation: spin 1s linear infinite;
+        }
+      }
+    }
+  }
+}
+
+// Animations
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes slideInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes starPop {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+// Responsive design
+@media (max-width: 640px) {
+  .review-form-overlay {
+    padding: 16px;
+    
+    .review-form-container {
+      width: 100%;
+      max-width: none;
+      
+      .form-header {
+        padding: 20px 20px 0;
+        
+        h2 {
+          font-size: 18px;
+        }
+      }
+      
+      .form-content {
+        padding: 0 20px 20px;
+        
+        .form-group {
+          .score-stars {
+            .star {
+              font-size: 28px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// Dark mode support
+@media (prefers-color-scheme: dark) {
+  .review-form-overlay {
+    .review-form-container {
+      background: #1f2937;
+      
+      .form-header {
+        border-bottom-color: #374151;
+        
+        h2 {
+          color: #f9fafb;
+        }
+        
+        .close-btn {
+          color: #9ca3af;
+          
+          &:hover {
+            background-color: #374151;
+            color: #d1d5db;
+          }
+        }
+      }
+      
+      .form-content {
+        .form-group {
+          label {
+            color: #d1d5db;
+          }
+          
+          select, textarea {
+            background: #374151;
+            border-color: #4b5563;
+            color: #f9fafb;
+            
+            &:focus {
+              border-color: #946CBC;
+            }
+            
+            &::placeholder {
+              color: #6b7280;
+            }
+          }
+          
+          .rating-text {
+            color: #9ca3af;
+          }
+        }
+        
+        .error-banner {
+          background-color: #450a0a;
+          border-color: #7f1d1d;
+          
+          span {
+            color: #fca5a5;
+          }
+        }
       }
     }
   }
