@@ -29,7 +29,6 @@ const RegistrationForm: React.FC = () => {
             ...prevData,
             [event.target.name]: event.target.value
         }));
-        // Clear error when user starts typing
         if (errors[event.target.name]) {
             setErrors(prev => ({ ...prev, [event.target.name]: "" }));
         }
@@ -51,7 +50,12 @@ const RegistrationForm: React.FC = () => {
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        if (!handleValidation()) return;
+        console.log("Submit clicked"); // <-- Add this
+
+        if (!handleValidation()) {
+            console.log("Validation failed", errors, tosError); // <-- Add this
+            return;
+        }
         
         setIsSubmitting(true);
         try {
