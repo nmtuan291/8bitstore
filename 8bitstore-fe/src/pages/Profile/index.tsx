@@ -30,6 +30,12 @@ const Profile: React.FC = () => {
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+  useEffect(() => {
+    console.log("Profile component loaded");
+    console.log("User data:", user);
+    console.log("Is user loading:", isUserLoading);
+  }, [user, isUserLoading]);
+
   if (!user)
     navigate("/login");
 
