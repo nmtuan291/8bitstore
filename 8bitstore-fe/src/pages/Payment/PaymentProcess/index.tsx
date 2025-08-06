@@ -10,14 +10,10 @@ const PaymentProcess: React.FC = () => {
 	const navigate = useNavigate();
 	const { data: cart, isLoading: isCartLoading } = useGetCartQuery();
 	const [deleteCartItem] = useDeleteCartItemMutation();
+	const { data: user, isLoading: isUserLoading} = useGetCurrentUserQuery();
 	const orderIdRef = useRef(crypto.randomUUID());
 	const [totalAmount, setTotalAmount] = useState<number>(0);
 	const hasProcessed = useRef(false);
-
-	const { data: user, isLoading: isUserLoading} = useGetCurrentUserQuery();
-	
-	if (isUserLoading)
-		return <LoadingOverlay />
 
 	useEffect(() => {
 		if (!isUserLoading && !user) {
@@ -134,6 +130,9 @@ const PaymentProcess: React.FC = () => {
 		doPayment();
 	}, [isCartLoading, totalAmount, paymentMethod, location, navigate, cart, deleteCartItem]);
 
+	if (isUserLoading || isCartLoading) {
+		return <LoadingOverlay />;
+	}
 
 	return (
 		<div style={{height: "100vh"}}>
