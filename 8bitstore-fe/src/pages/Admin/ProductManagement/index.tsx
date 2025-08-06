@@ -5,7 +5,10 @@ import "./ProductManage.scss";
 
 const ProductManagement: React.FC = () => {
 	const navigate = useNavigate();
-	const { data: user } = useGetCurrentUserQuery();
+	const { data: user, isLoading: isUserLoading } = useGetCurrentUserQuery();
+
+	if (isUserLoading) return null;
+
 	if (!user)
 		navigate("/login") 
 

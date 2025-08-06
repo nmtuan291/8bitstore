@@ -35,7 +35,7 @@ const ProductDetail: React.FC = () => {
 
     const { data: productDetail, isLoading } = useGetProductQuery(productId || "");
     const { data: reviews = [] } = useGetReviewsQuery(productId || "");
-    const { data: user } = useGetCurrentUserQuery();
+    const { data: user, isLoading: isUserLoading } = useGetCurrentUserQuery();
 
     const [cartItem, setCartItem] = useState<CartItem>({
         productId: "",

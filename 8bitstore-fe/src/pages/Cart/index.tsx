@@ -43,7 +43,7 @@ const Cart: React.FC = () => {
 
   const navigate = useNavigate();
 
-  const { data: user} = useGetCurrentUserQuery();
+  const { data: user, isLoading: isUserLoading } = useGetCurrentUserQuery();
   if (!user)
     navigate("/login")
 
@@ -133,7 +133,7 @@ const Cart: React.FC = () => {
   }, [paymentClicked, paymentMethod, navigate]);
 
  
-  if (isLoading) {
+  if (isLoading || isUserLoading) {
     return (
       <div className="cart-loading">
         <div className="loading-content">
