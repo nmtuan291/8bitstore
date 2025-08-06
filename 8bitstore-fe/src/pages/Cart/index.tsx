@@ -151,7 +151,7 @@ const Cart: React.FC = () => {
 
   return (
     <>
-      {(isPaymentLoading || isPaying) && <LoadingOverlay />}
+      {(isPaymentLoading || isPaying || isUserLoading || isLoading) && <LoadingOverlay />}
       {modal && (
         <Modal 
           message="Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng?" 
