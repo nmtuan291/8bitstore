@@ -6,11 +6,9 @@ import "./PaymentResult.scss";
 
 const PaymentResult: React.FC = () => {
   const navigate = useNavigate();
-  const location = useLocation();
-  
   useEffect(() => {
-    navigate(location.pathname, { replace: true });
-  }, [navigate, location.pathname]);
+    location.reload();
+  }, [])
 
 	return (
 		<div className="result-container">
