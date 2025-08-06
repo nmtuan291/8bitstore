@@ -78,15 +78,15 @@ const LoginForm: React.FC = () => {
                     
                     <div className={`input-group ${loginFailed ? 'error' : ''}`}>
                         <input
-                            placeholder="Email"
+                            placeholder="Email hoặc tên đăng nhập"
                             className="input-field"
-                            type="email" 
+                            type="text" 
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => 
                                 handleInputChange('email', e.target.value)
                             }
                             value={emailText}
                             disabled={isSubmitting}
-                            autoComplete="email"
+                            autoComplete="username"
                         />
                     </div>
                     
