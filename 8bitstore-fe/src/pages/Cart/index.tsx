@@ -44,11 +44,13 @@ const Cart: React.FC = () => {
   const navigate = useNavigate();
 
   const { data: user, isLoading: isUserLoading } = useGetCurrentUserQuery();
-  
-  if (isUserLoading) return null; 
 
-  if (!user)
-    navigate("/login")
+	useEffect(() => {
+		if (!isUserLoading && !user) {
+			navigate("/login");
+		}
+	}, [user, isUserLoading, navigate]);
+
 
   const { data: addresses, isLoading: addressLoading } = useGetAddressQuery();
 
