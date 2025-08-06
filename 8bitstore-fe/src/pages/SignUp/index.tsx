@@ -41,22 +41,35 @@ const RegistrationForm: React.FC = () => {
 
     const handleValidation = () => {
         const validationErrors = Validation(formData);
+        console.log("Validation function returned:", validationErrors);
         setErrors(validationErrors);
+        
+        // Check if terms are accepted
         if (!tosCheck) {
             setTosError(true);
+            console.log("Terms not accepted");
+            return false;
         }
-        return Object.keys(validationErrors).length === 0 && tosCheck;
+        
+        // Check if there are any validation errors
+        const hasErrors = Object.keys(validationErrors).length > 0;
+        console.log("Has validation errors:", hasErrors);
+        
+        return !hasErrors && tosCheck;
     };
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        console.log("Submit clicked"); // <-- Add this
-
+        console.log("Submit clicked");
+        
         if (!handleValidation()) {
-            console.log("Validation failed", errors, tosError); // <-- Add this
+            console.log("Validation failed", errors, tosError);
+            console.log("Form data:", formData);
+            // Don't return early - let the user see the errors
             return;
         }
         
+        console.log("Validation passed, calling API...");
         setIsSubmitting(true);
         try {
             await signUp({
@@ -67,6 +80,7 @@ const RegistrationForm: React.FC = () => {
                 confirmPassword: formData.confirmPassword,
                 phoneNumber: formData.phoneNumber
             }).unwrap();
+            console.log("Signup successful!");
             setSignUpSuccess(true);
         } catch (error) {
             console.error("Signup error:", error);
