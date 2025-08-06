@@ -5,7 +5,7 @@ import { Address } from "../../interfaces/interfaces";
 export const apiSlice = createApi({
     reducerPath: "api",
     baseQuery: fetchBaseQuery({ 
-        baseUrl: "https://localhost:7213", 
+        baseUrl: import.meta.env.VITE_API_URL,
         credentials: 'include'
     }),
     tagTypes: ["User", "Cart", "Wishlist", "Product", "Order", "Review", "Address"],

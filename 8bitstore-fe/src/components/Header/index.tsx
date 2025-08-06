@@ -19,12 +19,6 @@ import { items } from "./MenuItem";
 import './Header.scss'
 import capitalizeString from "../../utils/CapitalizeString";
 
-interface HoverStatus {
-    wishlist: boolean,
-    cart: boolean,
-    user: boolean
-}
-
 interface NavBarProps {
     displayMobile: () => void
 }
@@ -34,11 +28,6 @@ const NavBar: React.FC<NavBarProps> = ({ displayMobile }) => {
     const { data: user, isLoading: isUserLoading } = useGetCurrentUserQuery();
     const { data: cart = [], isLoading: isCartLoading } = useGetCartQuery();
     const [searchText, setSearchText] = useState<string>('');
-    const [hoverStatus, setHoverStatus] = useState<HoverStatus>({
-        wishlist: false,
-        cart: false,
-        user: false
-    });
     const [suggestion, setSuggestion] = useState<string[]>([]);
     const [showSuggestion, setShowSuggestion] = useState<boolean>(false);
     const [showUserDropdown, setShowUserDropdown] = useState<boolean>(false);
@@ -65,14 +54,6 @@ const NavBar: React.FC<NavBarProps> = ({ displayMobile }) => {
             navigate(`/product?productName=${encodeURIComponent(capitalizeString(searchText))}`);
             setShowSuggestion(false);
         }
-    };
-
-    const handleMouseOver = (iconName: string) => {
-        setHoverStatus({ ...hoverStatus, [iconName]: true });
-    };
-
-    const handleMouseOut = (iconName: string) => {
-        setHoverStatus({ ...hoverStatus, [iconName]: false });
     };
 
     const handleIconClick = {
@@ -112,8 +93,7 @@ const NavBar: React.FC<NavBarProps> = ({ displayMobile }) => {
         },
         logout: async () => {
             try {
-                // Add logout logic here
-                navigate("/");
+                navigate("/");z
                 setShowUserDropdown(false);
             } catch (error) {
                 console.error("Logout error:", error);
@@ -218,111 +198,82 @@ const NavBar: React.FC<NavBarProps> = ({ displayMobile }) => {
                             )}
                         </div>
 
-                        {/* Header Actions */}
                         <div className="header-actions">
-                            {/* Wishlist */}
-                            <div className="action-item">
-                                <button
-                                    className="action-button"
-                                    onClick={handleIconClick.wishlistClick}
-                                    onMouseEnter={() => handleMouseOver("wishlist")}
-                                    onMouseLeave={() => handleMouseOut("wishlist")}
-                                >
-                                    <FontAwesomeIcon icon={faHeart} />
-                                    <span className="action-label">Yêu thích</span>
-                                </button>
-                                {hoverStatus.wishlist && (
-                                    <div className="action-tooltip">
-                                        Danh sách yêu thích
-                                    </div>
-                                )}
-                            </div>
-
-                            {/* Cart */}
-                            <div className="action-item">
-                                <button
-                                    className="action-button"
-                                    onClick={handleIconClick.cartClick}
-                                    onMouseEnter={() => handleMouseOver("cart")}
-                                    onMouseLeave={() => handleMouseOut("cart")}
-                                >
-                                    <div className="cart-icon-wrapper">
-                                        <FontAwesomeIcon icon={faCartShopping} />
-                                        {cartItemCount > 0 && (
-                                            <span className="cart-badge">{cartItemCount}</span>
-                                        )}
-                                    </div>
-                                    <span className="action-label">Giỏ hàng</span>
-                                </button>
-                                {hoverStatus.cart && (
-                                    <div className="action-tooltip">
-                                        {cartItemCount} sản phẩm trong giỏ
-                                    </div>
-                                )}
-                            </div>
-
-                            {/* User Account */}
-                            <div className="action-item user-menu" ref={userRef}>
-                                <button
-                                    className="action-button"
-                                    onClick={handleIconClick.profileClick}
-                                    onMouseEnter={() => handleMouseOver("user")}
-                                    onMouseLeave={() => handleMouseOut("user")}
-                                >
-                                    <FontAwesomeIcon icon={user ? faUserCircle : faUser} />
-                                    <span className="action-label">
-                                        {user ? user.fullName || "Tài khoản" : "Đăng nhập"}
-                                    </span>
-                                </button>
-
-                                {/* User Dropdown */}
-                                {user && showUserDropdown && (
-                                    <div className="user-dropdown">
-                                        <div className="dropdown-header">
-                                            <div className="user-info">
-                                                <FontAwesomeIcon icon={faUserCircle} className="user-avatar" />
-                                                <div className="user-details">
-                                                    <span className="user-name">{user.fullName}</span>
-                                                    <span className="user-email">{user.email}</span>
+                            <div className="header-actions mobile-hide">
+                                <div className="action-item">
+                                    <button
+                                        className="action-button"
+                                        onClick={handleIconClick.wishlistClick}
+                                    >
+                                        <FontAwesomeIcon icon={faHeart} />
+                                        <span className="action-label">Yêu thích</span>
+                                    </button>
+                                </div>
+                                <div className="action-item">
+                                    <button
+                                        className="action-button"
+                                        onClick={handleIconClick.cartClick}
+                                    >
+                                        <div className="cart-icon-wrapper">
+                                            <FontAwesomeIcon icon={faCartShopping} />
+                                            {cartItemCount > 0 && (
+                                                <span className="cart-badge">{cartItemCount}</span>
+                                            )}
+                                        </div>
+                                        <span className="action-label">Giỏ hàng</span>
+                                    </button>
+                                </div>
+                                <div className="action-item user-menu" ref={userRef}>
+                                    <button
+                                        className="action-button"
+                                        onClick={handleIconClick.profileClick}
+                                    >
+                                        <FontAwesomeIcon icon={user ? faUserCircle : faUser} />
+                                        <span className="action-label">
+                                            {user ? user.fullName || "Tài khoản" : "Đăng nhập"}
+                                        </span>
+                                    </button>
+                                    {user && showUserDropdown && (
+                                        <div className="user-dropdown">
+                                            <div className="dropdown-header">
+                                                <div className="user-info">
+                                                    <FontAwesomeIcon icon={faUserCircle} className="user-avatar" />
+                                                    <div className="user-details">
+                                                        <span className="user-name">{user.fullName}</span>
+                                                        <span className="user-email">{user.email}</span>
+                                                    </div>
                                                 </div>
                                             </div>
+                                            <div className="dropdown-menu">
+                                                <button
+                                                    className="dropdown-item"
+                                                    onClick={handleUserMenuClick.profile}
+                                                >
+                                                    <FontAwesomeIcon icon={faUser} />
+                                                    Hồ sơ cá nhân
+                                                </button>
+                                                <button
+                                                    className="dropdown-item"
+                                                    onClick={handleUserMenuClick.settings}
+                                                >
+                                                    <FontAwesomeIcon icon={faCog} />
+                                                    Cài đặt
+                                                </button>
+                                                <hr className="dropdown-divider" />
+                                                <button
+                                                    className="dropdown-item logout"
+                                                    onClick={handleUserMenuClick.logout}
+                                                >
+                                                    <FontAwesomeIcon icon={faSignOutAlt} />
+                                                    Đăng xuất
+                                                </button>
+                                            </div>
                                         </div>
-                                        <div className="dropdown-menu">
-                                            <button
-                                                className="dropdown-item"
-                                                onClick={handleUserMenuClick.profile}
-                                            >
-                                                <FontAwesomeIcon icon={faUser} />
-                                                Hồ sơ cá nhân
-                                            </button>
-                                            <button
-                                                className="dropdown-item"
-                                                onClick={handleUserMenuClick.settings}
-                                            >
-                                                <FontAwesomeIcon icon={faCog} />
-                                                Cài đặt
-                                            </button>
-                                            <hr className="dropdown-divider" />
-                                            <button
-                                                className="dropdown-item logout"
-                                                onClick={handleUserMenuClick.logout}
-                                            >
-                                                <FontAwesomeIcon icon={faSignOutAlt} />
-                                                Đăng xuất
-                                            </button>
-                                        </div>
-                                    </div>
-                                )}
+                                    )}
 
-                                {/* Tooltip for non-logged in users */}
-                                {!user && hoverStatus.user && (
-                                    <div className="action-tooltip">
-                                        Đăng nhập vào tài khoản của bạn
-                                    </div>
-                                )}
+                                </div>
                             </div>
 
-                            {/* Mobile Menu Toggle */}
                             <div className="action-item mobile-only">
                                 <button
                                     className="action-button mobile-menu-toggle"

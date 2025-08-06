@@ -8,7 +8,8 @@ import {
     useUpdateCartMutation, 
     useGetWishlistQuery, 
     useAddWishlistMutation, 
-    useRemoveWishlistMutation 
+    useRemoveWishlistMutation,
+    useGetCurrentUserQuery
 } from "../../store/api";
 import "./ProductDetail.scss"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -34,6 +35,7 @@ const ProductDetail: React.FC = () => {
 
     const { data: productDetail, isLoading } = useGetProductQuery(productId || "");
     const { data: reviews = [] } = useGetReviewsQuery(productId || "");
+    const { data: user } = useGetCurrentUserQuery();
 
     const [cartItem, setCartItem] = useState<CartItem>({
         productId: "",
@@ -211,7 +213,7 @@ const ProductDetail: React.FC = () => {
                                 <div className="action-buttons">
                                     <button 
                                         className="btn btn-cart"
-                                        onClick={() => updateCart(cartItem)}
+                                        onClick={() => user ? updateCart(cartItem) : navigate("/login")}
                                         disabled={cartItem.quantity === 0}
                                     >
                                         <FontAwesomeIcon icon={faShoppingCart} />
@@ -220,7 +222,8 @@ const ProductDetail: React.FC = () => {
                                     <button 
                                         className="btn btn-buy"
                                         onClick={() => {
-                                            updateCart(cartItem);
+                                            if (user)
+                                                updateCart(cartItem);
                                             navigate("/cart");
                                         }}
                                         disabled={cartItem.quantity === 0}

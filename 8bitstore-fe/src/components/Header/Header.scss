@@ -6,6 +6,7 @@
   top: 0;
   z-index: 1000;
   background: white;
+  min-width: 500px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 
   .container {
@@ -247,6 +248,12 @@
     align-items: center;
     gap: 8px;
     justify-self: end;
+
+    &.mobile-hide {
+      @include mobile {
+        display: none;
+      }
+    }
 
     .action-item {
       position: relative;

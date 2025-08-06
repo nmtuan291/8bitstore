@@ -18,7 +18,7 @@ const Layout = () => {
     <div className="layout-wrapper"> 
       <NavBar displayMobile={() => setDisplayMobile(true)}/>
       <main>
-        <Outlet></Outlet>
+        <Outlet />
       </main>
       <Footer />
       { displayMobile && <MobileMenu user={null} isVisible={displayMobile} setIsVisible={(visible: boolean) => setDisplayMobile(visible)}></MobileMenu>}

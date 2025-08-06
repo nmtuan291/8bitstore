@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import axios from "../../../apis/axios";
 import LoadingOverlay from "../../../components/LoadingOverlay";
-import { useGetCartQuery, useDeleteCartItemMutation } from "../../../store/api";
+import { useGetCartQuery, useDeleteCartItemMutation, useGetCurrentUserQuery } from "../../../store/api";
 
 const PaymentProcess: React.FC = () => {
 	const { paymentMethod } = useParams();
@@ -13,6 +13,10 @@ const PaymentProcess: React.FC = () => {
 	const orderIdRef = useRef(crypto.randomUUID());
 	const [totalAmount, setTotalAmount] = useState<number>(0);
 	const hasProcessed = useRef(false);
+
+	const { data: user} = useGetCurrentUserQuery();
+	if (!user)
+	  navigate("/login")
 
 	useEffect(() => {
 		if (isCartLoading) return;

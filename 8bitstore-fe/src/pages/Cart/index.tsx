@@ -41,10 +41,13 @@ const Cart: React.FC = () => {
   const [deleteCartItem] = useDeleteCartItemMutation();
   const [createPaymentUrl, { isLoading: isPaymentLoading }] = useCreatePaymentUrlMutation();
 
-
-  const {data: addresses, isLoading: addressLoading} = useGetAddressQuery();
-
   const navigate = useNavigate();
+
+  const { data: user} = useGetCurrentUserQuery();
+  if (!user)
+    navigate("/login")
+
+  const { data: addresses, isLoading: addressLoading } = useGetAddressQuery();
 
   // Calculate totals
   const cartTotals = useMemo(() => {

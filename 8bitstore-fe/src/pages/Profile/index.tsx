@@ -30,6 +30,9 @@ const Profile: React.FC = () => {
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+  if (!user)
+    navigate("/login");
+
   const menuItems: MenuItem[] = [
     {
       path: "/profile/detail",

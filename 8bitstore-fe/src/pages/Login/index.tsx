@@ -4,11 +4,12 @@ import LoadingOverlay from "../../components/LoadingOverlay";
 import { useGetCurrentUserQuery, useLoginMutation } from "../../store/api";
 import "./Login.scss"
 
-
 const LoginForm: React.FC = () => {
     const [emailText, setEmailText] = useState<string>("");
     const [passwordText, setPasswordText] = useState<string>("");
     const [loginFailed, setLoginFailed] = useState<boolean>(false);
+    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+    const [rememberMe, setRememberMe] = useState<boolean>(false);
 
     const { data: user, error, isLoading } = useGetCurrentUserQuery();
     const [login] = useLoginMutation();
@@ -21,63 +22,118 @@ const LoginForm: React.FC = () => {
     }, [user, navigate]);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        
+        if (!emailText.trim() || !passwordText.trim()) {
+            setLoginFailed(true);
+            return;
+        }
+
+        setIsSubmitting(true);
+        setLoginFailed(false);
+
         try {
-            e.preventDefault();
-            console.log("here");
             const response = await login({
-                userName: emailText,
+                userName: emailText.trim(),
                 password: passwordText,
             }).unwrap();
-            console.log("asdadasd");
 
             if (response) {
                 setLoginFailed(false);
                 console.log("Login successfully");
                 navigate("/");
-            }  else {
+            } else {
                 setLoginFailed(true);
             }
-            console.log(response);
         } catch (error: any) {
+            console.error("Login error:", error);
             setLoginFailed(true);
-
+        } finally {
+            setIsSubmitting(false);
         }
     }
+
+    const handleInputChange = (field: 'email' | 'password', value: string) => {
+        if (loginFailed) {
+            setLoginFailed(false);
+        }
+        
+        if (field === 'email') {
+            setEmailText(value);
+        } else {
+            setPasswordText(value);
+        }
+    };
 
     return (
         <>
             {isLoading && <LoadingOverlay />}
             <div className="form-container">    
-                <form className="login-form" onSubmit={(e) => handleSubmit(e)}>
+                <form className="login-form" onSubmit={handleSubmit}>
                     <h1>Đăng nhập</h1>
-                    <p>Chưa có tài khoản? <Link to="/signup">Đăng ký ngay</Link></p>
-                    <div className="mb-3 w-50">
+                    
+                    <p className="signup-link">
+                        Chưa có tài khoản? <Link to="/signup">Đăng ký ngay</Link>
+                    </p>
+                    
+                    <div className={`input-group ${loginFailed ? 'error' : ''}`}>
                         <input
                             placeholder="Email"
                             className="input-field"
-                            type="text" 
-                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmailText(e.target.value)}
-                            value={emailText} />
+                            type="email" 
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => 
+                                handleInputChange('email', e.target.value)
+                            }
+                            value={emailText}
+                            disabled={isSubmitting}
+                            autoComplete="email"
+                        />
                     </div>
-                    <div className="mb-3 w-50">
+                    
+                    <div className={`input-group ${loginFailed ? 'error' : ''}`}>
                         <input
                             className="input-field"
                             placeholder="Mật khẩu"
                             type="password" 
-                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPasswordText(e.target.value)}
-                            value={passwordText} />
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => 
+                                handleInputChange('password', e.target.value)
+                            }
+                            value={passwordText}
+                            disabled={isSubmitting}
+                            autoComplete="current-password"
+                        />
                     </div>
-                    {loginFailed &&<span className="login-failed">"Tài khoản hoặc mật khẩu không chính xác"</span>}
-                    <div className ="form-check d-flex align-items-center">
-                        <input className="form-check-input" type="checkbox"/>
-                        <label className="form-check-label" style={{margin: "10px"}}>Nhớ mật khẩu</label>
+                    
+                    {loginFailed && (
+                        <div className="error-message">
+                            Tài khoản hoặc mật khẩu không chính xác
+                        </div>
+                    )}
+                    
+                    <div className="remember-me">
+                        <input 
+                            className="form-check-input" 
+                            type="checkbox"
+                            id="rememberMe"
+                            checked={rememberMe}
+                            onChange={(e) => setRememberMe(e.target.checked)}
+                            disabled={isSubmitting}
+                        />
+                        <label className="form-check-label" htmlFor="rememberMe">
+                            Nhớ mật khẩu
+                        </label>
                     </div>
 
-                    <button className={`customBtn rounded`} type="submit">Đăng nhập</button>
+                    <button 
+                        className="login-button" 
+                        type="submit"
+                        disabled={isSubmitting}
+                    >
+                        {isSubmitting ? 'Đang đăng nhập...' : 'Đăng nhập'}
+                    </button>
                 </form>
             </div>
         </>
-        
     );
 };
 

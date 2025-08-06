@@ -1,14 +1,13 @@
-import { useEffect, useState } from "react";
-import {  Table } from "react-bootstrap"
-import { NavLink } from "react-router-dom";
-import { Product } from "../../../interfaces/interfaces";
+import { NavLink, useNavigate } from "react-router-dom";
 import { Outlet } from "react-router-dom";
-import axios from "../../../apis/axios";
-import AddProductForm from "./AddProductForm";
+import { useGetCurrentUserQuery } from "../../../store/api";
 import "./ProductManage.scss";
 
 const ProductManagement: React.FC = () => {
-
+	const navigate = useNavigate();
+	const { data: user } = useGetCurrentUserQuery();
+	if (!user)
+		navigate("/login") 
 
 	return (
 		<div  className="product-management-container">
