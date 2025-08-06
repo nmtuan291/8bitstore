@@ -14,7 +14,10 @@ const PaymentProcess: React.FC = () => {
 	const [totalAmount, setTotalAmount] = useState<number>(0);
 	const hasProcessed = useRef(false);
 
-	const { data: user} = useGetCurrentUserQuery();
+	const { data: user, isLoading: isUserLoading} = useGetCurrentUserQuery();
+	if (isUserLoading)
+		return <LoadingOverlay />
+
 	if (!user)
 	  navigate("/login")
 
