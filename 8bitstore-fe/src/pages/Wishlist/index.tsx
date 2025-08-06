@@ -16,6 +16,7 @@ import { useGetWishlistQuery, useRemoveWishlistMutation } from "../../store/api"
 import Modal from "../../components/Modal";
 import "./Wishlist.scss";
 import Loader from "../../components/LoadingOverlay/Loader";
+import LoadingOverlay from "../../components/LoadingOverlay";
 
 const Wishlist: React.FC = () => {
   const { data: wishlistItems, isLoading, isError } = useGetWishlistQuery();
@@ -56,8 +57,7 @@ const Wishlist: React.FC = () => {
   if (isLoading) {
     return (
       <div className="wishlist-loading">
-        <Loader />
-        <p>Đang tải danh sách yêu thích...</p>
+        <LoadingOverlay />
       </div>
     );
   }

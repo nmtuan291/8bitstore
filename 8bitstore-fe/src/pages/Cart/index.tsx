@@ -143,7 +143,7 @@ const Cart: React.FC = () => {
       <div className="cart-loading">
         <div className="loading-content">
           <div className="loading-spinner"></div>
-          <p>Đang tải giỏ hàng...</p>
+            <LoadingOverlay />
         </div>
       </div>
     );
@@ -151,7 +151,7 @@ const Cart: React.FC = () => {
 
   return (
     <>
-      {(isPaymentLoading || isPaying || isUserLoading || isLoading) && <LoadingOverlay />}
+      {(isPaymentLoading || isPaying) && <LoadingOverlay />}
       {modal && (
         <Modal 
           message="Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng?" 
