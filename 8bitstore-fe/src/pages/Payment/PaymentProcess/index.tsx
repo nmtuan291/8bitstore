@@ -16,9 +16,7 @@ const PaymentProcess: React.FC = () => {
 	const hasProcessed = useRef(false);
 
 	useEffect(() => {
-		console.log("PaymentProcess - User check:", { user, isUserLoading });
 		if (!isUserLoading && !user) {
-			console.log("PaymentProcess - Navigating to login because user is undefined");
 			navigate("/login");
 		}
 	}, [user, isUserLoading, navigate]);
@@ -82,6 +80,7 @@ const PaymentProcess: React.FC = () => {
 							});
 	
 							await deleteCartItem({ productId: "" });
+							localStorage.removeItem("paymentResult");
 							window.close();
 						} catch (error) {
 							console.error("Error during order creation:", error);
