@@ -15,11 +15,15 @@ const PaymentProcess: React.FC = () => {
 	const hasProcessed = useRef(false);
 
 	const { data: user, isLoading: isUserLoading} = useGetCurrentUserQuery();
+	
 	if (isUserLoading)
 		return <LoadingOverlay />
 
-	if (!user)
-	  navigate("/login")
+	useEffect(() => {
+		if (!isUserLoading && !user) {
+			navigate("/login");
+		}
+	}, [user, isUserLoading, navigate]);
 
 	useEffect(() => {
 		if (isCartLoading) return;
