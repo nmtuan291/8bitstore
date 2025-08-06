@@ -11,17 +11,10 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import "./Order.scss";
 import OrderItem from "./OrderItem";
-import type { OrderItem as OrderItemType } from "../../../interfaces/interfaces";
 import { useGetOrdersQuery } from "../../../store/api";
 import Loader from "../../../components/LoadingOverlay/Loader";
 
-interface OrderData {
-  items: OrderItemType[];
-  orderId: string;
-  total: number;
-  status: string;
-  orderDate: string;
-}
+
 
 interface OrderFilter {
   id: number;
