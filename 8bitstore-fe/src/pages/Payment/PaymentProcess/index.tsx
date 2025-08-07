@@ -61,6 +61,11 @@ const PaymentProcess: React.FC = () => {
 				
 				if (response.data.status === "SUCCESS") {
 					try {
+						localStorage.setItem("paymentResult", JSON.stringify({
+							status: "success",
+							responseCode: response.data.message
+						}));
+
 						await axios.post("/api/Order/add", {
 							status: "pending",
 							total: totalAmount,
@@ -72,15 +77,8 @@ const PaymentProcess: React.FC = () => {
 								orderId: orderIdRef.current
 							}))
 						});
-
-						localStorage.setItem("paymentResult", JSON.stringify({
-							status: "success",
-							responseCode: response.data.message
-						}));
-
 						await deleteCartItem({ productId: "" });
 
-						localStorage.removeItem("paymentResult");
 					} catch (error) {
 						localStorage.setItem("paymentResult", JSON.stringify({
 							status: "failed",
@@ -97,7 +95,6 @@ const PaymentProcess: React.FC = () => {
 					}));
 					
 					timer = setTimeout(() => {
-						localStorage.removeItem("paymentResult");
 						window.close();
 					}, 3000);
 				}

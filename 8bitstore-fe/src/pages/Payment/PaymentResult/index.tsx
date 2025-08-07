@@ -7,6 +7,7 @@ import "./PaymentResult.scss";
 const PaymentResult: React.FC = () => {
   const { status } = useParams();
   const navigate = useNavigate();
+  localStorage.removeItem("paymentResult");
   
   if (status === "success") {
     return (
@@ -58,7 +59,7 @@ const PaymentResult: React.FC = () => {
       </div>
     )
   }
-  
+
   return (
     <div className="result-container">
       <div className="result">

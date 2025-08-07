@@ -9,7 +9,7 @@ const ProductManagement: React.FC = () => {
 	const { data: role, isLoading: isRoleLoading } = useGetRoleQuery({});
 
 	if (isUserLoading || isRoleLoading) return null;
-
+	console.log(role)
 	if (!user)
 		navigate("/login") 
 
