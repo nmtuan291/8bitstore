@@ -31,7 +31,7 @@ $menu-border: 1.5px solid rgba(148, 108, 188, 0.15);
     transition: background 0.3s;
 
     &.hidden { display: none; }
-
+  
     .menu-container {
       position: relative;
       backdrop-filter: $menu-blur;
@@ -47,7 +47,7 @@ $menu-border: 1.5px solid rgba(148, 108, 188, 0.15);
       transition: box-shadow 0.3s, background 0.3s;
       padding: 0 0 0 0;
       overflow-y: auto;
-
+  
       &.slide-in { animation: slideIn 0.3s cubic-bezier(.4,1.7,.6,.97); }
       &.slide-out { animation: slideOut 0.3s cubic-bezier(.4,1.7,.6,.97); }
 
@@ -100,7 +100,7 @@ $menu-border: 1.5px solid rgba(148, 108, 188, 0.15);
           text-decoration: underline;
         }
       }
-
+  
       ul {
         width: 100%;
         padding: 0;

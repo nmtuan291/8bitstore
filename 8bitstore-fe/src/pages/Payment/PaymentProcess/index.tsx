@@ -39,92 +39,94 @@ const PaymentProcess: React.FC = () => {
 		let timer: NodeJS.Timeout;
 		
 		const doPayment = async () => {
-			try {
-				if (paymentMethod === "VNPAY") {
-					const params = new URLSearchParams(location.search);
-					const request = {
-						amount: params.get("vnp_Amount"),
-						transactionNo: params.get("vnp_TransactionNo"),
-						bankCode: params.get("vnp_BankCode"),
-						bankTranNo: params.get("vnp_BankTranNo"),
-						cardType: params.get("vnp_CardType"),
-						payDate: params.get("vnp_PayDate"),
-						responseCode: params.get("vnp_ResponseCode"),
-						secureHash: params.get("vnp_SecureHash"),
-						transactionStatus: params.get("vnp_TransactionStatus"),
-						txnRef: params.get("vnp_TxnRef"),
-						tmnCode: params.get("vnp_TmnCode"),
-						orderInfo: params.get("vnp_OrderInfo"),
-						orderId: orderIdRef.current
-					}
-					
-					const response = await axios.post("/api/Payment/save-payment-info", request);
-					
-					if (response.data.status === "SUCCESS") {
+			if (paymentMethod === "VNPAY") {
+				const params = new URLSearchParams(location.search);
+				const request = {
+					amount: params.get("vnp_Amount"),
+					transactionNo: params.get("vnp_TransactionNo"),
+					bankCode: params.get("vnp_BankCode"),
+					bankTranNo: params.get("vnp_BankTranNo"),
+					cardType: params.get("vnp_CardType"),
+					payDate: params.get("vnp_PayDate"),
+					responseCode: params.get("vnp_ResponseCode"),
+					secureHash: params.get("vnp_SecureHash"),
+					transactionStatus: params.get("vnp_TransactionStatus"),
+					txnRef: params.get("vnp_TxnRef"),
+					tmnCode: params.get("vnp_TmnCode"),
+					orderInfo: params.get("vnp_OrderInfo"),
+					orderId: orderIdRef.current
+				}
+				
+				const response = await axios.post("/api/Payment/save-payment-info", request);
+				
+				if (response.data.status === "SUCCESS") {
+					try {
+						await axios.post("/api/Order/add", {
+							status: "pending",
+							total: totalAmount,
+							orderId: orderIdRef.current,
+							items: (cart ?? []).map((item) => ({
+								productId: item.productId,
+								quantity: item.quantity,
+								price: item.price,
+								orderId: orderIdRef.current
+							}))
+						});
+
 						localStorage.setItem("paymentResult", JSON.stringify({
 							status: "success",
 							responseCode: response.data.message
 						}));
-	
-						try {
-							await axios.post("/api/Order/add", {
-								status: "pending",
-								total: totalAmount,
-								orderId: orderIdRef.current,
-								items: (cart ?? []).map((item) => ({
-									productId: item.productId,
-									quantity: item.quantity,
-									price: item.price,
-									orderId: orderIdRef.current
-								}))
-							});
-	
-							await deleteCartItem({ productId: "" });
-							localStorage.removeItem("paymentResult");
-							window.close();
-						} catch (error) {
-							console.error("Error during order creation:", error);
-						}
-					
-					} else {
+
+						await deleteCartItem({ productId: "" });
+
+						localStorage.removeItem("paymentResult");
+					} catch (error) {
 						localStorage.setItem("paymentResult", JSON.stringify({
 							status: "failed",
-							responseCode: response.data.message
+							responseCode: error
 						}));
-						
-						timer = setTimeout(() => {
-							localStorage.removeItem("paymentResult");
-							window.close();
-						}, 3000);
+					} finally {
+						window.close();
 					}
-				} else if (paymentMethod === "COD") {
-					const createCODOrder = async () => {
-						try {
-							await axios.post("/api/Order/add", {
-								status: "pending",
-								total: totalAmount,
-								orderId: orderIdRef.current,
-								items: (cart?? []).map((item) => ({
-									productId: item.productId,
-									quantity: item.quantity,
-									price: item.price,
-									orderId: orderIdRef.current
-								}))
-							});
-
-							await deleteCartItem({ productId: "" });
-						} catch (error) {
-							console.error("Error during order creation:", error);
-						}
-					}
-					createCODOrder();
-
+				
+				} else {
+					localStorage.setItem("paymentResult", JSON.stringify({
+						status: "failed",
+						responseCode: response.data.message
+					}));
+					
 					timer = setTimeout(() => {
-						navigate("/payment-result");
+						localStorage.removeItem("paymentResult");
+						window.close();
 					}, 3000);
 				}
-			} catch (error) {
-				console.error("Error during payment process:", error);
+			} else if (paymentMethod === "COD") {
+				const createCODOrder = async () => {
+					try {
+						await axios.post("/api/Order/add", {
+							status: "pending",
+							total: totalAmount,
+							orderId: orderIdRef.current,
+							items: (cart?? []).map((item) => ({
+								productId: item.productId,
+								quantity: item.quantity,
+								price: item.price,
+								orderId: orderIdRef.current
+							}))
+						});
+
+						await deleteCartItem({ productId: "" });
+					} catch (error) {
+						console.error("Error during order creation:", error);
+						navigate("/payment-result/failed");
+					}
+				}
+				createCODOrder();
+
+				timer = setTimeout(() => {
+					navigate("/payment-result/success");
+				}, 3000);
 			}
 		};
 

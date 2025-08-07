@@ -20,17 +20,24 @@
 
     svg {
       font-size: 3.5rem;
-      color: #85BDB6;
       margin-bottom: 8px;
     }
+    
     p {
       font-size: 1.25rem;
       font-weight: 600;
-      color: #946CBC;
       margin-bottom: 10px;
       margin-top: 0;
       text-align: center;
     }
+
+    .error-message {
+      font-size: 0.9rem;
+      font-weight: 400;
+      color: #666;
+      margin-bottom: 0;
+    }
+    
     div {
       display: flex;
       gap: 14px;
@@ -40,16 +47,47 @@
         padding: 10px 22px;
         border-radius: 8px;
         border: none;
-        background: #946CBC;
-        color: #fff;
         font-size: 1rem;
         font-weight: 600;
         cursor: pointer;
         transition: background 0.2s, box-shadow 0.2s;
         box-shadow: 0 2px 8px 0 rgba(0,0,0,0.08);
         &:hover {
-          background: #85BDB6;
           color: #fff;
+        }
+      }
+    }
+
+    // Success state
+    &.success {
+      svg {
+        color: #85BDB6;
+      }
+      p {
+        color: #946CBC;
+      }
+      button {
+        background: #946CBC;
+        color: #fff;
+        &:hover {
+          background: #85BDB6;
+        }
+      }
+    }
+
+    // Failed state
+    &.failed {
+      svg {
+        color: #dc3545;
+      }
+      p {
+        color: #dc3545;
+      }
+      button {
+        background: #dc3545;
+        color: #fff;
+        &:hover {
+          background: #c82333;
         }
       }
     }

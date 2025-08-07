@@ -1,13 +1,14 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import { Outlet } from "react-router-dom";
-import { useGetCurrentUserQuery } from "../../../store/api";
+import { useGetCurrentUserQuery, useGetRoleQuery } from "../../../store/api";
 import "./ProductManage.scss";
 
 const ProductManagement: React.FC = () => {
 	const navigate = useNavigate();
 	const { data: user, isLoading: isUserLoading } = useGetCurrentUserQuery();
+	const { data: role, isLoading: isRoleLoading } = useGetRoleQuery({});
 
-	if (isUserLoading) return null;
+	if (isUserLoading || isRoleLoading) return null;
 
 	if (!user)
 		navigate("/login") 

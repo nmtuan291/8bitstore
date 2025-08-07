@@ -8,11 +8,11 @@ const Validation = (formData: User): { [key: string]: string } => {
 
   // Email
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-  if (!formData.email) {
+    if (!formData.email) {
     errors.email = "Email là bắt buộc";
-  } else if (!emailPattern.test(formData.email)) {
+    } else if (!emailPattern.test(formData.email)) {
     errors.email = "Email không hợp lệ";
-  }
+    }
 
   // Full Name
   if (!formData.fullName) errors.fullName = "Họ tên là bắt buộc";
@@ -39,7 +39,7 @@ const Validation = (formData: User): { [key: string]: string } => {
     errors.confirmPassword = "Mật khẩu xác nhận không khớp";
   }
 
-  return errors;
+    return errors;
 };
 
 export default Validation;

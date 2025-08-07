@@ -38,7 +38,7 @@ const Profile: React.FC = () => {
 
   useEffect(() => {
     if (!isUserLoading && !user) {
-      navigate("/login");
+    navigate("/login");
     }
   }, [user, isUserLoading, navigate]);
 

@@ -115,7 +115,7 @@ $shadow-medium: rgba(0, 0, 0, 0.15);
                 outline: none;
                 &::placeholder {
                     color: $text-light;
-                }
+        }
                 &:focus {
                     border-color: $primary-color;
                     box-shadow: 0 0 0 3px rgba(148, 108, 188, 0.1);
@@ -158,7 +158,7 @@ $shadow-medium: rgba(0, 0, 0, 0.15);
                 &:checked {
                     background-color: $primary-color;
                     border-color: $primary-color;
-                }
+        }
                 &:focus {
                     box-shadow: 0 0 0 3px rgba(148, 108, 188, 0.1);
                 }
@@ -169,7 +169,7 @@ $shadow-medium: rgba(0, 0, 0, 0.15);
                 font-weight: 500;
                 cursor: pointer;
                 user-select: none;
-            }
+        }
             &.error .form-check-label {
                 color: $error-color;
             }

@@ -23,6 +23,9 @@ export const apiSlice = createApi({
             }),
             invalidatesTags: ["User"]
         }),
+        getRole: builder.query({
+            query: () => "/api/User/role"
+        }),
         signUp: builder.mutation<void, {
             userName: string,
             Email: string,
@@ -200,5 +203,6 @@ export const {
     useUpdateAddressMutation,
     useDeleteAddressMutation,
     useGetAllProductsQuery,
-    useCancelOrderMutation
+    useCancelOrderMutation,
+    useGetRoleQuery
 } = apiSlice;

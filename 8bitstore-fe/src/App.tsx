@@ -49,7 +49,7 @@ function App() {
             </Route>
             <Route path="/payment" element={<Payment />}/>
             <Route path="/payment-process/:paymentMethod" element={<PaymentProcess />}></Route>
-            <Route path="/payment-result" element={<PaymentResult />}></Route>
+            <Route path="/payment-result/:status" element={<PaymentResult />}></Route>
             <Route path="/wishlist" element={<Wishlist />}/>
           </Route>
           <Route path="/login" element={<Login />} />

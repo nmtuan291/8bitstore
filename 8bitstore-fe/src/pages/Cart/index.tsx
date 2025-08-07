@@ -121,11 +121,7 @@ const Cart: React.FC = () => {
       const storedResult = localStorage.getItem("paymentResult");
       if (storedResult) {
         const paymentResult = JSON.parse(storedResult);
-        if (paymentResult.responseCode === "00") {
-          navigate("/payment-result");
-        } else {
-          setIsPaying(false)
-        }
+        navigate(`/payment-result/${paymentResult.status}`);
       }
     };
 

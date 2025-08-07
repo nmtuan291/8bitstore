@@ -42,7 +42,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ user, isVisible, setIsVisible})
     if (!name) return "?";
     return name.split(" ").map(n => n[0]).join("").toUpperCase().slice(0,2);
   };
-
+  
   return (
     <div className={`mobile-overlay ${isVisible ? "" : "hidden"}`}>
       <div className={`menu-container ${isClosing ? "slide-out" : isVisible ? "slide-in" : "" }`} ref={ref}>
