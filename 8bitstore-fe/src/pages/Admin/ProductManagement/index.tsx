@@ -2,6 +2,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { Outlet } from "react-router-dom";
 import { useGetCurrentUserQuery, useGetRoleQuery } from "../../../store/api";
 import "./ProductManage.scss";
+import NotFoundPage from "../../404";
 
 const ProductManagement: React.FC = () => {
 	const navigate = useNavigate();
@@ -14,7 +15,7 @@ const ProductManagement: React.FC = () => {
 		navigate("/notfound");
 	
 	if (!user)
-		navigate("/login") 
+		return <NotFoundPage />
 
 	return (
 		<div  className="product-management-container">
