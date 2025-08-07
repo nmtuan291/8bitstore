@@ -12,10 +12,10 @@ const ProductManagement: React.FC = () => {
 	if (isUserLoading || isRoleLoading) return null;
 
 	if (!(role ?? []).includes("Admin")) 
-		navigate("/notfound");
+		return <NotFoundPage />
 	
 	if (!user)
-		return <NotFoundPage />
+		navigate("/login") 
 
 	return (
 		<div  className="product-management-container">
