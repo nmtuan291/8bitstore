@@ -30,6 +30,8 @@ const ProductFilter: React.FC<ProductFilterProps> = ({ onFilterChange }) => {
     maxPrice: 0
   });
 
+  const [isInitialized, setIsInitialized] = useState(false);
+
   const [sections, setSections] = useState<FilterSection[]>([
     { id: 'type', title: 'Loại sản phẩm', isCollapsed: false },
     { id: 'manufacturer', title: 'Thương hiệu', isCollapsed: false },
@@ -192,14 +194,19 @@ const ProductFilter: React.FC<ProductFilterProps> = ({ onFilterChange }) => {
     );
   };
 
-  // Auto-apply filters when they change
+  // Auto-apply filters when they change (but not on initial mount)
   useEffect(() => {
+    if (!isInitialized) {
+      setIsInitialized(true);
+      return; // Don't call onFilterChange on initial mount
+    }
+    
     const timeoutId = setTimeout(() => {
       onFilterChange(filter);
     }, 300);
     
     return () => clearTimeout(timeoutId);
-  }, [filter.type, filter.manufacturer, filter.genres, filter.minPrice, filter.maxPrice, onFilterChange]);
+  }, [filter.type, filter.manufacturer, filter.genres, filter.minPrice, filter.maxPrice, onFilterChange, isInitialized]);
   
   return (
     <div className="product-filter-container">

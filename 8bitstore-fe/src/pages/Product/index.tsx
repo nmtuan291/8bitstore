@@ -26,9 +26,10 @@ const ProductList: React.FC = () => {
             genres: queryParams.getAll("genre"),
             minPrice: queryParams.get("minPrice"),
             maxPrice: queryParams.get("maxPrice"),
-            sort: queryParams.get("sort") || "Giá thấp đến cao",
+            sort: queryParams.get("sort") || "Phổ biến", // Default sort
             page: parseInt(queryParams.get("page") || "1", 10)
         };
+        console.log("searchParams parsed:", params);
         return params;
     }, [location.search]);
 
@@ -82,6 +83,7 @@ const ProductList: React.FC = () => {
     
     // Function to update page in URL
     const setCurrentPage = useCallback((newPage: number) => {
+        console.log("setCurrentPage called with:", newPage);
         const params = new URLSearchParams(location.search);
         if (newPage === 1) {
             params.delete('page'); // Remove page=1 from URL for cleaner URLs
@@ -89,19 +91,39 @@ const ProductList: React.FC = () => {
             params.set('page', newPage.toString());
         }
         const newUrl = `?${params.toString()}`;
+        console.log("setCurrentPage navigating to:", newUrl);
         navigate(newUrl);
-    }, [navigate]); // Remove location.search dependency that was causing the cycle
+    }, [navigate, location.search]);
   
     const handleSortChange = useCallback((newSort: string) => {
+        console.log("handleSortChange called with:", newSort);
         const params = new URLSearchParams(location.search);
-        params.set('sort', newSort);
+        if (newSort === "Phổ biến") {
+            params.delete('sort'); // Remove sort from URL for default
+        } else {
+            params.set('sort', newSort);
+        }
         // Reset to page 1 when sorting changes
         params.delete('page');
         const newUrl = `?${params.toString()}`;
+        console.log("handleSortChange navigating to:", newUrl);
         navigate(newUrl);
     }, [navigate, location.search]);
 
     const handleFilterClick = useCallback((filters: any) => {
+        console.log("handleFilterClick called with:", filters);
+        
+        const isAllEmpty = filters.type.length === 0 && 
+                          filters.manufacturer.length === 0 && 
+                          filters.genres.length === 0 && 
+                          filters.minPrice === 0 && 
+                          filters.maxPrice === 0;
+        
+        if (isAllEmpty) {
+            console.log("All filters empty, not changing URL");
+            return;
+        }
+        
         const params = new URLSearchParams();
         const minPrice = filters.minPrice;
         const maxPrice = filters.maxPrice;
@@ -113,12 +135,13 @@ const ProductList: React.FC = () => {
         minPrice !== 0 && params.append('minPrice', minPrice);
         maxPrice !== 0 && params.append('maxPrice', maxPrice);
         
-        // Preserve current sort
-        if (currentSort) {
+        // Preserve current sort only if it's not the default
+        if (currentSort && currentSort !== "Phổ biến") {
             params.set('sort', currentSort);
         }
         
         const newUrl = `?${params.toString()}`;
+        console.log("handleFilterClick navigating to:", newUrl);
         navigate(newUrl);
     }, [navigate, currentSort]);
 
@@ -145,7 +168,6 @@ const ProductList: React.FC = () => {
             {isLoading && <LoadingOverlay />}
             
             <div className="product-page-container">
-                {/* Sidebar Filter */}
                 <aside className={`filter-sidebar ${showMobileFilter ? 'mobile-open' : ''}`}>
                     <div className="filter-header">
                         <h3>
@@ -161,18 +183,13 @@ const ProductList: React.FC = () => {
                     </div>
                     <ProductFilter onFilterChange={handleFilterClick} />
                 </aside>
-
-                {/* Mobile Filter Overlay */}
                 {showMobileFilter && (
                     <div 
                         className="filter-overlay mobile-only"
                         onClick={() => setShowMobileFilter(false)}
                     />
                 )}
-
-                {/* Main Content */}
                 <main className="product-main">
-                    {/* Search Results Header */}
                     <div className="search-results-header">
                         <div className="search-info">
                             <h1 className="search-title">
@@ -184,8 +201,6 @@ const ProductList: React.FC = () => {
                             </p>
                         </div>
                     </div>
-
-                    {/* Toolbar */}
                     <div className="product-toolbar">
                         <div className="toolbar-left">
                             <button 
@@ -218,8 +233,6 @@ const ProductList: React.FC = () => {
                             />
                         </div>
                     </div>
-
-                    {/* Products Grid/List */}
                     {data && data.products.length > 0 ? (
                         <div className={`products-container ${viewMode}-view`}>
                             <div className="products-grid">
@@ -247,8 +260,6 @@ const ProductList: React.FC = () => {
                             </div>
                         </div>
                     ) : null}
-
-                    {/* Pagination */}
                     {data && data.products.length > 0 && (
                         <div className="pagination-container">
                             <Pagination 
