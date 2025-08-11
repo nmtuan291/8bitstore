@@ -1,8 +1,8 @@
-# 🎮 8BitStore - Gaming E-commerce Platform
+# 8BitStore - Gaming E-commerce Platform
 
 A modern, responsive gaming e-commerce platform built with React and TypeScript. 8BitStore offers a comprehensive shopping experience for gaming enthusiasts, featuring consoles, games, accessories, and digital products.
 
-## ✨ Features
+## Features
 
 ### E-commerce Core
 - **Product Catalog**: Browse gaming consoles, games, and accessories
@@ -12,33 +12,20 @@ A modern, responsive gaming e-commerce platform built with React and TypeScript.
 - **Payment Processing**: Multiple payment methods support
 - **User Profiles**: Account management and order history
 
-### Gaming-Focused
-- **Multi-Platform Support**: PlayStation, Xbox, Nintendo Switch, PC Digital
-- **Product Categories**: Consoles, Game Discs, Accessories, Controllers, Headsets
-- **Product Reviews**: Customer ratings and reviews
-- **Featured Products**: Bestsellers and new arrivals
-- **Gaming News**: Latest updates and promotions
-
 ### Admin Features
 - **Product Management**: Add, edit, and manage inventory
 - **Order Management**: Process and track customer orders
 
-### User Experience
-- **Responsive Design**: Mobile-first approach
-- **Modern UI**: Clean, gaming-themed interface
-- **Vietnamese Localization**: Full Vietnamese language support
-- **Fast Performance**: Optimized loading and interactions
-
 ## Tech Stack
-- **React 18**
-- **TypeScript**
-- **Vite**
-- **React Router** 
-- **Redux Toolkit**
-- **Sass**
+- React 18
+- TypeScript
+- Vite
+- React Router
+- Redux Toolkit
+- Sass
 
 ### Deployment
-- **Vercel**
+- Vercel
 
 ## Getting Started
 
@@ -112,16 +99,15 @@ A modern, responsive gaming e-commerce platform built with React and TypeScript.
 
 ### Homepage
 - Hero carousel with featured promotions
-- Console store sections (PlayStation, Xbox, Nintendo, PC)
+- Console store sections (PlayStation, Xbox, Nintendo)
 - Featured products and bestsellers
 - New arrivals and special offers
 
 ### Shopping Experience
-- Advanced product filtering and search
+- Product filtering and search
 - Detailed product pages with images and specifications
 - Cart management with quantity updates
 - Wishlist functionality
-- Secure checkout process
 
 ### User Management
 - User registration and authentication
@@ -132,5 +118,3 @@ A modern, responsive gaming e-commerce platform built with React and TypeScript.
 ### Admin Panel
 - Product inventory management
 - Order processing and tracking
-- Customer management
-- Sales analytics
