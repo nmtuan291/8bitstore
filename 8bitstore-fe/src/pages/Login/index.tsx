@@ -33,20 +33,14 @@ const LoginForm: React.FC = () => {
         setLoginFailed(false);
 
         try {
-            const response = await login({
+            await login({
                 userName: emailText.trim(),
                 password: passwordText,
             }).unwrap();
 
-            if (response) {
-                setLoginFailed(false);
-                console.log("Login successfully");
-                navigate("/");
-            } else {
-                setLoginFailed(true);
-            }
+            setLoginFailed(false);
+            navigate("/");
         } catch (error: any) {
-            console.error("Login error:", error);
             setLoginFailed(true);
         } finally {
             setIsSubmitting(false);

@@ -28,7 +28,7 @@ interface OrderItemProps {
     total: number;
     status: string;
     createdAt: string;
-    address: Address;
+    address: Address | null;
 }
 
 const OrderItem: React.FC<OrderItemProps> = ({ items, orderId, total, status, createdAt, address }) => {
@@ -155,28 +155,30 @@ const OrderItem: React.FC<OrderItemProps> = ({ items, orderId, total, status, cr
                 </div>
 
                 {/* Address Section */}
-                <div className="address-section">
-                    <h4>
-                        <FontAwesomeIcon icon={faMapMarkerAlt} />
-                        Địa chỉ giao hàng
-                    </h4>
-                    <div className="address-info">
-                        <div className="recipient-info">
-                            <div className="recipient-name">
-                                <FontAwesomeIcon icon={faUser} />
-                                <span>{address.recipent}</span>
-                            </div>
-                            <div className="recipient-phone">
-                                <FontAwesomeIcon icon={faPhone} />
-                                <span>{address.recipentPhone}</span>
-                            </div>
-                        </div>
-                        <div className="address-detail">
+                {address && (
+                    <div className="address-section">
+                        <h4>
                             <FontAwesomeIcon icon={faMapMarkerAlt} />
-                            <span>{address.addressDetail}, {address.ward}, {address.district}, {address.city}</span>
+                            Địa chỉ giao hàng
+                        </h4>
+                        <div className="address-info">
+                            <div className="recipient-info">
+                                <div className="recipient-name">
+                                    <FontAwesomeIcon icon={faUser} />
+                                    <span>{address?.recipent}</span>
+                                </div>
+                                <div className="recipient-phone">
+                                    <FontAwesomeIcon icon={faPhone} />
+                                    <span>{address?.recipentPhone}</span>
+                                </div>
+                            </div>
+                            <div className="address-detail">
+                                <FontAwesomeIcon icon={faMapMarkerAlt} />
+                                <span>{address?.addressDetail}, {address?.ward}, {address?.district}, {address?.city}</span>
+                            </div>
                         </div>
                     </div>
-                </div>
+                )}
 
                 {/* Products List */}
                 <div className="products-section">
