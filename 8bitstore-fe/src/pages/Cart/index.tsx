@@ -54,7 +54,6 @@ const Cart: React.FC = () => {
 
   const { data: addresses, isLoading: addressLoading } = useGetAddressQuery();
 
-  // Calculate totals
   const cartTotals = useMemo(() => {
     if (!cart || cart.length === 0) {
       return {
@@ -68,8 +67,8 @@ const Cart: React.FC = () => {
 
     const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
     const itemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
-    const shipping = subtotal > 500000 ? 0 : 30000; // Free shipping over 500k VND
-    const tax = Math.floor(subtotal * 0.1); // 10% tax
+    const shipping = subtotal < 500000 ? 0 : 30000; 
+    const tax = Math.floor(subtotal * 0.1);
     const total = subtotal + shipping + tax;
 
     return {
@@ -104,7 +103,8 @@ const Cart: React.FC = () => {
     setPaymentClicked(true);
     if (paymentMethod === "VNPAY") {
       try {
-        const response = await createPaymentUrl({ amount: cartTotals.total.toString() }).unwrap();
+        localStorage.setItem("address", selectedAddress)
+        const response = await createPaymentUrl({ amount: (cartTotals.total * 100).toString() }).unwrap();
         window.open(response.result, "_blank");
         setIsPaying(true)
       } catch (error) {
@@ -307,8 +307,6 @@ const Cart: React.FC = () => {
                     ))}
                   </div>
                 </div>
-
-                {/* Payment Methods */}
                 <div className="payment-methods-card">
                   <h3>
                     <FontAwesomeIcon icon={faCreditCard} />

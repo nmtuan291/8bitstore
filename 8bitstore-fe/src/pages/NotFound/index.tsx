@@ -1,4 +1,4 @@
-import "./404.scss";
+import "./NotFound.scss";
 
 const NotFoundPage: React.FC = () => {
   

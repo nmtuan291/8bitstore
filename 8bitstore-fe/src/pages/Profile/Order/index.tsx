@@ -197,6 +197,7 @@ const Order: React.FC = () => {
                   total={order.total}
                   status={order.status}
                   createdAt={order.orderDate}
+                  address={order.address}
                 />
               </div>
             ))}

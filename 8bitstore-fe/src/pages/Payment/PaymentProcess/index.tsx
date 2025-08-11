@@ -15,6 +15,8 @@ const PaymentProcess: React.FC = () => {
 	const [totalAmount, setTotalAmount] = useState<number>(0);
 	const hasProcessed = useRef(false);
 
+	const address: string = localStorage.getItem("address") ?? ""
+
 	useEffect(() => {
 		if (!isUserLoading && !user) {
 			navigate("/login");
@@ -70,6 +72,7 @@ const PaymentProcess: React.FC = () => {
 							status: "pending",
 							total: totalAmount,
 							orderId: orderIdRef.current,
+							addressId: address,
 							items: (cart ?? []).map((item) => ({
 								productId: item.productId,
 								quantity: item.quantity,

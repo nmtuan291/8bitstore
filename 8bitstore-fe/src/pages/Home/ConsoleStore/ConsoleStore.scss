@@ -1,54 +1,68 @@
 @use "../../../styles/responsive.scss" as *;
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+.console-store-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+
+    @media (max-width: #{$large}) {
+        gap: 15px;
+        padding: 0 15px;
+    }
+
+    @media (max-width: #{$medium}) {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        padding: 0 10px;
+    }
 }
 
 .console-container {
-    color: #fff;
-    width: 100%;
-    max-width: 570px;
-    min-width: 320px;
-    height: 250px;
-    border-radius: 20px;
     display: flex;
-    justify-content: space-around;
+    flex-direction: row;
     align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    border-radius: 10px;
+    min-height: 150px;
     cursor: pointer;
-    margin: 0 auto;
+    transition: transform 0.3s ease;
 
-    @media (max-width: #{$medium}) {
-        height: 220px;
+    &:hover {
+        transform: translateY(-5px);
     }
 
-    @include mobile {
-        height: 180px;
+    h1 {
+        color: white;
+        font-size: 1.2rem;
+        font-weight: bold;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        flex: 1;
+        text-align: left;
     }
 
     img {
-        max-width: 90%;
-        max-height: 90%;
+        width: 120px;
+        height: 120px;
         object-fit: contain;
+        margin-left: 20px;
+    }
 
-        @include mobile {
-            display: none;
+    @media (max-width: #{$medium}) {
+        min-height: 120px;
+        padding: 15px;
+
+        h1 {
+            font-size: 1rem;
+        }
+
+        img {
+            width: 100px;
+            height: 100px;
+            margin-left: 15px;
         }
     }
-    
-    h1 {
-        padding: 50px;
-        font-size: clamp(1.5rem, 3vw, 2rem);
-        text-align: center;
-
-        @media (max-width: #{$medium}) {
-            padding: 30px;
-        }
-
-        @include mobile {
-            padding: 20px;
-        }
-    }
-}
-
+} 

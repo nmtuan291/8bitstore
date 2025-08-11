@@ -132,6 +132,79 @@
     }
   }
 
+  // Address Section
+  .address-section {
+    margin-bottom: 24px;
+    background: #f8fafc;
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid #e2e8f0;
+
+    h4 {
+      margin: 0 0 16px 0;
+      color: #1f2937;
+      font-size: 16px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      svg {
+        color: #946CBC;
+        font-size: 18px;
+      }
+    }
+
+    .address-info {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+
+      .recipient-info {
+        display: flex;
+        gap: 24px;
+        flex-wrap: wrap;
+
+        .recipient-name,
+        .recipient-phone {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          color: #374151;
+          font-size: 14px;
+          font-weight: 500;
+
+          svg {
+            color: #6b7280;
+            font-size: 14px;
+            width: 16px;
+          }
+        }
+      }
+
+      .address-detail {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+        color: #4b5563;
+        font-size: 14px;
+        line-height: 1.5;
+
+        svg {
+          color: #6b7280;
+          font-size: 14px;
+          margin-top: 2px;
+          flex-shrink: 0;
+          width: 16px;
+        }
+
+        span {
+          flex: 1;
+        }
+      }
+    }
+  }
+
   // Products Section
   .products-section {
     margin-bottom: 24px;
@@ -360,6 +433,17 @@
       }
     }
 
+    .address-section {
+      padding: 16px;
+
+      .address-info {
+        .recipient-info {
+          flex-direction: column;
+          gap: 12px;
+        }
+      }
+    }
+
     .order-actions {
       flex-direction: column;
 
@@ -426,6 +510,27 @@
               font-size: 14px;
             }
           }
+        }
+      }
+    }
+
+    .address-section {
+      padding: 12px;
+
+      h4 {
+        font-size: 14px;
+      }
+
+      .address-info {
+        .recipient-info {
+          .recipient-name,
+          .recipient-phone {
+            font-size: 13px;
+          }
+        }
+
+        .address-detail {
+          font-size: 13px;
         }
       }
     }

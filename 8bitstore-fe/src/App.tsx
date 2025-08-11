@@ -10,14 +10,13 @@ import ProductDetail from "./pages/ProductDetail";
 import Cart from "./pages/Cart";
 import Profile from "./pages/Profile";
 import Order from "./pages/Profile/Order";
-import Payment from "./pages/Payment";
 import PaymentProcess from "./pages/Payment/PaymentProcess";
 import Wishlist from "./pages/Wishlist";
 import ProductManagement from "./pages/Admin/ProductManagement";
 import Layout from "./layout";
 import Detail from "./pages/Profile/Detail";
 import ChangePassword from "./pages/Profile/ChangePassword";
-import NotFoundPage from "./pages/404";
+import NotFoundPage from "./pages/NotFound";
 import PaymentResult from "./pages/Payment/PaymentResult";
 import ManageProductList from "./pages/Admin/ProductManagement/ProductTable";
 import OrderTable from "./pages/Admin/ProductManagement/OrderTable";
@@ -47,7 +46,6 @@ function App() {
               <Route path="manage/product" element={<ManageProductList />}/>
               <Route path="manage/order" element={<OrderTable />}/>
             </Route>
-            <Route path="/payment" element={<Payment />}/>
             <Route path="/payment-process/:paymentMethod" element={<PaymentProcess />}></Route>
             <Route path="/payment-result/:status" element={<PaymentResult />}></Route>
             <Route path="/wishlist" element={<Wishlist />}/>

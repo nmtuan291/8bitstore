@@ -10,11 +10,14 @@ import {
   faTruck,
   faCheckCircle,
   faClock,
-  faExclamationTriangle
+  faExclamationTriangle,
+  faMapMarkerAlt,
+  faUser,
+  faPhone
 } from "@fortawesome/free-solid-svg-icons";
 import "./OrderItem.scss";
 import ReviewForm from "../ReviewForm";
-import type { OrderItem as OrderItemType } from "../../../../interfaces/interfaces";
+import type { OrderItem as OrderItemType, Address } from "../../../../interfaces/interfaces";
 import { formatNumber } from "../../../../utils/FormatNumber";
 import formatDate from "../../../../utils/FormatDate";
 import { useCancelOrderMutation } from "../../../../store/api";
@@ -25,9 +28,10 @@ interface OrderItemProps {
     total: number;
     status: string;
     createdAt: string;
+    address: Address;
 }
 
-const OrderItem: React.FC<OrderItemProps> = ({ items, orderId, total, status, createdAt }) => {
+const OrderItem: React.FC<OrderItemProps> = ({ items, orderId, total, status, createdAt, address }) => {
     const [showReviewForm, setShowReviewForm] = useState<boolean>(false);
     const [showCancelConfirm, setShowCancelConfirm] = useState<boolean>(false);
     const [portalContainer, setPortalContainer] = useState<HTMLElement | null>(null);
@@ -148,6 +152,30 @@ const OrderItem: React.FC<OrderItemProps> = ({ items, orderId, total, status, cr
                 {/* Status Description */}
                 <div className="status-description">
                     <p>{statusInfo.description}</p>
+                </div>
+
+                {/* Address Section */}
+                <div className="address-section">
+                    <h4>
+                        <FontAwesomeIcon icon={faMapMarkerAlt} />
+                        Địa chỉ giao hàng
+                    </h4>
+                    <div className="address-info">
+                        <div className="recipient-info">
+                            <div className="recipient-name">
+                                <FontAwesomeIcon icon={faUser} />
+                                <span>{address.recipent}</span>
+                            </div>
+                            <div className="recipient-phone">
+                                <FontAwesomeIcon icon={faPhone} />
+                                <span>{address.recipentPhone}</span>
+                            </div>
+                        </div>
+                        <div className="address-detail">
+                            <FontAwesomeIcon icon={faMapMarkerAlt} />
+                            <span>{address.addressDetail}, {address.ward}, {address.district}, {address.city}</span>
+                        </div>
+                    </div>
                 </div>
 
                 {/* Products List */}

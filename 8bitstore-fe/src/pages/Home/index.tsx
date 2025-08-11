@@ -1,5 +1,5 @@
 import React from 'react';
-import ConsoleStoreTest from './ConsoleStore/ConsoleStoreTest';
+import ConsoleStore from './ConsoleStore/ConsoleStore';
 import ImageCarousel from './ImageCarousel';
 import ProductCarousel from "../../components/ProductCarousel";
 import "./Home.scss";
@@ -8,22 +8,18 @@ import dualsenseImge from "../../assets/images/dualsense.jpg";
 const HomePage: React.FC = () => {
     return (
         <div className="home-page">
-            {/* Hero Section */}
             <section className="hero-section">
                 <ImageCarousel />
             </section>
-
-            {/* Console Store Section */}
             <section className="console-store-section">
                 <div className="section-container">
                     <div className="section-header">
                         <h2 className="section-title">Máy chơi game</h2>
                         <p className="section-subtitle">Khám phá các máy chơi game và phụ kiện mới nhất</p>
                     </div>
-                    <ConsoleStoreTest />
+                    <ConsoleStore />
                 </div>
             </section>
-
             <section className="featured-section">
                 <div className="section-container">
                     <ProductCarousel title="Sản phẩm nổi bật" type="score"/>
@@ -42,8 +38,6 @@ const HomePage: React.FC = () => {
                     </div>
                 </div>
             </section>
-
-            {/* Best Sellers */}
             <section className="bestsellers-section">
                 <div className="section-container">
                     <div className="section-header">
@@ -53,8 +47,6 @@ const HomePage: React.FC = () => {
                     <ProductCarousel title="Sản phẩm bán chạy" type="sale"/>
                 </div>
             </section>
-
-            {/* New Arrivals */}
             <section className="new-arrivals-section">
                 <div className="section-container">
                     <div className="section-header">
@@ -64,8 +56,6 @@ const HomePage: React.FC = () => {
                     <ProductCarousel title="Sản phẩm mới" type="date"/>
                 </div>
             </section>
-
-            {/* Features Section */}
             <section className="features-section">
                 <div className="section-container">
                     <div className="features-grid">
@@ -92,8 +82,6 @@ const HomePage: React.FC = () => {
                     </div>
                 </div>
             </section>
-
-            {/* Newsletter Section */}
             <section className="newsletter-section">
                 <div className="section-container">
                     <div className="newsletter-content">

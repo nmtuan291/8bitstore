@@ -66,6 +66,8 @@ export interface OrderData {
     total: number;
     status: string;
     orderDate: string;
+    address: Address,
+    addressId: string
 }
 
 export interface Address {

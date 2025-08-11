@@ -2,14 +2,15 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { Outlet } from "react-router-dom";
 import { useGetCurrentUserQuery, useGetRoleQuery } from "../../../store/api";
 import "./ProductManage.scss";
-import NotFoundPage from "../../404";
+import NotFoundPage from "../../NotFound";
+import LoadingOverlay from "../../../components/LoadingOverlay";
 
 const ProductManagement: React.FC = () => {
 	const navigate = useNavigate();
 	const { data: user, isLoading: isUserLoading } = useGetCurrentUserQuery();
 	const { data: role, isLoading: isRoleLoading } = useGetRoleQuery({});
 
-	if (isUserLoading || isRoleLoading) return null;
+	if (isUserLoading || isRoleLoading) return <LoadingOverlay />;
 
 	if (!(role ?? []).includes("Admin")) 
 		return <NotFoundPage />
