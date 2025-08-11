@@ -28,7 +28,7 @@ interface OrderItemProps {
     total: number;
     status: string;
     createdAt: string;
-    address: Address | null;
+    address: Address;
 }
 
 const OrderItem: React.FC<OrderItemProps> = ({ items, orderId, total, status, createdAt, address }) => {
@@ -149,36 +149,32 @@ const OrderItem: React.FC<OrderItemProps> = ({ items, orderId, total, status, cr
                     </div>
                 </div>
 
-                {/* Status Description */}
                 <div className="status-description">
                     <p>{statusInfo.description}</p>
                 </div>
 
-                {/* Address Section */}
-                {address && (
-                    <div className="address-section">
-                        <h4>
-                            <FontAwesomeIcon icon={faMapMarkerAlt} />
-                            Địa chỉ giao hàng
-                        </h4>
-                        <div className="address-info">
-                            <div className="recipient-info">
-                                <div className="recipient-name">
-                                    <FontAwesomeIcon icon={faUser} />
-                                    <span>{address?.recipent}</span>
-                                </div>
-                                <div className="recipient-phone">
-                                    <FontAwesomeIcon icon={faPhone} />
-                                    <span>{address?.recipentPhone}</span>
-                                </div>
+                <div className="address-section">
+                    <h4>
+                        <FontAwesomeIcon icon={faMapMarkerAlt} />
+                        Địa chỉ giao hàng
+                    </h4>
+                    <div className="address-info">
+                        <div className="recipient-info">
+                            <div className="recipient-name">
+                                <FontAwesomeIcon icon={faUser} />
+                                <span>{address.recipent}</span>
                             </div>
-                            <div className="address-detail">
-                                <FontAwesomeIcon icon={faMapMarkerAlt} />
-                                <span>{address?.addressDetail}, {address?.ward}, {address?.district}, {address?.city}</span>
+                            <div className="recipient-phone">
+                                <FontAwesomeIcon icon={faPhone} />
+                                <span>{address.recipentPhone}</span>
                             </div>
                         </div>
+                        <div className="address-detail">
+                            <FontAwesomeIcon icon={faMapMarkerAlt} />
+                            <span>{address.addressDetail}, {address.ward}, {address.district}, {address.city}</span>
+                        </div>
                     </div>
-                )}
+                </div>
 
                 {/* Products List */}
                 <div className="products-section">
@@ -234,15 +230,9 @@ const OrderItem: React.FC<OrderItemProps> = ({ items, orderId, total, status, cr
                             Hủy đơn hàng
                         </button>
                     )}
-                    
-                    <button className="btn btn-outline">
-                        <FontAwesomeIcon icon={faReceipt} />
-                        Xem chi tiết
-                    </button>
                 </div>
             </div>
 
-            {/* Cancel Confirmation Modal */}
             {showCancelConfirm && portalContainer && createPortal(
                 <div 
                     className="cancel-modal-overlay" 
