@@ -163,6 +163,10 @@ const ProductList: React.FC = () => {
         return data.products.length;
     };
 
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [location.search]);
+
     return (
         <div className="product-page">
             {isLoading && <LoadingOverlay />}
