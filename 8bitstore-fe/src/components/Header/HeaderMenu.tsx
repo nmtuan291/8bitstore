@@ -25,13 +25,17 @@ const HeaderMenu: React.FC<HeaderMenuProps> = ({ title, items }) => {
             <a href="/" className="title">
                 {title}
             </a>
-            <ul className={`navlist__items ${mouseEnter ? "" : "hide"}`}>
-                {items.map((item, index) => 
-                    <li key={`item_${index}`} onClick={() => navigate(`/product?${item.url}`)}>
-                        {item.category}
-                    </li>
-                )}
-            </ul>
+            {
+                items.length > 0 &&
+                <ul className={`navlist__items ${mouseEnter ? "" : "hide"}`}>
+                    {items.map((item, index) => 
+                        <li key={`item_${index}`} onClick={() => navigate(`/product?${item.url}`)}>
+                            {item.category}
+                        </li>
+                    )}
+                </ul>
+            }
+            
          </div>
     );
 };

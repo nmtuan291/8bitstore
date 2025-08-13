@@ -290,7 +290,6 @@ const NavBar: React.FC<NavBarProps> = ({ displayMobile }) => {
                 <div className="container">
                     <div className="nav-menu">
                         {items.map((item, index) => (
-                            item.content.length > 0 && 
                             <NavMenu 
                                 key={index}
                                 title={item.title} 
