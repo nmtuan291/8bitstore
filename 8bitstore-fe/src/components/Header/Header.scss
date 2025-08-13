@@ -69,7 +69,6 @@
     }
   }
 
-  // Main Header
   .header-main {
     background: white;
     padding: 16px 0;
@@ -93,7 +92,6 @@
     }
   }
 
-  // Logo
   .header-logo {
     justify-self: start;
 
@@ -333,7 +331,6 @@
         }
       }
 
-      // Action Tooltip
       .action-tooltip {
         position: absolute;
         top: 100%;
@@ -498,7 +495,6 @@
     }
   }
 
-  // Responsive Design
   @media (max-width: #{$medium}) {
     .header-main {
       padding: 12px 0;

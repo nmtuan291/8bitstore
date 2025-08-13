@@ -17,11 +17,11 @@ export const items = [
           },
           {
               category: "Đĩa game",
-              url: `productName=${encodeURIComponent("Playstation 5")}&type=${encodeURIComponent("dia game")}`
+              url: `productName=${encodeURIComponent("Playstation 5")}&type=${encodeURIComponent("Đĩa game")}`
           },
           {
               category: "Phụ kiện",
-              url: `productName=${encodeURIComponent("Playstation 5")}&type=${encodeURIComponent("phu kien")}`
+              url: `productName=${encodeURIComponent("Playstation 5")}&type=${encodeURIComponent("Phụ kiện")}`
           }
       ],
   },
@@ -30,19 +30,19 @@ export const items = [
       content: [
           {
               category: "Máy Xbox Series X/S",
-              url: `productName=${encodeURIComponent("Playstation 5")}&type=${encodeURIComponent("phu kien")}`
+              url: `productName=${encodeURIComponent("Xbox")}}`
           },
           {
               category: "Máy Xbox One",
-              url: `productName=${encodeURIComponent("Playstation 5")}&type=${encodeURIComponent("phu kien")}`
+              url: `productName=${encodeURIComponent("Xbox One")}}`
           },
           {
               category: "Đĩa game",
-              url: `productName=${encodeURIComponent("Playstation 5")}&type=${encodeURIComponent("phu kien")}`
+              url: `productName=${encodeURIComponent("Xbox")}&type=${encodeURIComponent("Đĩa game")}`
           },
           {
               category: "Phụ kiện",
-              url: `productName=${encodeURIComponent("Playstation 5")}&type=${encodeURIComponent("phu kien")}`
+              url: `productName=${encodeURIComponent("Xbox")}&type=${encodeURIComponent("Phụ kiện")}`
           }
       ]
   },
@@ -51,23 +51,23 @@ export const items = [
       content: [
           {
               category: "Máy Nintendo Switch 2",
-              url: `productName=${encodeURIComponent("Playstation 5")}&type=${encodeURIComponent("phu kien")}`
+              url: `productName=${encodeURIComponent("Nintendo Switch 2")}`
           },
           {
               category: "Máy Nintendo Switch",
-              url: `productName=${encodeURIComponent("Playstation 5")}&type=${encodeURIComponent("phu kien")}`
+              url: `productName=${encodeURIComponent("Nintendo Switch")}`
           },
           {
               category: "Máy 2DS/3DS",
-              url: `productName=${encodeURIComponent("Playstation 5")}&type=${encodeURIComponent("phu kien")}`
+              url: `productName=${encodeURIComponent("3DS")}&type=${encodeURIComponent("Phụ kiện")}`
           },
           {
               category: "Băng game Nintendo",
-              url: `productName=${encodeURIComponent("Playstation 5")}&type=${encodeURIComponent("phu kien")}`
+              url: `productName=${encodeURIComponent("Nintendo")}&type=${encodeURIComponent("Đĩa game")}`
           },
           {
               category: "Phụ kiện",
-              url: `productName=${encodeURIComponent("Playstation 5")}&type=${encodeURIComponent("phu kien")}`
+              url: `productName=${encodeURIComponent("Nintendo")}&type=${encodeURIComponent("Phụ kiện")}`
           }
       ]
   },

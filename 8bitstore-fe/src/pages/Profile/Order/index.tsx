@@ -12,7 +12,6 @@ import {
 import "./Order.scss";
 import OrderItem from "./OrderItem";
 import { useGetOrdersQuery } from "../../../store/api";
-import Loader from "../../../components/LoadingOverlay/Loader";
 import LoadingOverlay from "../../../components/LoadingOverlay";
 
 

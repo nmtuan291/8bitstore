@@ -1,7 +1,5 @@
 import { useState } from 'react';
 import './HeaderMenu.scss';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 
 type Item = {
@@ -9,12 +7,12 @@ type Item = {
     url: string
 }
 
-interface NavBarListProps {
+interface HeaderMenuProps {
     title: string;
     items: Item[];
 }
 
-const NavMenu: React.FC<NavBarListProps> = ({ title, items }) => {
+const HeaderMenu: React.FC<HeaderMenuProps> = ({ title, items }) => {
     const [mouseEnter, setMouseEnter] = useState(false);
     const navigate = useNavigate();
 
@@ -38,4 +36,4 @@ const NavMenu: React.FC<NavBarListProps> = ({ title, items }) => {
     );
 };
 
-export default NavMenu;
+export default HeaderMenu; 

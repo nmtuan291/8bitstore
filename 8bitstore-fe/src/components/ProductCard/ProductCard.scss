@@ -13,7 +13,6 @@
     border-color: #667eea;
   }
 
-  // Grid View (Default)
   &.grid-view {
     display: flex;
     flex-direction: column;
@@ -278,7 +277,6 @@
     }
   }
 
-  // List View
   &.list-view {
     display: flex;
     flex-direction: row;
@@ -513,7 +511,6 @@
     }
   }
 
-  // Mobile Responsive
   @media (max-width: 768px) {
     &.grid-view {
       .product-content {

@@ -16,7 +16,7 @@ import {
 import NavMenu from "./HeaderMenu";
 import axios from "../../apis/axios";
 import { items } from "./MenuItem";
-import './Header.scss'
+import "./Header.scss";
 import capitalizeString from "../../utils/CapitalizeString";
 
 interface NavBarProps {
@@ -93,7 +93,7 @@ const NavBar: React.FC<NavBarProps> = ({ displayMobile }) => {
         },
         logout: async () => {
             try {
-                navigate("/");z
+                navigate("/");
                 setShowUserDropdown(false);
             } catch (error) {
                 console.error("Logout error:", error);
@@ -286,12 +286,11 @@ const NavBar: React.FC<NavBarProps> = ({ displayMobile }) => {
                     </div>
                 </div>
             </div>
-
-            {/* Navigation Menu */}
             <nav className="header-nav">
                 <div className="container">
                     <div className="nav-menu">
                         {items.map((item, index) => (
+                            item.content.length > 0 && 
                             <NavMenu 
                                 key={index}
                                 title={item.title} 

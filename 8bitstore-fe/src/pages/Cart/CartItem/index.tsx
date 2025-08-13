@@ -159,15 +159,12 @@ const CartItem: React.FC<CartItemProps> = ({
             </div>
           )}
         </div>
-
-        {/* Total Price */}
         <div className="total-section">
           <span className="total-price">{formatNumber(totalPrice)}</span>
           <span className="savings">
             {productCount > 1 && `(${formatNumber(productPrice)} × ${productCount})`}
           </span>
         </div>
-        {/* Actions */}
         <div className="actions-section">
           <button 
             className="delete-btn"

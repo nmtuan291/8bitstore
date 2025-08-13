@@ -58,7 +58,6 @@
       }
     }
 
-    // Success state
     &.success {
       svg {
         color: #85BDB6;
@@ -75,7 +74,6 @@
       }
     }
 
-    // Failed state
     &.failed {
       svg {
         color: #dc3545;

@@ -22,11 +22,10 @@ const Footer: React.FC = () => {
   return (
     <footer className="footer">
       <div className="footer-container">
-        {/* Brand Section */}
         <div className="footer-section footer-brand">
           <div className="brand-logo">
-            <h2>🎮 8BitStore</h2>
-            <p className="brand-tagline">Thế giới game số 1 Việt Nam</p>
+            <h2>8BitStore</h2>
+            <p className="brand-tagline">Thế giới game hàng đầu Việt Nam</p>
           </div>
           <p className="brand-description">
             Khám phá thế giới game đỉnh cao với hàng ngàn sản phẩm chất lượng, 
@@ -50,8 +49,6 @@ const Footer: React.FC = () => {
             </a>
           </div>
         </div>
-
-        {/* Quick Links */}
         <div className="footer-section">
           <h3 className="section-title">Liên Kết Nhanh</h3>
           <ul className="footer-links">
@@ -63,8 +60,6 @@ const Footer: React.FC = () => {
             <li><a href="/contact">Liên Hệ</a></li>
           </ul>
         </div>
-
-        {/* Customer Service */}
         <div className="footer-section">
           <h3 className="section-title">Hỗ Trợ Khách Hàng</h3>
           <ul className="footer-links">
@@ -76,18 +71,16 @@ const Footer: React.FC = () => {
             <li><a href="/terms">Điều Khoản Sử Dụng</a></li>
           </ul>
         </div>
-
-        {/* Contact Info */}
         <div className="footer-section">
           <h3 className="section-title">Thông Tin Liên Hệ</h3>
           <div className="contact-info">
             <div className="contact-item">
               <FontAwesomeIcon icon={faMapMarkerAlt} className="contact-icon" />
-              <span>XXXX ấp 4, xã Vĩnh Lộc A, huyện Bình Chánh, TP.HCM</span>
+              <span>Vĩnh Lộc A, huyện Bình Chánh, TP.HCM</span>
             </div>
             <div className="contact-item">
               <FontAwesomeIcon icon={faPhone} className="contact-icon" />
-              <span>Hotline: 1900 8888</span>
+              <span>Hotline: 1900 0000</span>
             </div>
             <div className="contact-item">
               <FontAwesomeIcon icon={faEnvelope} className="contact-icon" />
@@ -98,8 +91,6 @@ const Footer: React.FC = () => {
               <span>8h00 - 21h00 (Thứ 2 - Thứ 7)</span>
             </div>
           </div>
-
-          {/* Service Features */}
           <div className="service-features">
             <div className="feature-item">
               <FontAwesomeIcon icon={faTruck} />
@@ -120,8 +111,6 @@ const Footer: React.FC = () => {
           </div>
         </div>
       </div>
-
-      {/* Bottom Section */}
       <div className="footer-bottom">
         <div className="footer-container">
           <div className="bottom-content">
@@ -133,7 +122,6 @@ const Footer: React.FC = () => {
               <div className="payment-icons">
                 <div className="payment-icon">💳</div>
                 <div className="payment-icon">🏧</div>
-                <div className="payment-icon">📱</div>
                 <div className="payment-icon">💰</div>
               </div>
             </div>

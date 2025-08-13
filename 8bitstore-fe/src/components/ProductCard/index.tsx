@@ -27,15 +27,14 @@ const ProductItem: React.FC<ProductItemProps> = ({ product, viewMode = 'grid' })
     
     const { showCartToast, showWishlistToast, showError } = useToast();
 
-    // Check if this product is in the wishlist
     const isWishlisted = useMemo(() => {
         return wishlistItems.some(item => item.productId === product.productId);
     }, [wishlistItems, product.productId]);
 
     const isWishlistLoading = isAddingToWishlist || isRemovingFromWishlist;
 
-    const score = 4; // Mock rating - you can get this from product data
-    const reviewCount = 23; // Mock review count
+    const score = 0; 
+    const reviewCount = 0;
     const formattedPrice = formatNumber(product.price);
 
     const handleWishlistToggle = async (e: React.MouseEvent) => {
@@ -43,11 +42,9 @@ const ProductItem: React.FC<ProductItemProps> = ({ product, viewMode = 'grid' })
         
         try {
             if (isWishlisted) {
-                // Remove from wishlist
                 await removeFromWishlist({ productId: product.productId }).unwrap();
                 showWishlistToast('Đã xóa sản phẩm khỏi danh sách yêu thích');
             } else {
-                // Add to wishlist
                 await addToWishlist({ productId: product.productId }).unwrap();
                 showWishlistToast('Đã thêm sản phẩm vào danh sách yêu thích');
             }
@@ -78,12 +75,11 @@ const ProductItem: React.FC<ProductItemProps> = ({ product, viewMode = 'grid' })
         try {
             setAddToCartStatus('loading');
             
-            const result = await addToCart(cartItemData).unwrap();
+            await addToCart(cartItemData).unwrap();
             
             setAddToCartStatus('success');
             showCartToast('Đã thêm sản phẩm vào giỏ hàng');
             
-            // Reset status after 2 seconds
             setTimeout(() => {
                 setAddToCartStatus('idle');
             }, 2000);
@@ -93,7 +89,6 @@ const ProductItem: React.FC<ProductItemProps> = ({ product, viewMode = 'grid' })
             setAddToCartStatus('error');
             showError('Không thể thêm sản phẩm vào giỏ hàng');
             
-            // Reset status after 3 seconds
             setTimeout(() => {
                 setAddToCartStatus('idle');
             }, 3000);
