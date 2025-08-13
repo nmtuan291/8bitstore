@@ -38,7 +38,6 @@ const WishlistItem: React.FC<WishlistItemProps> = ({
   return (
     <div className={`wishlist-item ${viewMode}-view`}>
       <div className="item-content">
-        {/* Product Image */}
         <div className="product-image">
           <img 
             src={imgSrc} 
@@ -57,8 +56,6 @@ const WishlistItem: React.FC<WishlistItemProps> = ({
             </button>
           </div>
         </div>
-
-        {/* Product Info */}
         <div className="product-info">
           <h4 className="product-name" title={productName}>
             {productName}
@@ -68,8 +65,6 @@ const WishlistItem: React.FC<WishlistItemProps> = ({
             <span className="price">{formatNumber(productPrice)}</span>
           </div>
         </div>
-
-        {/* Actions */}
         <div className="product-actions">
           <button 
             className="action-btn add-cart-btn"
@@ -89,8 +84,6 @@ const WishlistItem: React.FC<WishlistItemProps> = ({
             <span>Xóa</span>
           </button>
         </div>
-
-        {/* Wishlist Badge */}
         <div className="wishlist-badge">
           <FontAwesomeIcon icon={faHeart} />
         </div>

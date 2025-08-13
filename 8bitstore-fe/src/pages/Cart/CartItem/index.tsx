@@ -29,8 +29,7 @@ const CartItem: React.FC<CartItemProps> = ({
   deleteItem
 }) => {
   const [productCount, setProductCount] = useState<number>(productQuantity);
-  const [isUpdating, setIsUpdating] = useState<boolean>(false);
-  const [updateCart] = useUpdateCartMutation();
+  const [updateCart, { isLoading: isUpdating }] = useUpdateCartMutation();
 
   const totalPrice = productCount * productPrice;
 
@@ -46,20 +45,18 @@ const CartItem: React.FC<CartItemProps> = ({
   const updateQuantity = async (newQuantity: number) => {
     if (newQuantity < 1) return;
     
-    setIsUpdating(true);
     try {
       await updateCart({
         productId: productId,
-        quantity: newQuantity
+        quantity: newQuantity,
+        productName: productName,
+        price: productPrice,
+        imgUrl: imgSrc
       }).unwrap();
-      
       setProductCount(newQuantity);
     } catch (error) {
-      console.error("Error updating cart:", error);
       // Revert to previous state on error
       setProductCount(productQuantity);
-    } finally {
-      setIsUpdating(false);
     }
   };
 
@@ -91,7 +88,6 @@ const CartItem: React.FC<CartItemProps> = ({
 
   const handleMoveToWishlist = () => {
     // TODO: Implement move to wishlist functionality
-    console.log("Move to wishlist:", productId);
     // After successful move, delete from cart
     // deleteItem(productId);
   };
@@ -99,7 +95,6 @@ const CartItem: React.FC<CartItemProps> = ({
   return (
     <div className="cart-item">
       <div className="item-content">
-        {/* Product Image & Info */}
         <div className="product-section">
           <div className="product-image">
             <img 
@@ -125,13 +120,9 @@ const CartItem: React.FC<CartItemProps> = ({
             </div>
           </div>
         </div>
-
-        {/* Price */}
         <div className="price-section">
           <span className="price">{formatNumber(productPrice)}</span>
         </div>
-
-        {/* Quantity Controls */}
         <div className="quantity-section">
           <div className="quantity-controls">
             <button 
@@ -142,7 +133,6 @@ const CartItem: React.FC<CartItemProps> = ({
             >
               <FontAwesomeIcon icon={faMinus} />
             </button>
-            
             <input
               type="number"
               className="qty-input"
@@ -153,7 +143,6 @@ const CartItem: React.FC<CartItemProps> = ({
               min="1"
               max="99"
             />
-            
             <button 
               className="qty-btn increase"
               onClick={handleQuantityIncrease}
@@ -163,7 +152,6 @@ const CartItem: React.FC<CartItemProps> = ({
               <FontAwesomeIcon icon={faPlus} />
             </button>
           </div>
-          
           {isUpdating && (
             <div className="updating-indicator">
               <FontAwesomeIcon icon={faSpinner} spin />
@@ -179,7 +167,6 @@ const CartItem: React.FC<CartItemProps> = ({
             {productCount > 1 && `(${formatNumber(productPrice)} × ${productCount})`}
           </span>
         </div>
-
         {/* Actions */}
         <div className="actions-section">
           <button 

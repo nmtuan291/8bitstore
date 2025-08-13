@@ -72,7 +72,7 @@ const LoginForm: React.FC = () => {
                     
                     <div className={`input-group ${loginFailed ? 'error' : ''}`}>
                         <input
-                            placeholder="Email hoặc tên đăng nhập"
+                            placeholder="Tên đăng nhập"
                             className="input-field"
                             type="text" 
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => 

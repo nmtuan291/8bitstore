@@ -21,6 +21,7 @@ const RegistrationForm: React.FC = () => {
     const [tosError, setTosError] = useState<boolean>(false);
     const [signUpSuccess, setSignUpSuccess] = useState<boolean>(false);
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+    const [signUpError, setSignUpError] = useState<string>("");
     const navigate = useNavigate();
     const [signUp, { isLoading }] = useSignUpMutation();
 
@@ -31,6 +32,10 @@ const RegistrationForm: React.FC = () => {
         }));
         if (errors[event.target.name]) {
             setErrors(prev => ({ ...prev, [event.target.name]: "" }));
+        }
+        // Clear sign-up error when user starts typing
+        if (signUpError) {
+            setSignUpError("");
         }
     };
 
@@ -66,8 +71,15 @@ const RegistrationForm: React.FC = () => {
                 phoneNumber: formData.phoneNumber
             }).unwrap();
             setSignUpSuccess(true);
-        } catch (error) {
+        } catch (error: any) {
             console.error("Signup error:", error);
+            if (error?.data?.message) {
+                setSignUpError(error.data.message);
+            } else if (error?.message) {
+                setSignUpError(error.message);
+            } else {
+                setSignUpError("Đăng ký thất bại. Vui lòng thử lại.");
+            }
         } finally {
             setIsSubmitting(false);
         }
@@ -81,7 +93,7 @@ const RegistrationForm: React.FC = () => {
                     <form className="reg-form" onSubmit={handleSubmit}>
                         <h1>Đăng ký</h1>
                         
-                        <div className={`input-group ${errors.userName ? 'error' : ''}`}>
+                        <div className={`input-group ${errors.userName || signUpError ? 'error' : ''}`}>
                             <input
                                 className="input-field"
                                 type="text"
@@ -95,7 +107,7 @@ const RegistrationForm: React.FC = () => {
                             {errors.userName && <div className="error-message">{errors.userName}</div>}
                         </div>
                         
-                        <div className={`input-group ${errors.email ? 'error' : ''}`}>
+                        <div className={`input-group ${errors.email || signUpError ? 'error' : ''}`}>
                             <input
                                 className="input-field"
                                 type="email"
@@ -109,7 +121,7 @@ const RegistrationForm: React.FC = () => {
                             {errors.email && <div className="error-message">{errors.email}</div>}
                         </div>
                         
-                        <div className={`input-group ${errors.fullName ? 'error' : ''}`}>
+                        <div className={`input-group ${errors.fullName || signUpError ? 'error' : ''}`}>
                             <input
                                 className="input-field"
                                 type="text"
@@ -123,7 +135,7 @@ const RegistrationForm: React.FC = () => {
                             {errors.fullName && <div className="error-message">{errors.fullName}</div>}
                         </div>
                         
-                        <div className={`input-group ${errors.phoneNumber ? 'error' : ''}`}>
+                        <div className={`input-group ${errors.phoneNumber || signUpError ? 'error' : ''}`}>
                             <input
                                 className="input-field"
                                 type="tel"
@@ -137,7 +149,7 @@ const RegistrationForm: React.FC = () => {
                             {errors.phoneNumber && <div className="error-message">{errors.phoneNumber}</div>}
                         </div>
                         
-                        <div className={`input-group ${errors.password ? 'error' : ''}`}>
+                        <div className={`input-group ${errors.password || signUpError ? 'error' : ''}`}>
                             <input
                                 className="input-field"
                                 type="password"
@@ -151,7 +163,7 @@ const RegistrationForm: React.FC = () => {
                             {errors.password && <div className="error-message">{errors.password}</div>}
                         </div>
                         
-                        <div className={`input-group ${errors.confirmPassword ? 'error' : ''}`}>
+                        <div className={`input-group ${errors.confirmPassword || signUpError ? 'error' : ''}`}>
                             <input
                                 className="input-field"
                                 type="password"
@@ -182,6 +194,12 @@ const RegistrationForm: React.FC = () => {
                         {tosError && (
                             <div className="error-message">
                                 Bạn phải đồng ý với điều khoản sử dụng dịch vụ
+                            </div>
+                        )}
+
+                        {signUpError && (
+                            <div className="error-message signup-error">
+                                {signUpError}
                             </div>
                         )}
                         

@@ -141,6 +141,15 @@ $shadow-medium: rgba(0, 0, 0, 0.15);
             border-radius: 8px;
             border-left: 4px solid $error-color;
             animation: slideIn 0.3s ease;
+
+            &.signup-error {
+                text-align: center;
+                margin: 15px 0;
+                font-weight: 600;
+                background: rgba(220, 53, 69, 0.12);
+                border: 1px solid rgba(220, 53, 69, 0.3);
+                border-left: 4px solid $error-color;
+            }
         }
         .tos-group {
             display: flex;
