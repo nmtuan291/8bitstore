@@ -187,8 +187,6 @@ const Detail: React.FC = () => {
             </div>
           </div>
         </div>
-
-        {/* User Information Card */}
         <div className="user-info-card">
           <div className="card-content">
             {userFields.map((field) => (
@@ -227,8 +225,6 @@ const Detail: React.FC = () => {
             ))}
           </div>
         </div>
-
-        {/* Account Stats */}
         <div className="account-stats">
           <div className="stats-grid">
             <div className="stat-item">

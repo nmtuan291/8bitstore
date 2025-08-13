@@ -106,7 +106,7 @@ const Address: React.FC = () => {
     return (
         <div className="address-page">
             <div className="address-header">
-                <h2>📍 Địa Chỉ Của Tôi</h2>
+                <h2> Địa Chỉ Của Tôi</h2>
                 <button 
                     className="btn btn-primary"
                     onClick={() => setShowAddForm(true)}

@@ -100,9 +100,7 @@ const Profile: React.FC = () => {
       {isLogoutLoading && <LoadingOverlay />}
       <div className="profile-page">
         <div className="profile-container">
-          {/* Profile Sidebar */}
           <aside className={`profile-sidebar ${isMobileMenuOpen ? 'mobile-open' : ''}`}>
-            {/* Profile Header */}
             <div className="profile-header">
               <div className="profile-avatar">
                 <div className="avatar-container">
@@ -118,8 +116,6 @@ const Profile: React.FC = () => {
                 <span className="profile-status">Thành viên</span>
               </div>
             </div>
-
-            {/* Navigation Menu */}
             <nav className="profile-nav">
               <div className="nav-section">
                 <h4 className="nav-section-title">Tài khoản</h4>
@@ -160,18 +156,13 @@ const Profile: React.FC = () => {
               </div>
             </nav>
           </aside>
-
-          {/* Mobile Menu Overlay */}
           {isMobileMenuOpen && (
             <div 
               className="mobile-overlay"
               onClick={() => setIsMobileMenuOpen(false)}
             />
           )}
-
-          {/* Main Content */}
           <main className="profile-main">
-            {/* Page Header */}
             <div className="page-header">
               <div className="page-header-content">
                 <button 
@@ -195,8 +186,6 @@ const Profile: React.FC = () => {
                 </div>
               </div>
             </div>
-
-            {/* Content Area */}
             <div className="content-area">
               <div className="content-wrapper">
                 <Outlet />
