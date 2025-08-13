@@ -18,6 +18,7 @@ import Review from "../../components/Review";
 import { useToast } from "../../contexts/ToastContext";
 import { CartItem, Product } from "../../interfaces/interfaces";
 import { formatNumber } from "../../utils/FormatNumber";
+import LoadingOverlay from "../../components/LoadingOverlay";
 
 const ProductDetail: React.FC = () => {
     const [currentImage, setCurrentImage] = useState<number>(0);
@@ -106,12 +107,9 @@ const ProductDetail: React.FC = () => {
 
     const isInWishlist = wishlistItems?.find(item => item.productId === productId);
 
-    if (isLoading) {
+    if (isLoading || isUserLoading) {
         return (
-            <div className="loading-container">
-                <div className="loading-spinner"></div>
-                <p>Đang tải chi tiết sản phẩm...</p>
-            </div>
+            <LoadingOverlay /> 
         );
     }
 

@@ -13,6 +13,7 @@ import "./Order.scss";
 import OrderItem from "./OrderItem";
 import { useGetOrdersQuery } from "../../../store/api";
 import Loader from "../../../components/LoadingOverlay/Loader";
+import LoadingOverlay from "../../../components/LoadingOverlay";
 
 
 
@@ -114,10 +115,7 @@ const Order: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="order-loading">
-        <Loader />
-        <p>Đang tải danh sách đơn hàng...</p>
-      </div>
+      <LoadingOverlay />
     );
   }
 
